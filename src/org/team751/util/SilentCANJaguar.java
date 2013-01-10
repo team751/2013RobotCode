@@ -76,196 +76,338 @@ public class SilentCANJaguar extends CANJaguar {
             return 0;
         }
     }
-
-    //In progress from here
     
-    protected byte getTransaction(int messageID, byte[] data) throws CANTimeoutException {
-        return super.getTransaction(messageID, data);
+    /**
+     * @see edu.wpi.first.wpilibj.CANJaguar#getTransaction(int, byte[])
+     * @return If an exception was encountered, returns 0
+     */
+    protected byte getTransaction(int messageID, byte[] data) {
+        try {
+            return super.getTransaction(messageID, data);
+        } catch (CANTimeoutException ex) {
+            return 0;
+        }
     }
 
-    public void setSpeedReference(SpeedReference reference) throws CANTimeoutException {
-        super.setSpeedReference(reference);
+    public void setSpeedReference(SpeedReference reference) {
+        try {
+            super.setSpeedReference(reference);
+        } catch (CANTimeoutException ex) {
+            ex.printStackTrace();
+        }
     }
 
-    public SpeedReference getSpeedReference() throws CANTimeoutException {
-        return super.getSpeedReference();
+    /**
+     * @see edu.wpi.first.wpilibj.CANJaguar#getSpeedReference()
+     * @return If an exception was encountered, returns null
+     */
+    public SpeedReference getSpeedReference() {
+        try {
+            return super.getSpeedReference();
+        } catch (CANTimeoutException ex) {
+            return null;
+        }
     }
 
-    public void setPositionReference(PositionReference reference) throws CANTimeoutException {
-        super.setPositionReference(reference);
+    public void setPositionReference(PositionReference reference) {
+        try {
+            super.setPositionReference(reference);
+        } catch (CANTimeoutException ex) {
+        }
     }
 
-    public PositionReference getPositionReference() throws CANTimeoutException {
-        return super.getPositionReference();
+    /**
+     * @see edu.wpi.first.wpilibj.CANJaguar#getPositionReference() 
+     * @return If an exception was encountered, returns 0
+     */
+    public PositionReference getPositionReference() {
+        try {
+            return super.getPositionReference();
+        } catch (CANTimeoutException ex) {
+            return null;
+        }
     }
 
-    public void setPID(double p, double i, double d) throws CANTimeoutException {
-        super.setPID(p, i, d);
+    public void setPID(double p, double i, double d) {
+        try {
+            super.setPID(p, i, d);
+        } catch (CANTimeoutException ex) {
+        }
     }
 
-    public double getP() throws CANTimeoutException {
-        return super.getP();
+    /**
+     * @see edu.wpi.first.wpilibj.CANJaguar#getP() 
+     * @return If an exception was encountered, returns 0
+     */
+    public double getP() {
+        try {
+            return super.getP();
+        } catch (CANTimeoutException ex) {
+            return 0;
+        }
     }
 
-    public double getI() throws CANTimeoutException {
-        return super.getI();
+    /**
+     * @see edu.wpi.first.wpilibj.CANJaguar#getI() 
+     * @return if an exception was encountered, returns 0
+     */
+    public double getI() {
+        try {
+            return super.getI();
+        } catch (CANTimeoutException ex) {
+            return 0;
+        }
     }
 
-    public double getD() throws CANTimeoutException {
-        return super.getD();
+    /**
+     * @see edu.wpi.first.wpilibj.CANJaguar#getD() 
+     * @return If an exception was encountered, returns 0
+     */
+    public double getD() {
+        try {
+            return super.getD();
+        } catch (CANTimeoutException ex) {
+            return 0;
+        }
     }
 
-    public void enableControl() throws CANTimeoutException {
-        super.enableControl();
+    public void enableControl() {
+        try {
+            super.enableControl();
+        } catch (CANTimeoutException ex) {
+        }
     }
 
-    public void enableControl(double encoderInitialPosition) throws CANTimeoutException {
-        super.enableControl(encoderInitialPosition);
+    public void enableControl(double encoderInitialPosition) {
+        try {
+            super.enableControl(encoderInitialPosition);
+        } catch (CANTimeoutException ex) {
+        }
     }
 
-    public void disableControl() throws CANTimeoutException {
-        super.disableControl();
+    public void disableControl() {
+        try {
+            super.disableControl();
+        } catch (CANTimeoutException ex) {
+        }
     }
 
-    public void changeControlMode(ControlMode controlMode) throws CANTimeoutException {
-        super.changeControlMode(controlMode);
+    public void changeControlMode(ControlMode controlMode) {
+        try {
+            super.changeControlMode(controlMode);
+        } catch (CANTimeoutException ex) {
+        }
     }
 
-    public ControlMode getControlMode() throws CANTimeoutException {
-        return super.getControlMode();
+    /**
+     * @see edu.wpi.first.wpilibj.CANJaguar#getControlMode() 
+     * @return If an exception was encountered, returns null
+     */
+    public ControlMode getControlMode() {
+        try {
+            return super.getControlMode();
+        } catch (CANTimeoutException ex) {
+            return null;
+        }
     }
 
-    public double getBusVoltage() throws CANTimeoutException {
-        return super.getBusVoltage();
+    /**
+     * @see edu.wpi.first.wpilibj.CANJaguar#getBusVoltage() 
+     * @return If an exception was encountered, returns 0
+     */
+    public double getBusVoltage() {
+        try {
+            return super.getBusVoltage();
+        } catch (CANTimeoutException ex) {
+            return 0;
+        }
     }
 
-    public double getOutputVoltage() throws CANTimeoutException {
-        return super.getOutputVoltage();
+    /**
+     * @see edu.wpi.first.wpilibj.CANJaguar#getOutputVoltage() 
+     * @return If an exception was encountered, returns 0
+     */
+    public double getOutputVoltage() {
+        try {
+            return super.getOutputVoltage();
+        } catch (CANTimeoutException ex) {
+            return 0;
+        }
     }
 
-    public double getOutputCurrent() throws CANTimeoutException {
-        return super.getOutputCurrent();
+    /**
+     * @see edu.wpi.first.wpilibj.CANJaguar#getOutputCurrent() 
+     * @return If an exception was encountered, returns 0
+     */
+    public double getOutputCurrent() {
+        try {
+            return super.getOutputCurrent();
+        } catch (CANTimeoutException ex) {
+            return 0;
+        }
     }
 
-    public double getTemperature() throws CANTimeoutException {
-        return super.getTemperature();
+    /**
+     * @see edu.wpi.first.wpilibj.CANJaguar#getTemperature() 
+     * @return If an exception was encountered, returns 0
+     */
+    public double getTemperature() {
+        try {
+            return super.getTemperature();
+        } catch (CANTimeoutException ex) {
+            return 0;
+        }
     }
 
-    public double getPosition() throws CANTimeoutException {
-        return super.getPosition();
+    /**
+     * @see edu.wpi.first.wpilibj.CANJaguar#getPosition() 
+     * @return If an exception was encountered, returns 0
+     */
+    public double getPosition() {
+        try {
+            return super.getPosition();
+        } catch (CANTimeoutException ex) {
+            return 0;
+        }
     }
 
-    public double getSpeed() throws CANTimeoutException {
-        return super.getSpeed();
+    /**
+     * @see edu.wpi.first.wpilibj.CANJaguar#getSpeed() 
+     * @return If an exception was encountered, returns 0
+     */
+    public double getSpeed() {
+        try {
+            return super.getSpeed();
+        } catch (CANTimeoutException ex) {
+            return 0;
+        }
     }
 
-    public boolean getForwardLimitOK() throws CANTimeoutException {
-        return super.getForwardLimitOK();
+    /**
+     * @see edu.wpi.first.wpilibj.CANJaguar#getForwardLimitOK() 
+     * @return If an exception was encountered, returns false
+     */
+    public boolean getForwardLimitOK() {
+        try {
+            return super.getForwardLimitOK();
+        } catch (CANTimeoutException ex) {
+            return false;
+        }
     }
 
-    public boolean getReverseLimitOK() throws CANTimeoutException {
-        return super.getReverseLimitOK();
+    /**
+     * @see edu.wpi.first.wpilibj.CANJaguar#getReverseLimitOK() 
+     * @return If an exception was encountered, returns false
+     */
+    public boolean getReverseLimitOK() {
+        try {
+            return super.getReverseLimitOK();
+        } catch (CANTimeoutException ex) {
+            return false;
+        }
     }
 
-    public short getFaults() throws CANTimeoutException {
-        return super.getFaults();
+    /**
+     * @see edu.wpi.first.wpilibj.CANJaguar#getFaults() 
+     * @return If an exception was encountered, returns 0
+     */
+    public short getFaults() {
+        try {
+            return super.getFaults();
+        } catch (CANTimeoutException ex) {
+            return 0;
+        }
     }
 
-    public boolean getPowerCycled() throws CANTimeoutException {
-        return super.getPowerCycled();
+    /**
+     * @see edu.wpi.first.wpilibj.CANJaguar#getPowerCycled() 
+     * @return If an exception was encountered, returns false
+     */
+    public boolean getPowerCycled() {
+        try {
+            return super.getPowerCycled();
+        } catch (CANTimeoutException ex) {
+            return false;
+        }
     }
 
-    public void setVoltageRampRate(double rampRate) throws CANTimeoutException {
-        super.setVoltageRampRate(rampRate);
+    public void setVoltageRampRate(double rampRate) {
+        try {
+            super.setVoltageRampRate(rampRate);
+        } catch (CANTimeoutException ex) {
+        }
     }
 
-    public int getFirmwareVersion() throws CANTimeoutException {
-        return super.getFirmwareVersion();
+    /**
+     * @see edu.wpi.first.wpilibj.CANJaguar#getFirmwareVersion() 
+     * @return If an exception was encountered, returns 0
+     */
+    public int getFirmwareVersion() {
+        try {
+            return super.getFirmwareVersion();
+        } catch (CANTimeoutException ex) {
+            return 0;
+        }
     }
 
-    public byte getHardwareVersion() throws CANTimeoutException {
-        return super.getHardwareVersion();
+    /**
+     * @see edu.wpi.first.wpilibj.CANJaguar#getHardwareVersion() 
+     * @return If an exception was encountered, returns 0
+     */
+    public byte getHardwareVersion() {
+        try {
+            return super.getHardwareVersion();
+        } catch (CANTimeoutException ex) {
+            return 0;
+        }
     }
 
-    public void configNeutralMode(NeutralMode mode) throws CANTimeoutException {
-        super.configNeutralMode(mode);
+    public void configNeutralMode(NeutralMode mode) {
+        try {
+            super.configNeutralMode(mode);
+        } catch (CANTimeoutException ex) {
+        }
     }
 
-    public void configEncoderCodesPerRev(int codesPerRev) throws CANTimeoutException {
-        super.configEncoderCodesPerRev(codesPerRev);
+    public void configEncoderCodesPerRev(int codesPerRev) {
+        try {
+            super.configEncoderCodesPerRev(codesPerRev);
+        } catch (CANTimeoutException ex) {
+        }
     }
 
-    public void configPotentiometerTurns(int turns) throws CANTimeoutException {
-        super.configPotentiometerTurns(turns);
+    public void configPotentiometerTurns(int turns) {
+        try {
+            super.configPotentiometerTurns(turns);
+        } catch (CANTimeoutException ex) {
+        }
     }
 
-    public void configSoftPositionLimits(double forwardLimitPosition, double reverseLimitPosition) throws CANTimeoutException {
-        super.configSoftPositionLimits(forwardLimitPosition, reverseLimitPosition);
+    public void configSoftPositionLimits(double forwardLimitPosition, double reverseLimitPosition) {
+        try {
+            super.configSoftPositionLimits(forwardLimitPosition, reverseLimitPosition);
+        } catch (CANTimeoutException ex) {
+        }
     }
 
-    public void disableSoftPositionLimits() throws CANTimeoutException {
-        super.disableSoftPositionLimits();
+    public void disableSoftPositionLimits() {
+        try {
+            super.disableSoftPositionLimits();
+        } catch (CANTimeoutException ex) {
+        }
     }
 
-    public void configMaxOutputVoltage(double voltage) throws CANTimeoutException {
-        super.configMaxOutputVoltage(voltage);
+    public void configMaxOutputVoltage(double voltage) {
+        try {
+            super.configMaxOutputVoltage(voltage);
+        } catch (CANTimeoutException ex) {
+        }
     }
 
-    public void configFaultTime(double faultTime) throws CANTimeoutException {
-        super.configFaultTime(faultTime);
+    public void configFaultTime(double faultTime) {
+        try {
+            super.configFaultTime(faultTime);
+        } catch (CANTimeoutException ex) {
+        }
     }
-
-    public void setExpiration(double timeout) {
-        super.setExpiration(timeout);
-    }
-
-    public double getExpiration() {
-        return super.getExpiration();
-    }
-
-    public boolean isAlive() {
-        return super.isAlive();
-    }
-
-    public boolean isSafetyEnabled() {
-        return super.isSafetyEnabled();
-    }
-
-    public void setSafetyEnabled(boolean enabled) {
-        super.setSafetyEnabled(enabled);
-    }
-
-    public String getDescription() {
-        return super.getDescription();
-    }
-
-    public void stopMotor() {
-        super.stopMotor();
-    }
-
-    public String getSmartDashboardType() {
-        return super.getSmartDashboardType();
-    }
-
-    public void initTable(ITable subtable) {
-        super.initTable(subtable);
-    }
-
-    public void updateTable() {
-        super.updateTable();
-    }
-
-    public ITable getTable() {
-        return super.getTable();
-    }
-
-    public void startLiveWindowMode() {
-        super.startLiveWindowMode();
-    }
-
-    public void stopLiveWindowMode() {
-        super.stopLiveWindowMode();
-    }
-    
-    
 }
