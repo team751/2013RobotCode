@@ -2,7 +2,6 @@ package org.team751.util;
 
 import edu.wpi.first.wpilibj.CANJaguar;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
-import edu.wpi.first.wpilibj.tables.ITable;
 
 /**
  * Wraps a CANJaguar and silently ignores all exceptions that it throws
@@ -24,10 +23,6 @@ public class SilentCANJaguar extends CANJaguar {
             super.setX(outputValue);
         } catch (CANTimeoutException ex) {
         }
-    }
-
-    public void set(double outputValue) {
-        super.set(outputValue);
     }
 
     public void setX(double outputValue, byte syncGroup) {
@@ -59,10 +54,6 @@ public class SilentCANJaguar extends CANJaguar {
 
     public void disable() {
         super.disable();
-    }
-
-    public void pidWrite(double output) {
-        super.pidWrite(output);
     }
 
     /**

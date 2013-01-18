@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.team751.commands.JoystickDrive;
+import org.team751.util.PolyMotorRobotDrive;
 
 /**
  *
@@ -21,7 +22,7 @@ public class Drivetrain extends Subsystem {
     CANJaguar left2;
     CANJaguar right1;
     CANJaguar right2;
-    RobotDrive drive;
+    PolyMotorRobotDrive drive;
 
     public Drivetrain() {
         try {
@@ -32,7 +33,8 @@ public class Drivetrain extends Subsystem {
         } catch(CANTimeoutException e) {
             System.out.println("CANTimeoutException: " + e);
         }
-        drive = new RobotDrive(left1, left2, right1, right2);
+        drive = new PolyMotorRobotDrive(
+                new CANJaguar[]{left1, left2}, new CANJaguar[]{right1, right2});
     }
     
     public void arcadeDrive(double moveValue, double rotateValue) {
