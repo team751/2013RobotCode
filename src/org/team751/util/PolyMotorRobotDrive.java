@@ -3,6 +3,7 @@ package org.team751.util;
 import edu.wpi.first.wpilibj.CANJaguar;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
+import org.team751.CANSyncGroups;
 
 /**
  * A RobotDrive that works with any number of motors
@@ -19,20 +20,6 @@ public class PolyMotorRobotDrive {
      * The motors on the right side of the robot
      */
     protected SpeedController[] rightMotors;
-    /**
-     * The CAN sync group for the left motors Jaguars set with this sync group
-     * will update their output at the same time when
-     * {@link edu.wpi.first.wpilibj.CANJaguar#updateSyncGroup(byte)} is called.
-     * Other Jaguars on the network must not use this sync group.
-     */
-    protected static final byte LEFT_SYNCGROUP = 1;
-    /**
-     * The CAN sync group for the right motors Jaguars set with this sync group
-     * will update their output at the same time when
-     * {@link edu.wpi.first.wpilibj.CANJaguar#updateSyncGroup(byte)} is called.
-     * Other Jaguars on the network must not use this sync group.
-     */
-    protected static final byte RIGHT_SYNCGROUP = 2;
 
     /**
      * Constructor
@@ -105,7 +92,7 @@ public class PolyMotorRobotDrive {
             if (controller instanceof CANJaguar) {
                 usingCan = true;
                 try {
-                    ((CANJaguar) controller).setX(leftOutput, LEFT_SYNCGROUP);
+                    ((CANJaguar) controller).setX(leftOutput, CANSyncGroups.DRIVETRAIN_LEFT);
                 } catch (CANTimeoutException ex) {
                     ex.printStackTrace();
                 }
@@ -125,7 +112,7 @@ public class PolyMotorRobotDrive {
                 usingCan = true;
 
                 try {
-                    ((CANJaguar) controller).setX(rightOutput, RIGHT_SYNCGROUP);
+                    ((CANJaguar) controller).setX(rightOutput, CANSyncGroups.DRIVETRAIN_RIGHT);
                 } catch (CANTimeoutException ex) {
                     ex.printStackTrace();
                 }
@@ -137,8 +124,8 @@ public class PolyMotorRobotDrive {
         if (usingCan) {
             try {
                 //Update the sync groups so that the Jaguars will update at the same time
-                CANJaguar.updateSyncGroup(LEFT_SYNCGROUP);
-                CANJaguar.updateSyncGroup(RIGHT_SYNCGROUP);
+                CANJaguar.updateSyncGroup(CANSyncGroups.DRIVETRAIN_LEFT);
+                CANJaguar.updateSyncGroup(CANSyncGroups.DRIVETRAIN_RIGHT);
             } catch (CANTimeoutException ex) {
                 ex.printStackTrace();
             }
