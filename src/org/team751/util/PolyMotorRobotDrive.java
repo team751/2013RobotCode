@@ -1,6 +1,7 @@
 package org.team751.util;
 
 import edu.wpi.first.wpilibj.CANJaguar;
+import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
 
 /**
@@ -13,11 +14,11 @@ public class PolyMotorRobotDrive {
     /**
      * The motors on the left side of the robot
      */
-    protected CANJaguar[] leftMotors;
+    protected SpeedController[] leftMotors;
     /**
      * The motors on the right side of the robot
      */
-    protected CANJaguar[] rightMotors;
+    protected SpeedController[] rightMotors;
     /**
      * The CAN sync group for the left motors Jaguars set with this sync group
      * will update their output at the same time when
@@ -39,33 +40,34 @@ public class PolyMotorRobotDrive {
      * @param leftMotors The motors on the left side of the robot
      * @param rightMotors The motors on the right side of the robot
      */
-    public PolyMotorRobotDrive(CANJaguar[] leftMotors, CANJaguar[] rightMotors) {
+    public PolyMotorRobotDrive(SpeedController[] leftMotors, SpeedController[] rightMotors) {
         this.leftMotors = leftMotors;
         this.rightMotors = rightMotors;
     }
-    
+
     /**
      * Drive the robot with arcade drive
+     *
      * @param moveValue The degree to which the robot should be moved
      * forward/back. Full forward is +1, full reverse is -1
-     * @param rotateValue The degree to which the robot should turn left
-     * or right. Full left is -1, full right is +1.
+     * @param rotateValue The degree to which the robot should turn left or
+     * right. Full left is -1, full right is +1.
      */
     public void arcadeDrive(double moveValue, double rotateValue) {
         //Based on http://www.chiefdelphi.com/media/papers/2661?langid=2
-        
+
         double max = Math.abs(moveValue);
-        if(Math.abs(rotateValue) > max) {
+        if (Math.abs(rotateValue) > max) {
             max = Math.abs(rotateValue);
         }
         double sum = moveValue + rotateValue;
         double difference = moveValue - rotateValue;
-        
+
         double leftPower;
         double rightPower;
-        
-        if(moveValue > 0) {
-            if(rotateValue >= 0) {
+
+        if (moveValue > 0) {
+            if (rotateValue >= 0) {
                 leftPower = max;
                 rightPower = difference;
             } else {
@@ -73,7 +75,7 @@ public class PolyMotorRobotDrive {
                 rightPower = max;
             }
         } else {
-            if(rotateValue >= 0) {
+            if (rotateValue >= 0) {
                 leftPower = sum;
                 rightPower = -max;
             } else {
@@ -81,38 +83,65 @@ public class PolyMotorRobotDrive {
                 rightPower = difference;
             }
         }
-        
+
         setLeftRightMotorOutputs(leftPower, rightPower);
     }
-    
 
     protected void setLeftRightMotorOutputs(double leftOutput, double rightOutput) {
+
+        /**
+         * If any of the speed controllers is a CANJaguar If this is true, the
+         * CAN sync group will be updated at the end
+         */
+        boolean usingCan = false;
+
         //Set the output of each left motor (they won't actually update
         //until later)
         for (int i = 0, max = leftMotors.length; i < max; i++) {
-            try {
-                leftMotors[i].setX(leftOutput, LEFT_SYNCGROUP);
-            } catch (CANTimeoutException ex) {
-                ex.printStackTrace();
+
+            SpeedController controller = leftMotors[i];
+
+            //If this controller is a CANJaguar, set it with CAN
+            if (controller instanceof CANJaguar) {
+                usingCan = true;
+                try {
+                    ((CANJaguar) controller).setX(leftOutput, LEFT_SYNCGROUP);
+                } catch (CANTimeoutException ex) {
+                    ex.printStackTrace();
+                }
+
+            } else {
+                //Set it with PWM (or whatever non-CAN interface it uses)
+                controller.set(leftOutput);
             }
         }
 
         for (int i = 0, max = rightMotors.length; i < max; i++) {
+
+            SpeedController controller = rightMotors[i];
+
+            if (controller instanceof CANJaguar) {
+
+                usingCan = true;
+
+                try {
+                    ((CANJaguar) controller).setX(rightOutput, RIGHT_SYNCGROUP);
+                } catch (CANTimeoutException ex) {
+                    ex.printStackTrace();
+                }
+            } else {
+                controller.set(rightOutput);
+            }
+        }
+
+        if (usingCan) {
             try {
-                rightMotors[i].setX(rightOutput, RIGHT_SYNCGROUP);
+                //Update the sync groups so that the Jaguars will update at the same time
+                CANJaguar.updateSyncGroup(LEFT_SYNCGROUP);
+                CANJaguar.updateSyncGroup(RIGHT_SYNCGROUP);
             } catch (CANTimeoutException ex) {
                 ex.printStackTrace();
             }
         }
-
-        try {
-            //Update the sync groups so that the Jaguars will update at the same time
-            CANJaguar.updateSyncGroup(LEFT_SYNCGROUP);
-            CANJaguar.updateSyncGroup(RIGHT_SYNCGROUP);
-        } catch (CANTimeoutException ex) {
-            ex.printStackTrace();
-        }
     }
-    
-    
 }

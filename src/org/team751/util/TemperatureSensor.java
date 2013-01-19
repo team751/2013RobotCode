@@ -1,15 +1,11 @@
 package org.team751.util;
 
-import edu.wpi.first.wpilibj.NamedSendable;
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
-import edu.wpi.first.wpilibj.tables.ITable;
-
 /**
  * An abstract class for a temperature sensor. This is any device that can
  * return a temperature measurement. A temperature sensor has a name and can
  * provide a temperature value.
  */
-public abstract class TemperatureSensor implements NamedSendable {
+public abstract class TemperatureSensor {
 
     /**
      * The name of this sensor, used for dashboard display and data logging
@@ -23,7 +19,6 @@ public abstract class TemperatureSensor implements NamedSendable {
      */
     protected TemperatureSensor(String name) {
         this.name = name;
-        table = NetworkTable.getTable("temperature_sensor_"+getName());
     }
 
     /**
@@ -59,19 +54,4 @@ public abstract class TemperatureSensor implements NamedSendable {
      * package private).
      */
     boolean warningLogged = false;
-
-    public void initTable(ITable itable) {
-    }
-
-    //Smart Dashboard support
-    
-    private ITable table;
-    
-    public ITable getTable() {
-        return table;
-    }
-
-    public String getSmartDashboardType() {
-        return "temperature_sensor";
-    }
 }
