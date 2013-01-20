@@ -90,7 +90,9 @@
             </compilation-unit>
         </java-data>
         <spellchecker-wordlist xmlns="http://www.netbeans.org/ns/spellchecker-wordlist/1">
+            <word>drivetrain</word>
             <word>Jaguars</word>
+            <word>unconfigured</word>
         </spellchecker-wordlist>
     </configuration>
 </project>

@@ -32,10 +32,6 @@ public class SilentCANJaguar extends CANJaguar {
         }
     }
 
-    public void set(double outputValue, byte syncGroup) {
-        super.set(outputValue, syncGroup);
-    }
-
     /**
      * @see edu.wpi.first.wpilibj.CANJaguar#getX() 
      * @return If an exception was encountered, returns 0
@@ -46,14 +42,6 @@ public class SilentCANJaguar extends CANJaguar {
         } catch (CANTimeoutException ex) {
             return 0;
         }
-    }
-
-    public double get() {
-        return super.get();
-    }
-
-    public void disable() {
-        super.disable();
     }
 
     /**
