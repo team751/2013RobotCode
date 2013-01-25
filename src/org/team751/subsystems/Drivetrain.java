@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.CANJaguar;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import org.team751.CANJaguarIDs;
+import org.team751.resources.CANJaguarIDs;
 import org.team751.commands.JoystickDrive;
 import org.team751.util.PolyMotorRobotDrive;
 

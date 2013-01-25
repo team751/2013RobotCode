@@ -21,38 +21,70 @@ public class ConfigFile {
     /**
      * The file. Used to create/delete the file and check if it exists
      */
-    private FileConnection file = null;
+    protected FileConnection file = null;
     /*
      * Developer note: The FileConnection interface is documented
      * at http://www.blackberry.com/developers/docs/4.2api/javax/microedition/io/file/FileConnection.html
      * (Except that the documentation includes some methods that are not
      * implemented here)
      */
+    
+    /**
+     * The name of the file
+     */
+    protected String fileName = "";
+    
     /**
      * The PrintStream used to write to the file
      */
-    private PrintStream writer = null;
+    protected PrintStream writer = null;
     /**
      * The Reader used to read from the file;
      */
-    private BufferedReader reader = null;
+    protected BufferedReader reader = null;
     /**
      * The data stored in the file.
      */
-    private JSONObject data = new JSONObject();
+    protected JSONObject data = new JSONObject();
 
     /**
-     * Open a config file with a given name. If this file does not exist, an
-     * empty file will be created.
+     * Returns the data from this file that is currently stored in memory.
+     * 
+     * If the file does not contain any data, or if {@link #read()} has not
+     * yet been called, an empty JSONObject will be returned.
+     * 
+     * You can modify this object. Any changes that you make will be saved
+     * when you call {@link #write()}.
+     * 
+     * @return The configuration
+     */
+    public JSONObject getData() {
+        return data;
+    }
+    
+    /**
+     * Construct a file reference with a given name.
+     * 
+     * You must call open() before calling read() or write().
      *
      * @param name The name of the file
      */
     public ConfigFile(String name) {
+        fileName = name;
+        
+
+    }
+    
+    /**
+     * Open the file. If this file does not exist, an
+     * empty file will be created.
+     */
+    public void open() {
         try {
-            file = (FileConnection) Connector.open("file:///" + name, Connector.READ_WRITE);
+            file = (FileConnection) Connector.open("file:///" + fileName, Connector.READ_WRITE);
 
             if (!file.exists()) {
-                System.err.println("Config file " + name + " does not exist. Creating an empty file.");
+                System.err.println("Config file " + fileName + " does not exist. Creating an empty file.");
                 initEmptyFile();
             }
 
@@ -66,14 +98,13 @@ public class ConfigFile {
 
             //If fewer than 2 bytes, re-create it with emtpy JSON data
             if (file.fileSize() < 2) {
-                System.err.println("Config file " + name + " is less than 2 bytes long. Replacing it with empty JSON.");
+                System.err.println("Config file " + fileName + " is less than 2 bytes long. Replacing it with empty JSON.");
                 initEmptyFile();
             }
 
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-
     }
 
     /**

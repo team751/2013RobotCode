@@ -3,7 +3,7 @@ package org.team751.util;
 import edu.wpi.first.wpilibj.CANJaguar;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
-import org.team751.CANSyncGroups;
+import org.team751.resources.CANSyncGroups;
 
 /**
  * A RobotDrive that works with any number of motors
