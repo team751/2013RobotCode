@@ -113,7 +113,9 @@
             </compilation-unit>
         </java-data>
         <spellchecker-wordlist xmlns="http://www.netbeans.org/ns/spellchecker-wordlist/1">
+            <word>config</word>
             <word>drivetrain</word>
+            <word>filesystem</word>
             <word>Jaguars</word>
             <word>pandaboard</word>
             <word>unconfigured</word>
