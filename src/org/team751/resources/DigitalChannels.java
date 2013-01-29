@@ -21,6 +21,17 @@ public class DigitalChannels {
     
     //Begin actual channel assignments
     
+    /**
+     * Drivetrain, left side, encoder channel A
+     */
+    public static final int DRIVE_LEFT_ENCODER_A = 1;
+    
+    public static final int DRIVE_LEFT_ENCODER_B = 2;
+    
+    public static final int DRIVE_RIGHT_ENCODER_A = 3;
+    
+    public static final int DRIVE_RIGHT_ENCODER_B = 4;
+    
     static {
         //Confirm that there are no duplicate channels assigned
         

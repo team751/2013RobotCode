@@ -1,11 +1,13 @@
 package org.team751.subsystems;
 
 import edu.wpi.first.wpilibj.CANJaguar;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.team751.resources.CANJaguarIDs;
 import org.team751.commands.JoystickDrive;
+import org.team751.resources.DigitalChannels;
 import org.team751.util.PolyMotorRobotDrive;
 
 /**
@@ -24,6 +26,11 @@ public class Drivetrain extends Subsystem {
     SpeedController right1;
     SpeedController right2;
     SpeedController right3;
+    
+    //encoders
+    Encoder leftEncoder = new Encoder(DigitalChannels.DRIVE_LEFT_ENCODER_A, DigitalChannels.DRIVE_LEFT_ENCODER_B);
+    
+    Encoder rightEncoder = new Encoder(DigitalChannels.DRIVE_RIGHT_ENCODER_A, DigitalChannels.DRIVE_RIGHT_ENCODER_B);
     
     PolyMotorRobotDrive drive;
 
