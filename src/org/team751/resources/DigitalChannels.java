@@ -4,50 +4,34 @@ import com.sun.squawk.Field;
 import com.sun.squawk.Klass;
 
 /**
- * Stores the assignments of available analog input channels in module 1
+ * Stores the assignments of available digital I/O channels in module 2
  * @author Sam Crow
  */
-public class AnalogInputChannels {
+public class DigitalChannels {
     
     /**
      * The number of analog channels that are available on this module
-     * 
-     * (in this case, it is 8 minus the 8th channel, which is reserved for
-     * sensing battery voltage)
      */
-    private static final int CHANNEL_COUNT = 7;
+    private static final int CHANNEL_COUNT = 14;
     
     private static final int LOWEST_ALLOWED_CHANNEL = 1;
     
-    private static final int HIGHEST_ALLOWED_CHANNEL = 7;
+    private static final int HIGHEST_ALLOWED_CHANNEL = 14;
     
-    /**
-     * Analog channel used to measure robot rotation with the gyroscope
-     */
-    public static final int GYRO = 1;
     
-    /**
-     * Drivetrain temperature sensor, left side
-     */
-    public static final int TEMP_DRIVETRAIN_LEFT = 2;
-    
-    /**
-     * Drivetrain temperature sensor, right side
-     */
-    public static final int TEMP_DRIVETRAIN_RIGHT = 3;
-    
+    //Begin actual channel assignments
     
     static {
         //Confirm that there are no duplicate channels assigned
         
-        Klass klass = Klass.asKlass(AnalogInputChannels.class);
+        Klass klass = Klass.asKlass(DigitalChannels.class);
         //Get the count of static fields
         int fieldCount = klass.getFieldCount(true);
         
         //Other than CHANNEL_COUNT, there should be a maximum of FIELD_COUNT fields
         //so the maximum number of fields is CHANNEL_COUNT + 1
         if(fieldCount - 3 > CHANNEL_COUNT) {
-            System.err.println((fieldCount - 3)+" analog channels are assigned! The maximum number available on this module is "+CHANNEL_COUNT);
+            System.err.println((fieldCount - 3)+" digital channels are assigned! The maximum number available on this module is "+CHANNEL_COUNT);
         }
         
         int[] usedChannels = new int[fieldCount - 1];
@@ -64,24 +48,24 @@ public class AnalogInputChannels {
             //Verify that this channel number has not yet been used
             for(int j = 0; j < fieldCount - 1; j++) {
                 if(usedChannels[j] == channelNumber) {
-                    System.err.println("Analog channel number "+channelNumber+" for "+field.getName()+" has already been assigned! Check for duplicates.");
+                    System.err.println("Digital channel number "+channelNumber+" for "+field.getName()+" has already been assigned! Check for duplicates.");
                 }
             }
             
             //Verify that this channel is within range
             if(channelNumber > HIGHEST_ALLOWED_CHANNEL) {
-                System.err.println("Analog channel number "+channelNumber+" for "+field.getName()+" is greater than the maximum allowed channel ("+HIGHEST_ALLOWED_CHANNEL+")!");
+                System.err.println("Digital channel number "+channelNumber+" for "+field.getName()+" is greater than the maximum allowed channel ("+HIGHEST_ALLOWED_CHANNEL+")!");
             }
             else if(channelNumber < LOWEST_ALLOWED_CHANNEL) {
-                System.err.println("Analog channel number "+channelNumber+" for "+field.getName()+" is less than the minimum allowed channel ("+LOWEST_ALLOWED_CHANNEL+")!");
+                System.err.println("Digital channel number "+channelNumber+" for "+field.getName()+" is less than the minimum allowed channel ("+LOWEST_ALLOWED_CHANNEL+")!");
             }
             
             //Add this number to the set of known numbers
             usedChannels[i] = channelNumber;
         }
         
-        System.out.println("Finished validating analog channels");
+        System.out.println("Finished validating digital channels");
     }
     
-    private AnalogInputChannels() {}
+    private DigitalChannels() {}
 }
