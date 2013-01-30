@@ -1,6 +1,8 @@
 package org.team751.util;
 
 import edu.wpi.first.wpilibj.CANJaguar;
+import edu.wpi.first.wpilibj.SpeedController;
+import java.util.Vector;
 
 /**
  * Monitors the speed controllers and motors of the drivetrain
@@ -17,5 +19,28 @@ public class DrivetrainMonitor {
      * The motor temperature sensors that are being monitored
      */
     private DrivetrainTemperatureSensor[] temperatureSensors;
+    
+    public DrivetrainMonitor(SpeedController[] controllers, DrivetrainTemperatureSensor[] sensors) {
+        
+        //A temporary resizable list of the CANJaguars that have been provided
+        Vector tempJaguars = new Vector();
+        
+        //accept whatever controllers are CANJaguars
+        for(int i = 0; i < controllers.length; i++) {
+            
+            SpeedController controller = controllers[i];
+            
+            //If this 
+            if(controller instanceof CANJaguar) {
+                tempJaguars.add((CANJaguar) controller);
+            }
+        }
+        
+        //Copy the temporary list into the main array
+        tempJaguars.copyInto(jaguars);
+        
+        this.temperatureSensors = sensors;
+    }
+    
     
 }
