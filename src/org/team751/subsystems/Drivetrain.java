@@ -27,10 +27,7 @@ public class Drivetrain extends Subsystem {
     SpeedController right2;
     SpeedController right3;
     
-    //encoders
-    Encoder leftEncoder = new Encoder(DigitalChannels.DRIVE_LEFT_ENCODER_A, DigitalChannels.DRIVE_LEFT_ENCODER_B);
     
-    Encoder rightEncoder = new Encoder(DigitalChannels.DRIVE_RIGHT_ENCODER_A, DigitalChannels.DRIVE_RIGHT_ENCODER_B);
     
     PolyMotorRobotDrive drive;
 
