@@ -9,6 +9,7 @@ package org.team751;
 
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Utility;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -36,6 +37,9 @@ public class Robot2013 extends IterativeRobot {
 
         // Initialize all subsystems
         CommandBase.init();
+        
+        //Send system.err to the driver station console
+        Utility.sendErrorStreamToDriverStation(true);
     }
 
     public void autonomousInit() {

@@ -3,7 +3,6 @@ package org.team751.util;
 import edu.wpi.first.wpilibj.CANJaguar;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Keeps track of the electrical current that the drivetrain is consuming and
@@ -27,7 +26,7 @@ public class DrivetrainCurrentLimiter {
      * This stores 10 data points of the current consumed by all the motors in
      * total over the last 5 seconds
      */
-    private double[] currentValues = new double[10];
+    private FixedCapacityDoubleQueue currentValues = new FixedCapacityDoubleQueue(10);
     /**
      * The time (as returned by {@link java.lang.System#currentTimeMillis()})
      * that the process() function last did processing
@@ -57,20 +56,14 @@ public class DrivetrainCurrentLimiter {
                     }
                 }
 
-                //Manually shift items up
-                //Iterate over each item (except the final one) and copy it into
-                //the next highest numbered slot
-                for (int i = 0, max = currentValues.length - 1; i < max; i++) {
-                    currentValues[i + 1] = currentValues[i];
-                }
-                currentValues[0] = totalCurrent;
+                currentValues.enqueue(totalCurrent);
 
 
                 //Integrate the current over time (time = 5 seconds)
                 //to get the overall (something) in amp-seconds
                 double ampSeconds = 0;
                 for (int i = 0, max = currentValues.length; i < max; i++) {
-                    ampSeconds += 0.5 * currentValues[i];
+                    ampSeconds += 0.5 * currentValues.at(i);
                 }
 
                 System.out.println("Current over last 5 seconds: " + ampSeconds + " amp-seconds");
@@ -107,11 +100,6 @@ public class DrivetrainCurrentLimiter {
             //If any of the SpeedControllers couldn't be cast into a CANJaguar
             System.err.println("a SpeedController was not a CANJaguar! No current monitoring will be performed.");
             enabled = false;
-        }
-
-        //Set everything in the current values queue to zero
-        for (int i = 0, max = currentValues.length; i < max; i++) {
-            currentValues[i] = 0;
         }
     }
 }
