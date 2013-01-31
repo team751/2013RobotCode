@@ -51,7 +51,7 @@ public class Vec2 {
      * Create and return a newly allocated vector with the same values as this one
      * @return the new vector
      */
-    public Vec2 clone() {
+    public Object clone() {
         return new Vec2(x, y);
     }
     
