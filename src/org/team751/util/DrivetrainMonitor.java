@@ -32,7 +32,7 @@ public class DrivetrainMonitor {
             
             //If this 
             if(controller instanceof CANJaguar) {
-                tempJaguars.add((CANJaguar) controller);
+                tempJaguars.addElement(controller);
             }
         }
         
