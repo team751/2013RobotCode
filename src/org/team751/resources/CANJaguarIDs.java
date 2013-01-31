@@ -16,29 +16,12 @@ import com.sun.squawk.Klass;
  */
 public class CANJaguarIDs {
     
-    /**
-     * Drivetrain left controller 1
-     */
-    public static final int DRIVE_LEFT_1 = 2;
+    //SR-prefixed IDs for Jaguars on the summer robot
+    public static final int SR_DRIVE_LEFT_1 = 1;
+    public static final int SR_DRIVE_LEFT_2 = 2;
     
-    /**
-     * Drivetrain left controller 2
-     */
-    public static final int DRIVE_LEFT_2 = 3;
-    
-    /**
-     * Drivetrain left controller 3;
-     */
-    public static final int DRIVE_LEFT_3 = 4;
-    
-    /** Drivetrain right controller 1 */
-    public static final int DRIVE_RIGHT_1 = 5;
-    
-    /** Drivetrain right controller 2 */
-    public static final int DRIVE_RIGHT_2 = 6;
-    
-    /** Drivetrain right controller 3 */
-    public static final int DRIVE_RIGHT_3 = 7;
+    public static final int SR_DRIVE_RIGHT_1 = 3;
+    public static final int SR_DRIVE_RIGHT_2 = 4;
     
     static {
         //This code block runs when the class is loaded
