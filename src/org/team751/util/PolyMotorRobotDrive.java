@@ -35,26 +35,27 @@ public class PolyMotorRobotDrive {
     /**
      * Drive the robot with arcade drive
      *
-     * @param moveValue The degree to which the robot should be moved
-     * forward/back. Full forward is +1, full reverse is -1
-     * @param rotateValue The degree to which the robot should turn left or
+     * @param moveValue The degree to which the robot should turn left or
      * right. Full left is -1, full right is +1.
+     * @param rotateValue The degree to which the robot should be moved
+     * forward/back. Full forward is +1, full reverse is -1
      */
+    
     public void arcadeDrive(double moveValue, double rotateValue) {
         //Based on http://www.chiefdelphi.com/media/papers/2661?langid=2
 
-        double max = Math.abs(moveValue);
-        if (Math.abs(rotateValue) > max) {
-            max = Math.abs(rotateValue);
+        double max = Math.abs(rotateValue);
+        if (Math.abs(moveValue) > max) {
+            max = Math.abs(moveValue);
         }
-        double sum = moveValue + rotateValue;
-        double difference = moveValue - rotateValue;
+        double sum = rotateValue + moveValue;
+        double difference = rotateValue - moveValue;
 
         double leftPower;
         double rightPower;
 
-        if (moveValue > 0) {
-            if (rotateValue >= 0) {
+        if (rotateValue > 0) {
+            if (moveValue >= 0) {
                 leftPower = max;
                 rightPower = difference;
             } else {
@@ -62,7 +63,7 @@ public class PolyMotorRobotDrive {
                 rightPower = max;
             }
         } else {
-            if (rotateValue >= 0) {
+            if (moveValue >= 0) {
                 leftPower = sum;
                 rightPower = -max;
             } else {
