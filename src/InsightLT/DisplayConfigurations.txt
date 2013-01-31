@@ -1,0 +1,123 @@
+Understanding the API's zone configurations
+-------------------------------------------
+First things first. The source code is provided to help you modify the way the 
+display functions. Should you have a creative use feel free to modify the code.
+This is encouraged. If you have an idea and would like some support to implement 
+it feel free to contact us at support@bitbuilttech.com. If you have fixed a bug
+feel free to fix it and issue a pull request on github.com.
+
+Display Zones:
+--------------------------------------------------------------------------------
+There are currenlty 3 configurations to use the display in.
+1)FOUR_ZONES
+The four zone configuration give the user 4 10 character zones. This allows for
+the most data on screen at one given time but limits the length of the 
+information.
+The formation looks as below:
+11111111112222222222
+33333333334444444444
+
+2)ONE_TWO_LINE_ZONE
+This configuration gives the user 2 20 character zone. This allows for longer,
+more readable data display.
+The information looks as below:
+11111111111111111111
+11111111111111111111
+
+3)TWO_ONE_LINE_ZONES
+This configuration gives the user 2 20 character zones. This allows for longer,
+more readable data display. This configuration differs from the one two line 
+zone by allowing the user to scroll the two zones at different speeds, or 
+scrolling one zone while not scrolling the other.
+The formation looks as below:
+11111111111111111111
+22222222222222222222
+
+To use the InsightLT display create an InsightLT object:
+
+InsightLT display = new InsightLT();
+
+The default zone is ONE_TWO_LINE_ZONE.
+To create the display with a different configuration pass one of
+InsightLT.FOUR_ZONES
+InsightLT.ONE_TWO_LINE_ZONE
+InsightLT.TWO_ONE_LINE_ZONES
+to the constructor like
+
+InsightLT display = new InsightLT(InsightLT.FOUR_ZONES);
+
+
+
+Adding Data to the zones
+--------------------------------------------------------------------------------
+To add display data on the display, you need to create DisplayData objects. This
+allows you to specify the header value(a string) and the data as well as other
+formatting. For an example, lets say we want to display the battery voltage.
+First we need to create the data object. for battery voltage we want to display 
+a decimal value so we need to use the DecimalData object.
+
+DecimalData disp_batteryVoltage = new DecimalData("Batt:");
+
+The parameter to the constructor sets the header. The header can also be set
+after construction.
+Now we need to register the object with the display. To do this we need to know
+the zone configuration of the display. For this example lets use the four zone
+configuration and put the battery voltage in zone 2.
+
+display.registerData(disp_batteryVoltage, 2);
+
+Now all you need to do is set the value.
+
+float battVoltage = get the battery voltage
+disp_batteryVoltage.setData(battVoltage);
+
+The result of this should resemble the below:
+----------Batt:12.98
+--------------------
+
+This format is the same the other data types, string and integer.
+(DecimalData also allows you to specify the number of decimal places, which is
+by default 2)
+
+
+Scrolling
+--------------------------------------------------------------------------------
+Scrolling is how the display rotates more than one data item in a zone. At 
+creation all zones have a rotate time of 1500ms which can be changed with the
+setZoneScrollTime(zone, time);
+
+You can add multiple data items to a zone simply by registering more than one 
+item to a zone.
+
+manualScroll(zone, direction) allows you to use and external device such as a 
+switch to control a zone. Specify the zone number and then 1 or -1 for the 
+direction.
+
+
+Putting it all together and other advice
+--------------------------------------------------------------------------------
+Create your display object in class scope, possibly your data items as well. 
+Initialize these items in the constructor, especially the display.
+->class scope
+InsightLT display;
+StringData disp_userInfo;
+IntegerData disp_numberOfGamePeices;
+
+-> constructor
+display = new InsightLT(config);
+display.registerData(disp_userInfo, 1);
+display.registerData(disp_numberOfGamePeices);
+display.startDisplay();
+
+disp_userInfo = new StringData("Mode:");
+disp_numberOfGamePeices - new IntegerData("Items"):
+
+->auto, disable, or operator
+dataitems.setData(datavalue)
+
+
+For use during competition you may want to stop the display to relinquish the
+limited resources that are used by the display thread.
+To do this call display.stopDisplay() at the beginning of the operator control
+method. You can call display.startDisplay() before exiting the operator control
+method to have the display reactivated to show any data for after the match.

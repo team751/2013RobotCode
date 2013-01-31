@@ -22,7 +22,7 @@
                 <source-folder>
                     <label>2013RobotCode</label>
                     <location>.</location>
-                    <encoding>MacRoman</encoding>
+                    <encoding>x-MacRoman</encoding>
                 </source-folder>
                 <source-folder>
                     <label>src</label>
@@ -103,7 +103,7 @@
             <compilation-unit>
                 <package-root>src</package-root>
                 <package-root>json</package-root>
-                <classpath mode="compile">/Users/samcrow/sunspotfrcsdk/lib/wpilibj.jar:/Users/samcrow/sunspotfrcsdk/lib/networktables-crio.jar:/Users/samcrow/sunspotfrcsdk/lib/wpilibj.src.zip Folder</classpath>
+                <classpath mode="compile">../../../sunspotfrcsdk/lib/networktables-crio.jar;../../../sunspotfrcsdk/lib/squawk.jar;../../../sunspotfrcsdk/lib/wpilibj.jar</classpath>
                 <built-to>build</built-to>
                 <source-level>1.4</source-level>
             </compilation-unit>
