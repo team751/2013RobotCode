@@ -1,5 +1,6 @@
 package org.team751.util;
 
+import com.sun.squawk.util.MathUtils;
 import edu.wpi.first.wpilibj.CANJaguar;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
 import java.util.Timer;
@@ -59,7 +60,7 @@ public class DrivetrainCurrentMonitor {
      */
     public final void start() {
         //Schedule the task to be run every 500 ms
-        timer.scheduleAtFixedRate(task, 0, Math.round(DELAY_TIME * 1000));
+        timer.scheduleAtFixedRate(task, 0, MathUtils.round(DELAY_TIME * 1000));
     }
     
     /**
