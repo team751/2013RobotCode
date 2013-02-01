@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!--
 
     This is a sample netbeans project file for a Sun Spot Application project.
@@ -20,11 +20,6 @@
             </properties>
             <folders>
                 <source-folder>
-                    <label>2013RobotCode</label>
-                    <location>.</location>
-                    <encoding>x-MacRoman</encoding>
-                </source-folder>
-                <source-folder>
                     <label>src</label>
                     <type>java</type>
                     <location>src</location>
@@ -34,6 +29,11 @@
                     <label>json</label>
                     <type>java</type>
                     <location>json</location>
+                    <encoding>MacRoman</encoding>
+                </source-folder>
+                <source-folder>
+                    <label>2013RobotCode</label>
+                    <location>.</location>
                     <encoding>MacRoman</encoding>
                 </source-folder>
             </folders>
@@ -102,16 +102,18 @@
         <java-data xmlns="http://www.netbeans.org/ns/freeform-project-java/1">
             <compilation-unit>
                 <package-root>src</package-root>
-                <package-root>json</package-root>
-                <classpath mode="compile">../../../sunspotfrcsdk/lib/networktables-crio.jar;../../../sunspotfrcsdk/lib/squawk.jar;../../../sunspotfrcsdk/lib/wpilibj.jar</classpath>
+                <classpath mode="boot">${sunspot.home}\lib\squawk.jar</classpath>
+                <classpath mode="compile">${sunspot.home}\lib\wpilibj.jar;${sunspot.home}\lib\networktables-crio.jar</classpath>
                 <built-to>build</built-to>
+                <source-level>1.4</source-level>
+            </compilation-unit>
+            <compilation-unit>
+                <package-root>json</package-root>
                 <source-level>1.4</source-level>
             </compilation-unit>
         </java-data>
         <spellchecker-wordlist xmlns="http://www.netbeans.org/ns/spellchecker-wordlist/1">
-            <word>config</word>
             <word>drivetrain</word>
-            <word>filesystem</word>
             <word>Jaguars</word>
             <word>pandaboard</word>
             <word>unconfigured</word>

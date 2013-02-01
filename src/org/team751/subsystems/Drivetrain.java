@@ -15,37 +15,62 @@ import org.team751.util.PolyMotorRobotDrive;
 public class Drivetrain extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
-    
+
     //Left side Jaguars
-    SpeedController left1;
-    SpeedController left2;
+    private SpeedController left1;
+    private SpeedController left2;
     //Right side Jaguars
-    SpeedController right1;
-    SpeedController right2;
-    
-    
-    
-    PolyMotorRobotDrive drive;
+    private SpeedController right1;
+    private SpeedController right2;
+    private PolyMotorRobotDrive drive;
+    private long lastRunTime = System.currentTimeMillis();
 
     public Drivetrain() {
         try {
             left1 = new CANJaguar(CANJaguarIDs.SR_DRIVE_LEFT_1);
             left2 = new CANJaguar(CANJaguarIDs.SR_DRIVE_LEFT_2);
-            
+
             right1 = new CANJaguar(CANJaguarIDs.SR_DRIVE_RIGHT_1);
             right2 = new CANJaguar(CANJaguarIDs.SR_DRIVE_RIGHT_2);
-            
-        } catch(CANTimeoutException e) {
+
+        } catch (CANTimeoutException e) {
             System.out.println("CANTimeoutException: " + e);
         }
         drive = new PolyMotorRobotDrive(
                 new SpeedController[]{left1, left2}, new SpeedController[]{right1, right2});
+
+
+        //Timing note: The software sometimes does other things for a pretty
+        //long time (100-500 milliseconds) between running the drive command.
+        //When this happens, the motor safety mechanism stops the motors.
+        //This is not good.
+        //This sets the motor safety mechanism to not stop the motors
+        //until after 1 second of non-response.
+
+        try {
+            ((CANJaguar) left1).setExpiration(1);
+            ((CANJaguar) left2).setExpiration(1);
+            ((CANJaguar) right1).setExpiration(1);
+            ((CANJaguar) right2).setExpiration(1);
+        } catch (ClassCastException e) {
+        }
     }
-    
+
     public void arcadeDrive(double moveValue, double rotateValue) {
+
+        //timing
+        long now = System.currentTimeMillis();
+        long loopTime = now - lastRunTime;
+
+        lastRunTime = now;
+
+        if (loopTime > 100) {
+            System.out.println("Long loop! " + loopTime + " ms");
+        }
+
         drive.arcadeDrive(moveValue, rotateValue);
     }
-    
+
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
