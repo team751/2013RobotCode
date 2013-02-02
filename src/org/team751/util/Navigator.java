@@ -14,7 +14,7 @@ import org.team751.resources.DigitalChannels;
  * its starting point.
  * @author Sam Crow
  */
-public class Navigator implements Sendable, LiveWindowSendable {
+public class Navigator extends PeriodicTask implements Sendable, LiveWindowSendable {
     
     private ADXL345_I2C accel = new ADXL345_I2C(2, ADXL345_I2C.DataFormat_Range.k4G);
     
@@ -48,6 +48,9 @@ public class Navigator implements Sendable, LiveWindowSendable {
     private long lastProcessingTime = System.currentTimeMillis();
     
     public Navigator() {
+        
+        //Set the periodic task to run this 10 times/second
+        setTaskTime(0.1);
         
     }
     
