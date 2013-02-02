@@ -1,9 +1,6 @@
 package org.team751;
 
 
-import InsightLT.DecimalData;
-import InsightLT.InsightLT;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Utility;
 import edu.wpi.first.wpilibj.command.Command;
@@ -22,14 +19,6 @@ import org.team751.commands.ExampleCommand;
 public class Robot2013 extends IterativeRobot {
 
     Command autonomousCommand;
-
-    //Test Insight LT
-    InsightLT insight = new InsightLT(InsightLT.FOUR_ZONES);
-    DecimalData batteryVoltage = new DecimalData("Bat");
-    DecimalData jag1 = new DecimalData(" Jag1");
-    DecimalData jag2 = new DecimalData(" Jag2");
-    DecimalData jag3 = new DecimalData(" Jag3");
-    DecimalData jag4 = new DecimalData(" Jag4");
     
     /**
      * This function is run when the robot is first started up and should be
@@ -44,18 +33,6 @@ public class Robot2013 extends IterativeRobot {
         
         //Send system.err to the driver station console
         Utility.sendErrorStreamToDriverStation(true);
-        
-        jag1.setPrecision(1);
-        jag2.setPrecision(1);
-        jag3.setPrecision(1);
-        jag4.setPrecision(1);
-        
-        insight.registerData(batteryVoltage, 1);
-        insight.registerData(jag1, 2);
-        insight.registerData(jag2, 2);
-        insight.registerData(jag3, 2);
-        insight.registerData(jag4, 2);
-        insight.startDisplay();
     }
 
     public void autonomousInit() {
@@ -69,11 +46,6 @@ public class Robot2013 extends IterativeRobot {
 
     public void disabledPeriodic() {
         
-        batteryVoltage.setData(DriverStation.getInstance().getBatteryVoltage());
-        jag1.setData(CommandBase.driveTrain.getMonitor().getJaguarTemperature(0));
-        jag2.setData(CommandBase.driveTrain.getMonitor().getJaguarTemperature(1));
-        jag3.setData(CommandBase.driveTrain.getMonitor().getJaguarTemperature(2));
-        jag3.setData(CommandBase.driveTrain.getMonitor().getJaguarTemperature(3));
     }
     
     /**
