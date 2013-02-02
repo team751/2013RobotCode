@@ -25,6 +25,11 @@ public class DrivetrainMonitor {
     private DrivetrainTemperatureSensor[] temperatureSensors;
 
     /**
+     * The cached temperatures of all the Jaguars
+     */
+    private double[] jaguarTemperatures;
+    
+    /**
      * The time in seconds between the starts of loops
      */
     private static final double LOOP_TIME = 0.5;
@@ -50,6 +55,8 @@ public class DrivetrainMonitor {
         //Copy the temporary list into the main array
         jaguars = new CANJaguar[tempJaguars.size()];
         tempJaguars.copyInto(jaguars);
+        
+        jaguarTemperatures = new double[tempJaguars.size()];
 
         this.temperatureSensors = sensors;
     }
@@ -79,6 +86,10 @@ public class DrivetrainMonitor {
                             name = jaguar.getDescription();
                         }
                         SmartDashboard.putNumber(name, temperature);
+                        
+                        //Cache this temperature
+                        jaguarTemperatures[i] = temperature;
+                        
                     } catch (CANTimeoutException ex) {
                         ex.printStackTrace();
                     }
@@ -88,4 +99,8 @@ public class DrivetrainMonitor {
 
         }
     };
+    
+    public double getJaguarTemperature(int index) {
+       return jaguarTemperatures[index];
+    }
 }

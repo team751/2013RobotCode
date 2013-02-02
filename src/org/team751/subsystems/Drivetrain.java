@@ -92,4 +92,12 @@ public class Drivetrain extends Subsystem {
         //setDefaultCommand(new MySpecialCommand());
         setDefaultCommand(new JoystickDrive());
     }
+    
+    /**
+     * Get the drivetrain monitor
+     * @return the drivetrain monitor
+     */
+    public DrivetrainMonitor getMonitor() {
+        return monitor;
+    }
 }
