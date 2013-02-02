@@ -6,7 +6,10 @@ import edu.wpi.first.wpilibj.can.CANTimeoutException;
 import org.team751.resources.CANSyncGroups;
 
 /**
- * A RobotDrive that works with any number of motors
+ * A RobotDrive that works with any number of motors.
+ *
+ * When this class accesses a speed controller, it is synchronized. This allows
+ * it to safely be used when other threads are also accessing them.
  *
  * @author Sam Crow
  */
@@ -35,12 +38,11 @@ public class PolyMotorRobotDrive {
     /**
      * Drive the robot with arcade drive
      *
-     * @param moveValue The degree to which the robot should turn left or
-     * right. Full left is -1, full right is +1.
+     * @param moveValue The degree to which the robot should turn left or right.
+     * Full left is -1, full right is +1.
      * @param rotateValue The degree to which the robot should be moved
      * forward/back. Full forward is +1, full reverse is -1
      */
-    
     public void arcadeDrive(double moveValue, double rotateValue) {
         //Based on http://www.chiefdelphi.com/media/papers/2661?langid=2
 
@@ -89,18 +91,22 @@ public class PolyMotorRobotDrive {
 
             SpeedController controller = leftMotors[i];
 
-            //If this controller is a CANJaguar, set it with CAN
-            if (controller instanceof CANJaguar) {
-                usingCan = true;
-                try {
-                    ((CANJaguar) controller).setX(leftOutput, CANSyncGroups.DRIVETRAIN_LEFT);
-                } catch (CANTimeoutException ex) {
-                    ex.printStackTrace();
+            synchronized (controller) {
+
+                //If this controller is a CANJaguar, set it with CAN
+                if (controller instanceof CANJaguar) {
+                    usingCan = true;
+                    try {
+                        ((CANJaguar) controller).setX(leftOutput, CANSyncGroups.DRIVETRAIN_LEFT);
+                    } catch (CANTimeoutException ex) {
+                        ex.printStackTrace();
+                    }
+
+                } else {
+                    //Set it with PWM (or whatever non-CAN interface it uses)
+                    controller.set(leftOutput);
                 }
 
-            } else {
-                //Set it with PWM (or whatever non-CAN interface it uses)
-                controller.set(leftOutput);
             }
         }
 
@@ -108,17 +114,20 @@ public class PolyMotorRobotDrive {
 
             SpeedController controller = rightMotors[i];
 
-            if (controller instanceof CANJaguar) {
+            synchronized (controller) {
 
-                usingCan = true;
+                if (controller instanceof CANJaguar) {
 
-                try {
-                    ((CANJaguar) controller).setX(rightOutput, CANSyncGroups.DRIVETRAIN_RIGHT);
-                } catch (CANTimeoutException ex) {
-                    ex.printStackTrace();
+                    usingCan = true;
+
+                    try {
+                        ((CANJaguar) controller).setX(rightOutput, CANSyncGroups.DRIVETRAIN_RIGHT);
+                    } catch (CANTimeoutException ex) {
+                        ex.printStackTrace();
+                    }
+                } else {
+                    controller.set(rightOutput);
                 }
-            } else {
-                controller.set(rightOutput);
             }
         }
 

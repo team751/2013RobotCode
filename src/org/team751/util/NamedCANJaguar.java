@@ -1,9 +1,7 @@
 package org.team751.util;
 
 import edu.wpi.first.wpilibj.CANJaguar;
-import edu.wpi.first.wpilibj.NamedSendable;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
-import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 
 /**
  * A CANJaguar that stores a descriptive name
@@ -33,6 +31,10 @@ public class NamedCANJaguar extends CANJaguar {
         this.canId = deviceNumber;
     }
     
+    /**
+     * Get the name assigned to this Jaguar
+     * @return the name
+     */
     public String getName() {
         return name;
     }

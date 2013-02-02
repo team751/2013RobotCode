@@ -6,6 +6,8 @@ import edu.wpi.first.wpilibj.can.CANTimeoutException;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.team751.commands.JoystickDrive;
 import org.team751.resources.CANJaguarIDs;
+import org.team751.util.DrivetrainMonitor;
+import org.team751.util.NamedCANJaguar;
 import org.team751.util.PolyMotorRobotDrive;
 
 /**
@@ -16,6 +18,14 @@ public class Drivetrain extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 
+    /*
+     * Important note about all these CANJaguars:
+     * The drivetrain monitor accesses them through a timer,
+     * in a seperate thread.
+     * Therefore, anything that you to that accesses one of them
+     * must be inside a synchronized block, once you start the drivetrain
+     * monitor.
+     */
     //Left side Jaguars
     private SpeedController left1;
     private SpeedController left2;
@@ -24,14 +34,16 @@ public class Drivetrain extends Subsystem {
     private SpeedController right2;
     private PolyMotorRobotDrive drive;
     private long lastRunTime = System.currentTimeMillis();
+    
+    private DrivetrainMonitor monitor;
 
     public Drivetrain() {
         try {
-            left1 = new CANJaguar(CANJaguarIDs.SR_DRIVE_LEFT_1);
-            left2 = new CANJaguar(CANJaguarIDs.SR_DRIVE_LEFT_2);
+            left1 = new NamedCANJaguar(CANJaguarIDs.SR_DRIVE_LEFT_1, "Drivetrain left 1");
+            left2 = new NamedCANJaguar(CANJaguarIDs.SR_DRIVE_LEFT_2, "Drivetrain left 2");
 
-            right1 = new CANJaguar(CANJaguarIDs.SR_DRIVE_RIGHT_1);
-            right2 = new CANJaguar(CANJaguarIDs.SR_DRIVE_RIGHT_2);
+            right1 = new NamedCANJaguar(CANJaguarIDs.SR_DRIVE_RIGHT_1, "Drivetrain right 1");
+            right2 = new NamedCANJaguar(CANJaguarIDs.SR_DRIVE_RIGHT_2, "Drivetrain right 2");
 
         } catch (CANTimeoutException e) {
             System.out.println("CANTimeoutException: " + e);
@@ -54,6 +66,9 @@ public class Drivetrain extends Subsystem {
             ((CANJaguar) right2).setExpiration(1);
         } catch (ClassCastException e) {
         }
+        
+        monitor = new DrivetrainMonitor(new SpeedController[]{left1, left2, right1, right2}, null);
+        monitor.start();
     }
 
     public void arcadeDrive(double moveValue, double rotateValue) {
@@ -68,6 +83,7 @@ public class Drivetrain extends Subsystem {
             System.out.println("Long loop! " + loopTime + " ms");
         }
 
+        
         drive.arcadeDrive(moveValue, rotateValue);
     }
 
