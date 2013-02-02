@@ -30,7 +30,13 @@ public abstract class PeriodicTask {
         periodicTaskTime = newTime;
     }
     
+    /**
+     * Start processing.
+     * {@link #run() } will be called immediately, and thereafter at an interval
+     * set by {@link #setTaskTime(double) }.
+     */
     public void start() {
+        //start the timer
         periodicTaskTimer.scheduleAtFixedRate(periodicTask, 0, MathUtils.round(periodicTaskTime * 1000));
     }
     
