@@ -1,6 +1,7 @@
 package org.team751.subsystems;
 
 import edu.wpi.first.wpilibj.CANJaguar;
+import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -33,6 +34,8 @@ public class Drivetrain extends Subsystem {
     private SpeedController right1;
     private SpeedController right2;
     private PolyMotorRobotDrive drive;
+    
+    
     private long lastRunTime = System.currentTimeMillis();
     
     private DrivetrainMonitor monitor;
@@ -100,4 +103,29 @@ public class Drivetrain extends Subsystem {
     public DrivetrainMonitor getMonitor() {
         return monitor;
     }
+    
+    //PID support for turning in place
+    /**
+     * A PID output used to turn in place
+     */
+    public final PIDOutput turningPidOutput = new PIDOutput() {
+
+        public void pidWrite(double d) {
+            //Arcade drive with the given rotate value
+            arcadeDrive(0, d);
+        }
+        
+    };
+    
+    /**
+     * A PID output used to move forwards or back
+     */
+    public final PIDOutput straightPidOutput = new PIDOutput() {
+
+        public void pidWrite(double d) {
+            //Arcade drive with the given move value
+            arcadeDrive(d, 0);
+        }
+        
+    };
 }

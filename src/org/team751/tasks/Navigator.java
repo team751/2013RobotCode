@@ -3,6 +3,7 @@ package org.team751.tasks;
 import edu.wpi.first.wpilibj.ADXL345_I2C;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Gyro;
+import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import edu.wpi.first.wpilibj.tables.ITable;
@@ -153,4 +154,18 @@ public class Navigator extends PeriodicTask implements Sendable, LiveWindowSenda
 
     public void stopLiveWindowMode() {
     }
+    
+    //PID sources
+    /**
+     * A PID source that returns the heading, in degrees
+     */
+    public final PIDSource headingPidSource = new PIDSource() {
+
+        public double pidGet() {
+            synchronized(Navigator.this) {
+                return getHeading();
+            }
+        }
+        
+    };
 }
