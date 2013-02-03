@@ -7,7 +7,7 @@ package org.team751.util;
  * 
  * @author Sam Crow
  */
-class FixedCapacityDoubleQueue {
+public class FixedCapacityDoubleQueue {
     
     /**
      * The values stored

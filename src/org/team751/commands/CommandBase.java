@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import org.team751.OI;
 import org.team751.subsystems.Drivetrain;
 import org.team751.subsystems.ExampleSubsystem;
-import org.team751.util.Navigator;
+import org.team751.tasks.Navigator;
 import org.team751.util.OnBoardDiagnostics;
 
 /**

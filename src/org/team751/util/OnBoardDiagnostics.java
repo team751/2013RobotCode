@@ -3,6 +3,7 @@ package org.team751.util;
 import InsightLT.DecimalData;
 import InsightLT.InsightLT;
 import edu.wpi.first.wpilibj.DriverStation;
+import org.team751.tasks.PeriodicTask;
 
 /**
  * Accesses robot diagnostic information and displays it on the Insight LT.

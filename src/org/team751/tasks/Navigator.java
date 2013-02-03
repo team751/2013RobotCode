@@ -1,4 +1,4 @@
-package org.team751.util;
+package org.team751.tasks;
 
 import edu.wpi.first.wpilibj.ADXL345_I2C;
 import edu.wpi.first.wpilibj.Encoder;
@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import edu.wpi.first.wpilibj.tables.ITable;
 import org.team751.resources.AnalogChannels;
 import org.team751.resources.DigitalChannels;
+import org.team751.util.Vec2;
 
 /**
  * This subsystem-like class keeps track of the robot's location relative to its

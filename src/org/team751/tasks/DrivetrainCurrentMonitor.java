@@ -1,10 +1,11 @@
-package org.team751.util;
+package org.team751.tasks;
 
 import com.sun.squawk.util.MathUtils;
 import edu.wpi.first.wpilibj.CANJaguar;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
 import java.util.Timer;
 import java.util.TimerTask;
+import org.team751.util.FixedCapacityDoubleQueue;
 
 /**
  * Monitors the current consumed by drivetrain motors.
