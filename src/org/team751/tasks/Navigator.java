@@ -88,6 +88,12 @@ public class Navigator extends PeriodicTask implements Sendable, LiveWindowSenda
 
             //Append the position
             location = location.add(velocity.multiply(timeSeconds));
+            
+            //Optimization: Correct for accelerometer drift by setting velocity
+            //to zero if the encoders say that it is zero
+            if(leftEncoder.getStopped() && rightEncoder.getStopped()) {
+                velocity = new Vec2(0, 0);
+            }
         }
 
     }
