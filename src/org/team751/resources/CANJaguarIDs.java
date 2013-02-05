@@ -33,6 +33,15 @@ public class CANJaguarIDs {
      */
     public static final int COW_FRONT = 6;
     
+    /**
+     * Jaguar for the slower shooter wheel that the disk contacts first
+     */
+    public static final int SHOOTER_FIRST = 7;
+    /**
+     * Jaguar for the faster shooter wheel that the disk contacts second
+     */
+    public static final int SHOOTER_SECOND = 8;
+    
     static {
         //This code block runs when the class is loaded
         //It verifies that there are no duplicate CAN IDs

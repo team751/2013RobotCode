@@ -30,6 +30,20 @@ public class Cow extends Subsystem {
      */
     private Encoder frontEncoder;
     
+    //PID constants
+    /**
+     * The proportional constant
+     */
+    private static final double kP = 0.1;
+    /**
+     * The integral constant
+     */
+    private static final double kI = 0;
+    /**
+     * The derivative constant
+     */
+    private static final double kD = 0;
+    
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
     
@@ -55,6 +69,12 @@ public class Cow extends Subsystem {
     private void configJaguars() throws CANTimeoutException {
         rearMotor.changeControlMode(CANJaguar.ControlMode.kPosition);
         frontMotor.changeControlMode(CANJaguar.ControlMode.kPosition);
+        
+        rearMotor.setPID(kP, kI, kD);
+        frontMotor.setPID(kP, kI, kD);
+        
+        rearMotor.enableControl();
+        frontMotor.enableControl();
     }
 
     public void initDefaultCommand() {

@@ -22,6 +22,12 @@ public class ShooterWheels extends Subsystem {
      */
     private CANJaguar secondMotor;
     
+    /*
+     * Initially, the encoders will be connected to the Jaguars. This might change.
+     * Instead of using PID for speed control, we will initially be using our
+     * own system on the cRIO.
+     */
+    
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 
@@ -29,6 +35,8 @@ public class ShooterWheels extends Subsystem {
         try {
             firstMotor = new CANJaguar(CANJaguarIDs.SHOOTER_FIRST);
             secondMotor = new CANJaguar(CANJaguarIDs.SHOOTER_SECOND);
+            
+            configJaguars();
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }
@@ -38,18 +46,20 @@ public class ShooterWheels extends Subsystem {
     /**
      * Configure the Jaguars to use PID. This should be called after any Jaguar
      * restarts.
-     * @throws CANTimeoutException 
+     * @throws CANTimeoutException if an exception was encountered
      */
     private void configJaguars() throws CANTimeoutException {
-        
-        firstMotor.changeControlMode(CANJaguar.ControlMode.kSpeed);
-        secondMotor.changeControlMode(CANJaguar.ControlMode.kSpeed);
         
         //Set motors to coast
         firstMotor.configNeutralMode(CANJaguar.NeutralMode.kCoast);
         secondMotor.configNeutralMode(CANJaguar.NeutralMode.kCoast);
         
         
+        //Set the maximum ramp rate to 24 volts/second
+        //(1/2 second for a full voltage range traversal)
+        //to prevent jerkiness
+        firstMotor.setVoltageRampRate(24);
+        secondMotor.setVoltageRampRate(24);
     }
     
     public void initDefaultCommand() {
