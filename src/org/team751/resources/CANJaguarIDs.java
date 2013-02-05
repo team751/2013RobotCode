@@ -23,6 +23,16 @@ public class CANJaguarIDs {
     public static final int SR_DRIVE_RIGHT_1 = 3;
     public static final int SR_DRIVE_RIGHT_2 = 4;
     
+    /**
+     * Jaguar for the rear cow actuation
+     */
+    public static final int COW_REAR = 5;
+    
+    /**
+     * Jaguar for the front cow actuation
+     */
+    public static final int COW_FRONT = 6;
+    
     static {
         //This code block runs when the class is loaded
         //It verifies that there are no duplicate CAN IDs
