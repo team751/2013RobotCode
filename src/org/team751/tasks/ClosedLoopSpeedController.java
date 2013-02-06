@@ -1,7 +1,6 @@
-package org.team751.util;
+package org.team751.tasks;
 
-import edu.wpi.first.wpilibj.Encoder;
-import org.team751.tasks.PeriodicTask;
+import org.team751.util.SpeedSource;
 
 /**
  * Implements a controller that controls the speed of a motor based on feedback
@@ -15,7 +14,10 @@ public class ClosedLoopSpeedController extends PeriodicTask {
      */
     private volatile boolean enabled = false;
     
-    
+    /**
+     * The source that provides speed information
+     */
+    private SpeedSource source;
     
     protected void run() {
         if(enabled) {

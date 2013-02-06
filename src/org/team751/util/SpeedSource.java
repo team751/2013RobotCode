@@ -6,4 +6,10 @@ package org.team751.util;
  */
 public interface SpeedSource {
     
+    /**
+     * Get the rotational velocity of the object, in revolutions per minute
+     * @return the velocity
+     */
+    public double getRpm();
+    
 }
