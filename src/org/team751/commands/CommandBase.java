@@ -3,7 +3,6 @@ package org.team751.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import org.team751.OI;
 import org.team751.subsystems.Drivetrain;
-import org.team751.subsystems.ExampleSubsystem;
 import org.team751.tasks.Navigator;
 import org.team751.util.OnBoardDiagnostics;
 
@@ -17,7 +16,6 @@ public abstract class CommandBase extends Command {
 
     public static OI oi;
     // Create a single static instance of all of your subsystems
-    public static ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
     public static Drivetrain driveTrain = new Drivetrain();
     
     //Periodic tasks here (these are not subsystems)
