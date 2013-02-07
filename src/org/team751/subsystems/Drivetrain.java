@@ -116,16 +116,4 @@ public class Drivetrain extends Subsystem {
         }
         
     };
-    
-    /**
-     * A PID output used to move forwards or back
-     */
-    public final PIDOutput straightPidOutput = new PIDOutput() {
-
-        public void pidWrite(double d) {
-            //Arcade drive with the given move value
-            arcadeDrive(d, 0);
-        }
-        
-    };
 }
