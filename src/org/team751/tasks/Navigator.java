@@ -41,6 +41,16 @@ public class Navigator extends PeriodicTask implements Sendable, LiveWindowSenda
      * The location of the robot, in meters
      */
     private volatile Vec2 location = new Vec2();
+    
+    /**
+     * The distance in meters that the robot has traveled forward, according to
+     * the drivetrain encoders. This is the average of the left encoder distance
+     * and the right encoder distance.
+     * Note: Each encoder must have been configured with the correct distance per
+     * pulse in meters.
+     */
+    private volatile double encoderDistance = 0;
+    
     /**
      * The timestamp, in milliseconds, at which processing started for the
      * previous call to {@link #run()}. This timing is used to calculate
@@ -94,6 +104,9 @@ public class Navigator extends PeriodicTask implements Sendable, LiveWindowSenda
             if(leftEncoder.getStopped() && rightEncoder.getStopped()) {
                 velocity = new Vec2(0, 0);
             }
+            
+            //Update the encoder distance
+            encoderDistance = (leftEncoder.getDistance() + rightEncoder.getDistance()) / 2.0;
         }
 
     }
@@ -121,6 +134,24 @@ public class Navigator extends PeriodicTask implements Sendable, LiveWindowSenda
      */
     public synchronized double getY() {
         return location.getY();
+    }
+    
+    /**
+     * Get the distance, in meters, that the robot has moved forwards or backwards
+     * since the last call to {@link #resetEncoderDistance()}.
+     * @return The distance in meters
+     */
+    public synchronized double getEncoderDistance() {
+        return encoderDistance;
+    }
+    
+    /**
+     * Reset the encoder distance, returned by {@link #getEncoderDistance()},
+     * to zero.
+     */
+    public synchronized void resetEncoderDistance() {
+        leftEncoder.reset();
+        rightEncoder.reset();
     }
     
     //SmartDashboard/Live Window support section
