@@ -206,10 +206,11 @@ public class Navigator extends PeriodicTask implements Sendable, LiveWindowSenda
         
     };
     
-    public final PIDSource movePidSource = new PIDSource() {
+    public final PIDSource movementPidSource = new PIDSource() {
+        
         public double pidGet() {
             synchronized(Navigator.this) {
-                return getY();
+                return getEncoderDistance();
             }
         }
         

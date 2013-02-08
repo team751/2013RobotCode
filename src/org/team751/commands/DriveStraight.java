@@ -2,6 +2,7 @@ package org.team751.commands;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
+import org.team751.PIDConstants;
 
 /**
  * Drives the robot, using PID and the drivetrain encoders, forward or back
@@ -19,11 +20,6 @@ public class DriveStraight extends CommandBase {
     private PIDController moveController;
     private PIDController rotateController;
     
-    //PID constants
-    private static final double kP = 0.05;
-    private static final double kI = 0;
-    private static final double kD = 0;
-    
     /**
      * Constructor
      * @param meters The distance in meters (forward is positive) that the robot
@@ -32,11 +28,30 @@ public class DriveStraight extends CommandBase {
     public DriveStraight(double meters) {
         requires(driveTrain);
         
-        moveController = new PIDController(kP, kI, kD, navigator., moveOutput)
+        moveController = new PIDController(PIDConstants.DRIVE_MOVE_P, PIDConstants.DRIVE_MOVE_I, PIDConstants.DRIVE_MOVE_D, navigator.movementPidSource, moveOutput);
+        rotateController = new PIDController(PIDConstants.DRIVE_ROTATE_P, PIDConstants.DRIVE_ROTATE_I, PIDConstants.DRIVE_ROTATE_D, navigator.headingPidSource, rotateOutput);
+    
+        //For testing: set to timeout after 10 seconds
+        setTimeout(10);
+        
+        //Configure on-target tolerance for move PID
+        moveController.setPercentTolerance(10);
+        
+        //Set the controller setpoints
+        moveController.setSetpoint(meters);
+            //(no rotation)
+        rotateController.setSetpoint(0);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+        
+        //Ensure that the Navigator currently returns an encoder position of 0
+        navigator.resetEncoderDistance();
+        
+        //Enable the controllers
+        moveController.enable();
+        rotateController.enable();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -46,16 +61,26 @@ public class DriveStraight extends CommandBase {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        //Finished if the move has been completed or if the command has timed out
+        return moveController.onTarget() || isTimedOut();
     }
 
     // Called once after isFinished returns true
     protected void end() {
+        //Disable and free the controllers
+        moveController.disable();
+        rotateController.disable();
+        moveController.free();
+        rotateController.free();
+        
+        //Ensure that the drivetrain is commanded to stop
+        driveTrain.arcadeDrive(0, 0);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+        end();
     }
     
     //These PIDSources are used to receive information on what driving

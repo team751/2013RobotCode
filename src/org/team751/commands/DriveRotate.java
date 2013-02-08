@@ -12,12 +12,6 @@ public class DriveRotate extends CommandBase {
     private PIDController controller;
     
     /**
-     * The timestamp, as returned by {@link System#currentTimeMillis()}, when
-     * the command has started
-     */
-    private long startTime = 0;
-    
-    /**
      * Constructor
      * @param degreesToTurn The number of degreesToTurn to turn. Right is positive.
      */
@@ -25,14 +19,15 @@ public class DriveRotate extends CommandBase {
         requires(driveTrain);
         
         controller = new PIDController(0.01, 0, 0, navigator.headingPidSource, driveTrain.turningPidOutput);
-        controller.setPercentTolerance(20);
+        controller.setPercentTolerance(10);
         
         controller.setSetpoint(navigator.getHeading() + degreesToTurn);
+        
+        setTimeout(1);
     }
     
     protected void initialize() {
-        //Set the started time to now
-        startTime = System.currentTimeMillis();
+        
         controller.enable();
     }
 
@@ -45,8 +40,7 @@ public class DriveRotate extends CommandBase {
         
         if(controller.onTarget()) return true;
         
-        //timeout after 1000 ms (1 second)
-        if(System.currentTimeMillis() - startTime > 1000) return true;
+        if(isTimedOut()) return true;
         
         return false;
     }
