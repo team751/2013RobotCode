@@ -1,6 +1,7 @@
 package org.team751.subsystems;
 
 import edu.wpi.first.wpilibj.CANJaguar;
+import edu.wpi.first.wpilibj.MotorSafety;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
@@ -63,10 +64,10 @@ public class Drivetrain extends Subsystem {
         //until after 1 second of non-response.
 
         try {
-            ((CANJaguar) left1).setExpiration(1);
-            ((CANJaguar) left2).setExpiration(1);
-            ((CANJaguar) right1).setExpiration(1);
-            ((CANJaguar) right2).setExpiration(1);
+            ((MotorSafety) left1).setExpiration(1);
+            ((MotorSafety) left2).setExpiration(1);
+            ((MotorSafety) right1).setExpiration(1);
+            ((MotorSafety) right2).setExpiration(1);
         } catch (ClassCastException e) {
         }
         
