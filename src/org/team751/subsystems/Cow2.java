@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.CANJaguar;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.team751.resources.CANJaguarIDs;
+import org.team751.util.LimitSwitch;
 
 /**
  * Manages the second, simpler, revision of the cow
@@ -11,6 +12,9 @@ import org.team751.resources.CANJaguarIDs;
  */
 public class Cow2 extends Subsystem {
 
+    /**
+     * The Jaguar used to control rotation
+     */
     private CANJaguar rotationMotor;
     
     private static final double kP = 0.05;
@@ -19,11 +23,21 @@ public class Cow2 extends Subsystem {
     
     private static final double kD = 0;
     
+    
+    private LimitSwitch position0Switch;
+    
+    private LimitSwitch position1Switch;
+    
+    private LimitSwitch position2Switch;
+    
+    private LimitSwitch position3Switch;
+    
     /**
      * The Position that is currently targeted
      */
     private Position targetPosition = Position.kShoot0;
     
+    //<editor-fold defaultstate="collapsed" desc="Position enumeration">
     /**
      * Enumerates different positions to which the cow can be set.
      * 
@@ -91,6 +105,7 @@ public class Cow2 extends Subsystem {
          */
         double getEncoderValue() { return encoderValue; }
     }
+    //</editor-fold>
     
     public Cow2() {
         try {
