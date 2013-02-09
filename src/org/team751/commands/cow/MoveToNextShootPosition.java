@@ -2,6 +2,8 @@ package org.team751.commands.cow;
 
 import org.team751.commands.CommandBase;
 import org.team751.subsystems.Cow2;
+import org.team751.subsystems.Cow2.Position;
+import org.team751.util.cow.CowShootPositionFinder;
 
 /**
  * Moves the cow to the next (closest) open position for shooting.
@@ -10,13 +12,7 @@ import org.team751.subsystems.Cow2;
  * @author Sam Crow
  */
 public class MoveToNextShootPosition extends CommandBase {
-    
-    /**
-     * The position to move to. This is set when the command is initialized
-     * based on the disk status.
-     */
-    private Cow2.Position targetPosition;
-    
+
     public MoveToNextShootPosition() {
         requires(cow);
     }
@@ -24,6 +20,9 @@ public class MoveToNextShootPosition extends CommandBase {
     // Called just before this Command runs the first time
     protected void initialize() {
         //Choose the best position to move to
+		Position targetPosition = new CowShootPositionFinder(cow.getOccupationStatus(), cow.getTargetPosition()).getClosestPosition();
+
+		cow.setTargetPosition(targetPosition);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -32,7 +31,7 @@ public class MoveToNextShootPosition extends CommandBase {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return cow.isInPosition();
     }
 
     // Called once after isFinished returns true
