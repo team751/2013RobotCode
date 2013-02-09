@@ -10,7 +10,7 @@ import com.sun.squawk.Klass;
 public class DigitalChannels {
     
     /**
-     * The number of analog channels that are available on this module
+     * The number of channels that are available on this module
      */
     private static final int CHANNEL_COUNT = 14;
     
@@ -21,16 +21,64 @@ public class DigitalChannels {
     
     //Begin actual channel assignments
     
+    //Drivetrain
     /**
      * Drivetrain, left side, encoder channel A
      */
     public static final int DRIVE_LEFT_ENCODER_A = 1;
-    
+    /**
+     * Drivetrain, left side, encoder channel B
+     */
     public static final int DRIVE_LEFT_ENCODER_B = 2;
-    
+    /**
+     * Drivetrain, right side, encoder channel A
+     */
     public static final int DRIVE_RIGHT_ENCODER_A = 3;
-    
+    /**
+     * Drivetrain, right side, encoder channel B
+     */
     public static final int DRIVE_RIGHT_ENCODER_B = 4;
+    
+    //Shooter
+    /**
+     * Shooter, first (slower) wheel, encoder channel A
+     */
+    public static final int SHOOTER_FIRST_ENCODER_A = 5;
+    /**
+     * Shooter, first (slower) wheel, encoder channel B
+     */
+    public static final int SHOOTER_FIRST_ENCODER_B = 6;
+    /**
+     * Shooter, second (faster) wheel, encoder channel A
+     */
+    public static final int SHOOTER_SECOND_ENCODER_A = 7;
+    /**
+     * Shooter, second (faster) wheel, encoder channel B
+     */
+    public static final int SHOOTER_SECOND_ENCODER_B = 8;
+    
+    
+    //Cow
+    
+    //Cow rotation encoder and rotation limit switches (4 channels total)
+    //are connected to the Jaguar
+    
+    /**
+     * Cow position 0 limit switch
+     */
+    public static final int COW_POSITION_0 = 9;
+    /**
+     * Cow position 1 limit switch
+     */
+    public static final int COW_POSITION_1 = 10;
+    /**
+     * Cow position 2 limit switch
+     */
+    public static final int COW_POSITION_2 = 11;
+    /**
+     * Cow position 3 limit switch
+     */
+    public static final int COW_POSITION_3 = 12;
     
     static {
         //Confirm that there are no duplicate channels assigned
