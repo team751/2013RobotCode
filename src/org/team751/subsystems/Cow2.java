@@ -209,6 +209,14 @@ public class Cow2 extends Subsystem {
         }
     }
     
+    /**
+     * Get the current target position
+     * @return the target position
+     */
+    public Position getTargetPosition() {
+        return targetPosition;
+    }
+    
     protected void initDefaultCommand() {
     }
     
