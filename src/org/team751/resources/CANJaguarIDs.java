@@ -23,24 +23,16 @@ public class CANJaguarIDs {
     public static final int SR_DRIVE_RIGHT_1 = 3;
     public static final int SR_DRIVE_RIGHT_2 = 4;
     
-    /**
-     * Jaguar for the rear cow actuation
-     */
-    public static final int COW_REAR = 5;
-    
-    /**
-     * Jaguar for the front cow actuation
-     */
-    public static final int COW_FRONT = 6;
+    public static final int COW_ROTATE = 5;
     
     /**
      * Jaguar for the slower shooter wheel that the disk contacts first
      */
-    public static final int SHOOTER_FIRST = 7;
+    public static final int SHOOTER_FIRST = 6;
     /**
      * Jaguar for the faster shooter wheel that the disk contacts second
      */
-    public static final int SHOOTER_SECOND = 8;
+    public static final int SHOOTER_SECOND = 7;
     
     static {
         //This code block runs when the class is loaded
