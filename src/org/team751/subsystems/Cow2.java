@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.CANJaguar;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.team751.resources.CANJaguarIDs;
+import org.team751.resources.DigitalChannels;
 import org.team751.util.LimitSwitch;
 
 /**
@@ -23,14 +24,22 @@ public class Cow2 extends Subsystem {
     
     private static final double kD = 0;
     
-    
-    private LimitSwitch position0Switch;
-    
-    private LimitSwitch position1Switch;
-    
-    private LimitSwitch position2Switch;
-    
-    private LimitSwitch position3Switch;
+    /**
+     * Limit switch for detecting a disk in position 0
+     */
+    private LimitSwitch position0Switch = new LimitSwitch(DigitalChannels.COW_POSITION_0);
+    /**
+     * Limit switch for detecting a disk in position 1
+     */
+    private LimitSwitch position1Switch = new LimitSwitch(DigitalChannels.COW_POSITION_1);
+    /**
+     * Limit switch for detecting a disk in position 2
+     */
+    private LimitSwitch position2Switch = new LimitSwitch(DigitalChannels.COW_POSITION_2);
+    /**
+     * Limit switch for detecting a disk in position 3
+     */
+    private LimitSwitch position3Switch = new LimitSwitch(DigitalChannels.COW_POSITION_3);
     
     /**
      * The Position that is currently targeted
@@ -147,6 +156,57 @@ public class Cow2 extends Subsystem {
         rotationMotor.setX(0);
         
         rotationMotor.enableControl();
+    }
+    
+    /**
+     * Determine if a disk is in position 0
+     * @return true if a disk is present, otherwise false
+     */
+    public boolean position0Filled() {
+        return position0Switch.isPressed();
+    }
+    /**
+     * Determine if a disk is in position 1
+     * @return true if a disk is present, otherwise false
+     */
+    public boolean position1Filled() {
+        return position1Switch.isPressed();
+    }
+    /**
+     * Determine if a disk is in position 2
+     * @return true if a disk is present, otherwise false
+     */
+    public boolean position2Filled() {
+        return position2Switch.isPressed();
+    }
+    /**
+     * Determine if a disk is in position 3
+     * @return true if a disk is present, otherwise false
+     */
+    public boolean position3Filled() {
+        return position3Switch.isPressed();
+    }
+    
+    /**
+     * Determine if the Cow rotation is in the position set by
+     * {@link #setTargetPosition(org.team751.subsystems.Cow2.Position)}.
+     * @return True if the Cow is in position, otherwise false
+     */
+    public boolean isInPosition() {
+        
+        double target = targetPosition.getEncoderValue();
+        try {
+            double actual = rotationMotor.getPosition();
+            
+            double difference = Math.abs(target - actual);
+            
+            //True if the position is within this many encoder counts of the target
+            return difference < 10;
+            
+        } catch (CANTimeoutException ex) {
+            ex.printStackTrace();
+            return false;
+        }
     }
     
     protected void initDefaultCommand() {
