@@ -1,8 +1,9 @@
-package org.team751.commands;
+package org.team751.commands.drivetrain;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import org.team751.PIDConstants;
+import org.team751.commands.CommandBase;
 
 /**
  * Drives the robot, using PID and the drivetrain encoders, forward or back
