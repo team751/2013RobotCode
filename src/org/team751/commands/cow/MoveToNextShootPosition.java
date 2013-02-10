@@ -9,7 +9,7 @@ import org.team751.util.cow.NoCowPositionException;
 /**
  * Moves the cow to the next (closest) open position for shooting.
  * This command finishes when the cow is in position.
- * If no disk slot has a disk in it, this command finishes immediately.
+ * If no stomach has a disk in it, this command finishes immediately.
  * @author Sam Crow
  */
 public class MoveToNextShootPosition extends CommandBase {

@@ -66,19 +66,19 @@ public class DigitalChannels {
     /**
      * Cow position 0 limit switch
      */
-    public static final int COW_POSITION_0 = 9;
+    public static final int COW_STOMACH_0 = 9;
     /**
      * Cow position 1 limit switch
      */
-    public static final int COW_POSITION_1 = 10;
+    public static final int COW_STOMACH_1 = 10;
     /**
      * Cow position 2 limit switch
      */
-    public static final int COW_POSITION_2 = 11;
+    public static final int COW_STOMACH_2 = 11;
     /**
      * Cow position 3 limit switch
      */
-    public static final int COW_POSITION_3 = 12;
+    public static final int COW_STOMACH_3 = 12;
     
     static {
         //Confirm that there are no duplicate channels assigned

@@ -3,7 +3,7 @@ package org.team751.util.cow;
 import org.team751.subsystems.Cow2;
 
 /**
- * An interface for a class that, based on a {@link CowOccupationStatus}, can
+ * An interface for a class that, based on a {@link CowStomachStatus}, can
  * choose the best position to move the cow to to load or shoot.
  * @author Sam Crow
  */
@@ -23,6 +23,6 @@ public interface CowPositionFinder {
 	 * contains a disk.
      */
     public Cow2.Position getClosestPosition
-			(final CowOccupationStatus status, final Cow2.Position currentPosition)
+			(final CowStomachStatus status, final Cow2.Position currentPosition)
 			throws NoCowPositionException;
 }

@@ -8,13 +8,13 @@ import org.team751.subsystems.Cow2.Position;
  */
 public class CowShootPositionFinder implements CowPositionFinder {
 
-	public Position getClosestPosition(final CowOccupationStatus status,
+	public Position getClosestPosition(final CowStomachStatus status,
 									   final Position currentPosition) throws NoCowPositionException {
 		
 		//Throw an exception if no slot has a disk in it
-		if(!status.isAnyOccupied()) {
+		if(!status.isAnyFull()) {
 			throw new NoCowPositionException(
-					NoCowPositionException.Cause.kSlotsEmpty);
+					NoCowPositionException.Cause.kStomachsEmpty);
 		}
 		
 		//Find the best position to move to
@@ -25,29 +25,29 @@ public class CowShootPositionFinder implements CowPositionFinder {
         if(currentPosition == Position.kLoad0 || currentPosition == Position.kLoad1
                 || currentPosition == Position.kLoad2 || currentPosition == Position.kLoad3) {
             //Best case: kShoot3
-            if(status.slot3) {
+            if(status.stomach3) {
                 return Position.kShoot3;
             }
-            if(status.slot2) {
+            if(status.stomach2) {
                 return Position.kShoot2;
             }
-            if(status.slot1) {
+            if(status.stomach1) {
                 return Position.kShoot1;
             }
-            if(status.slot0) {
+            if(status.stomach0) {
                 return Position.kShoot0;
             }
         }
 
         //If currently in shoot3 position, closest shoot positions are 2, then 1, then 0
         if(currentPosition == Position.kShoot3) {
-            if(status.slot2) {
+            if(status.stomach2) {
 				return Position.kShoot2;
             }
-            if(status.slot1) {
+            if(status.stomach1) {
                 return Position.kShoot1;
             }
-            if(status.slot0) {
+            if(status.stomach0) {
                 return Position.kShoot0;
             }
         }
@@ -55,13 +55,13 @@ public class CowShootPositionFinder implements CowPositionFinder {
         //If currently in shoot2 position, closest shoot positions are {1 and 3}, then 0
 		if(currentPosition == Position.kShoot2) {
 			//Arbitrarily prioritize slot 1 over 3, because it is more central
-			if(status.slot1) {
+			if(status.stomach1) {
 				return Position.kShoot1;
 			}
-			if(status.slot3) {
+			if(status.stomach3) {
 				return Position.kShoot3;
 			}
-			if(status.slot0) {
+			if(status.stomach0) {
 				return Position.kShoot0;
 			}
 		}
@@ -69,27 +69,27 @@ public class CowShootPositionFinder implements CowPositionFinder {
 		//If currently in shoot1 position, closest shoot positions are {0 and 2}, then 3
 		if(currentPosition == Position.kShoot1) {
 			//Prefer position 2, because it is more central
-			if(status.slot2) {
+			if(status.stomach2) {
 				return Position.kShoot2;
 			}
-			if(status.slot0) {
+			if(status.stomach0) {
 				return Position.kShoot0;
 			}
 
-			if(status.slot3) {
+			if(status.stomach3) {
 				return Position.kShoot3;
 			}
 		}
 
 		//If currently in shoot0 position, preference is 1, then 2, and so on
 		if(currentPosition == Position.kShoot0) {
-			if(status.slot1) {
+			if(status.stomach1) {
 				return Position.kShoot1;
 			}
-			if(status.slot2) {
+			if(status.stomach2) {
 				return Position.kShoot2;
 			}
-			if(status.slot3) {
+			if(status.stomach3) {
 				return Position.kShoot3;
 			}
 		}

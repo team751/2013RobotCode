@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import org.team751.resources.CANJaguarIDs;
 import org.team751.resources.DigitalChannels;
 import org.team751.util.LimitSwitch;
-import org.team751.util.cow.CowOccupationStatus;
+import org.team751.util.cow.CowStomachStatus;
 
 /**
  * Manages the second, simpler, revision of the cow
@@ -26,21 +26,21 @@ public class Cow2 extends Subsystem {
     private static final double kD = 0;
 
     /**
-     * Limit switch for detecting a disk in position 0
+     * Limit switch for detecting a disk in stomach 0
      */
-    private LimitSwitch position0Switch = new LimitSwitch(DigitalChannels.COW_POSITION_0);
+    private LimitSwitch stomach0Switch = new LimitSwitch(DigitalChannels.COW_STOMACH_0);
     /**
-     * Limit switch for detecting a disk in position 1
+     * Limit switch for detecting a disk in stomach 1
      */
-    private LimitSwitch position1Switch = new LimitSwitch(DigitalChannels.COW_POSITION_1);
+    private LimitSwitch stomach1Switch = new LimitSwitch(DigitalChannels.COW_STOMACH_1);
     /**
-     * Limit switch for detecting a disk in position 2
+     * Limit switch for detecting a disk in stomach 2
      */
-    private LimitSwitch position2Switch = new LimitSwitch(DigitalChannels.COW_POSITION_2);
+    private LimitSwitch stomach2Switch = new LimitSwitch(DigitalChannels.COW_STOMACH_2);
     /**
-     * Limit switch for detecting a disk in position 3
+     * Limit switch for detecting a disk in stomach 3
      */
-    private LimitSwitch position3Switch = new LimitSwitch(DigitalChannels.COW_POSITION_3);
+    private LimitSwitch stomach3Switch = new LimitSwitch(DigitalChannels.COW_STOMACH_3);
 
     /**
      * The Position that is currently targeted
@@ -70,36 +70,36 @@ public class Cow2 extends Subsystem {
         private double encoderValue = 0;
 
         /**
-         * Position for loading into slot 0. (Slot 0 is at the bottom).
+         * Position for loading into stomach 0. (stomach 0 is at the bottom).
          */
         public static final Position kLoad0 = new Position(100);
         /**
-         * Position for loading into slot 1.
+         * Position for loading into stomach 1.
          */
         public static final Position kLoad1 = new Position(115);
         /**
-         * Position for loading into slot 2.
+         * Position for loading into stomach 2.
          */
         public static final Position kLoad2 = new Position(130);
         /**
-         * Position for loading into slot 3. (Slot 3 is at the top)
+         * Position for loading into stomach 3. (stomach 3 is at the top)
          */
         public static final Position kLoad3 = new Position(145);
 
         /**
-         * Position for shooting from slot 0. (Slot 0 is at the top)
+         * Position for shooting from stomach 0. (stomach 0 is at the top)
          */
         public static final Position kShoot0 = new Position(0);
         /**
-         * Position for shooting from slot 1.
+         * Position for shooting from stomach 1.
          */
         public static final Position kShoot1 = new Position(15);
         /**
-         * Position for shooting from slot 2.
+         * Position for shooting from stomach 2.
          */
         public static final Position kShoot2 = new Position(30);
         /**
-         * Position for shooting from slot 3. (Slot 3 is at the bottom).
+         * Position for shooting from stomach 3. (stomach 3 is at the bottom).
          */
         public static final Position kShoot3 = new Position(45);
 
@@ -163,29 +163,29 @@ public class Cow2 extends Subsystem {
      * Determine if a disk is in position 0
      * @return true if a disk is present, otherwise false
      */
-    public boolean position0Filled() {
-        return position0Switch.isPressed();
+    public boolean isStomach0Full() {
+        return stomach0Switch.isPressed();
     }
     /**
      * Determine if a disk is in position 1
      * @return true if a disk is present, otherwise false
      */
-    public boolean position1Filled() {
-        return position1Switch.isPressed();
+    public boolean isStomach1Full() {
+        return stomach1Switch.isPressed();
     }
     /**
      * Determine if a disk is in position 2
      * @return true if a disk is present, otherwise false
      */
-    public boolean position2Filled() {
-        return position2Switch.isPressed();
+    public boolean isStomach2Full() {
+        return stomach2Switch.isPressed();
     }
     /**
      * Determine if a disk is in position 3
      * @return true if a disk is present, otherwise false
      */
-    public boolean position3Filled() {
-        return position3Switch.isPressed();
+    public boolean isStomach3Full() {
+        return stomach3Switch.isPressed();
     }
 
 	/**
@@ -193,8 +193,8 @@ public class Cow2 extends Subsystem {
 	 * occupied.
 	 * @return the current occupation status
 	 */
-	public CowOccupationStatus getOccupationStatus() {
-		return new CowOccupationStatus(position0Filled(), position1Filled(), position2Filled(), position3Filled());
+	public CowStomachStatus getOccupationStatus() {
+		return new CowStomachStatus(isStomach0Full(), isStomach1Full(), isStomach2Full(), isStomach3Full());
 	}
 
     /**

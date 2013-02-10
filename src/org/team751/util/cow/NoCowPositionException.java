@@ -13,13 +13,13 @@ public class NoCowPositionException extends Exception {
 	public static class Cause {
 		
 		/**
-		 * All the disk slots are full, and this is a problem
+		 * All the stomachs are full, and this is a problem
 		 */
-		public static final Cause kSlotsFull = new Cause();
+		public static final Cause kStomachsFull = new Cause();
 		/**
-		 * All the disk slots are empty, and this is a problem
+		 * All the stomachs are empty, and this is a problem
 		 */
-		public static final Cause kSlotsEmpty = new Cause();
+		public static final Cause kStomachsEmpty = new Cause();
 		/**
 		 * The cow position finder algorithm encountered an internal problem
 		 */
