@@ -11,6 +11,11 @@ public class CowLoadPositionFinder implements CowPositionFinder {
 	public Position getClosestPosition(final CowStomachStatus status,
 									   final Position currentPosition) throws NoCowPositionException {
 		
+		//If the current position works, say so
+		if(isCurrentPositionGood(status, currentPosition)) {
+			return currentPosition;
+		}
+		
 		//If all the stomachs are full, throw an exception saying so.
 		if(status.areAllFull()) {
 			throw new NoCowPositionException(
@@ -95,4 +100,21 @@ public class CowLoadPositionFinder implements CowPositionFinder {
 		throw new NoCowPositionException(NoCowPositionException.Cause.kAlgorithmError);
 	}
 
+	/**
+	 * Determine if the current cow target position fulfills the requirements
+	 * of this position finder (if it is not full)
+	 * @param status The status
+	 * @param currentPosition The current position to check
+	 * @return true if the position is suitable, otherwise false
+	 */
+	private boolean isCurrentPositionGood(final CowStomachStatus status, final Position currentPosition) {
+		
+		if(currentPosition == Position.kLoad0 && !status.stomach0) return true;
+		if(currentPosition == Position.kLoad1 && !status.stomach1) return true;
+		if(currentPosition == Position.kLoad2 && !status.stomach2) return true;
+		if(currentPosition == Position.kLoad3 && !status.stomach3) return true;
+		
+		return false;
+	}
+	
 }
