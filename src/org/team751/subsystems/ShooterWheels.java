@@ -1,6 +1,7 @@
 package org.team751.subsystems;
 
 import edu.wpi.first.wpilibj.CANJaguar;
+import edu.wpi.first.wpilibj.CounterBase;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -29,13 +30,26 @@ public class ShooterWheels extends Subsystem {
     /**
      * The encoder that monitors the first wheel
      */
-    private Encoder firstEncoder = new Encoder(DigitalChannels.SHOOTER_FIRST_ENCODER_A, DigitalChannels.SHOOTER_FIRST_ENCODER_B);
+    private Encoder firstEncoder = new Encoder(DigitalChannels.SHOOTER_FIRST_ENCODER_A, DigitalChannels.SHOOTER_FIRST_ENCODER_B, false, CounterBase.EncodingType.k1X);
     /**
      * The encoder that monitors the second wheel
      */
-    private Encoder secondEncoder = new Encoder(DigitalChannels.SHOOTER_SECOND_ENCODER_A, DigitalChannels.SHOOTER_SECOND_ENCODER_B);
+    private Encoder secondEncoder = new Encoder(DigitalChannels.SHOOTER_SECOND_ENCODER_A, DigitalChannels.SHOOTER_SECOND_ENCODER_B, false, CounterBase.EncodingType.k1X);
     
     //Set speed stuff
+    
+    /**
+     * The target speed of the first (slower) wheel, compared to the speed
+     * of the second (faster) wheel
+     */
+    private static final double FIRST_WHEEL_SPEED_RATIO = 0.8;
+    
+    /**
+     * The maximum speed, in RPM, of the second (faster) wheel
+     */
+    private static final double MAXIMUM_SPEED = 4000;
+    
+    
    
     //Speed controllers
     
@@ -77,6 +91,20 @@ public class ShooterWheels extends Subsystem {
     public void disable() {
         firstController.disable();
         secondController.disable();
+    }
+    
+    /**
+     * Set the speed of the shooter wheels
+     * @param ratio The desired speed, from 0 to 1
+     */
+    public void setSpeed(double ratio) {
+        if(ratio < 0 || ratio > 1) throw new IllegalArgumentException("Ratio must be from 0 to 1");
+        
+        double secondTarget = MAXIMUM_SPEED * ratio;
+        double firstTarget = secondTarget * FIRST_WHEEL_SPEED_RATIO;
+        
+        firstController.setTargetRpm(firstTarget);
+        secondController.setTargetRpm(secondTarget);
     }
     
     /**
