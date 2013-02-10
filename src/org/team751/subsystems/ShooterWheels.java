@@ -1,9 +1,13 @@
 package org.team751.subsystems;
 
 import edu.wpi.first.wpilibj.CANJaguar;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.team751.resources.CANJaguarIDs;
+import org.team751.resources.DigitalChannels;
+import org.team751.tasks.ClosedLoopSpeedController;
+import org.team751.util.EncoderSpeedSource;
 
 /**
  * A Subsystem that includes the shooter wheels and sensors for measuring their
@@ -22,14 +26,22 @@ public class ShooterWheels extends Subsystem {
      */
     private CANJaguar secondMotor;
     
-    /*
-     * Initially, the encoders will be connected to the Jaguars. This might change.
-     * Instead of using PID for speed control, we will initially be using our
-     * own system on the cRIO.
+    /**
+     * The encoder that monitors the first wheel
      */
+    private Encoder firstEncoder = new Encoder(DigitalChannels.SHOOTER_FIRST_ENCODER_A, DigitalChannels.SHOOTER_FIRST_ENCODER_B);
+    /**
+     * The encoder that monitors the second wheel
+     */
+    private Encoder secondEncoder = new Encoder(DigitalChannels.SHOOTER_SECOND_ENCODER_A, DigitalChannels.SHOOTER_SECOND_ENCODER_B);
     
-    // Put methods for controlling this subsystem
-    // here. Call these from Commands.
+    //Set speed stuff
+   
+    //Speed controllers
+    
+    private ClosedLoopSpeedController firstController;
+    
+    private ClosedLoopSpeedController secondController;
 
     public ShooterWheels() {
         try {
@@ -37,10 +49,34 @@ public class ShooterWheels extends Subsystem {
             secondMotor = new CANJaguar(CANJaguarIDs.SHOOTER_SECOND);
             
             configJaguars();
+            
+            firstController = new ClosedLoopSpeedController(new EncoderSpeedSource(firstEncoder), firstMotor);
+            secondController = new ClosedLoopSpeedController(new EncoderSpeedSource(secondEncoder), secondMotor);
+            
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }
         
+    }
+    
+    /**
+     * Enable the shooter wheels. If the speed has been set to anything
+     * greater than zero, the wheels will spin.
+     */
+    public void enable() {
+        firstController.start();
+        firstController.enable();
+        
+        secondController.start();
+        secondController.enable();
+    }
+    
+    /**
+     * Disable the shooter wheels. They will stop after they spin down.
+     */
+    public void disable() {
+        firstController.disable();
+        secondController.disable();
     }
     
     /**

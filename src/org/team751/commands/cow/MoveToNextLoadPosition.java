@@ -1,22 +1,21 @@
 package org.team751.commands.cow;
 
 import org.team751.commands.CommandBase;
-import org.team751.subsystems.Cow2;
 import org.team751.subsystems.Cow2.Position;
-import org.team751.util.cow.CowShootPositionFinder;
+import org.team751.util.cow.CowLoadPositionFinder;
 import org.team751.util.cow.NoCowPositionException;
 
 /**
- * Moves the cow to the next (closest) open position for shooting. This command
- * finishes when the cow is in position. If no stomach has a disk in it, this
+ * Moves the cow to the next (closest) open position for loading. This command
+ * finishes when the cow is in position. If no stomach is empty, this
  * command finishes immediately.
  *
  * @author Sam Crow
  */
-public class MoveToNextShootPosition extends CommandBase {
+public class MoveToNextLoadPosition extends CommandBase {
 
     
-    public MoveToNextShootPosition() {
+    public MoveToNextLoadPosition() {
         requires(cow);
     }
 
@@ -26,7 +25,7 @@ public class MoveToNextShootPosition extends CommandBase {
         Position targetPosition = null;
         try {
             targetPosition =
-                new CowShootPositionFinder()
+                new CowLoadPositionFinder()
                     .getClosestPosition(cow.getOccupationStatus(),
                                         cow.getTargetPosition());
             

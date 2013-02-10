@@ -27,6 +27,17 @@ public class ClosedLoopSpeedController extends PeriodicTask {
      * The target speed, in RPM
      */
     private volatile double targetRpm = 0;
+
+    /**
+     * Constructor
+     * @param source The speed source that provides the speed
+     * @param controller The speed controller used to set the speed
+     */
+    public ClosedLoopSpeedController(SpeedSource source, SpeedController controller) {
+        this.source = source;
+        this.controller = controller;
+    }
+    
     
     /**
      * Enable the controller. This will start the motor

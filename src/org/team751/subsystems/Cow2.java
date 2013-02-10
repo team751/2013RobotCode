@@ -226,6 +226,29 @@ public class Cow2 extends Subsystem {
     public Position getTargetPosition() {
         return targetPosition;
     }
+    
+    /**
+     * Disable the rotation PID. This will prevent the motor from
+     * moving.
+     */
+    public void disable() {
+        try {
+            rotationMotor.disableControl();
+        } catch (CANTimeoutException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    /**
+     * Enable the rotation PID. This will allow the motor to move.
+     */
+    public void enable() {
+        try {
+            rotationMotor.enableControl();
+        } catch (CANTimeoutException ex) {
+            ex.printStackTrace();
+        }
+    }
 
     protected void initDefaultCommand() {
     }
