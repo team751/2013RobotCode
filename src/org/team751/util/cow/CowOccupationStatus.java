@@ -46,5 +46,13 @@ public class CowOccupationStatus {
     public boolean isAnyOccupied() {
         return slot0 || slot1 || slot2 || slot3;
     }
+	
+	/**
+	 * Determine if all slots are occupied
+	 * @return true if all slots are occupied, otherwise false
+	 */
+	public boolean areAllOccupied() {
+		return slot0 && slot1 && slot2 && slot3;
+	}
     
 }

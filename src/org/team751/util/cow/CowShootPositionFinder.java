@@ -8,16 +8,16 @@ import org.team751.subsystems.Cow2.Position;
  */
 public class CowShootPositionFinder implements CowPositionFinder {
 
-    private Position closestPosition;
-
-    /**
-     * Constructor
-     * @param status The current occupation status of the cow
-     * @param currentPosition The current target position of the cow
-     */
-    public CowShootPositionFinder(CowOccupationStatus status, Position currentPosition) {
-
-        //Find the best position to move to
+	public Position getClosestPosition(final CowOccupationStatus status,
+									   final Position currentPosition) throws NoCowPositionException {
+		
+		//Throw an exception if no slot has a disk in it
+		if(!status.isAnyOccupied()) {
+			throw new NoCowPositionException(
+					NoCowPositionException.Cause.kSlotsEmpty);
+		}
+		
+		//Find the best position to move to
 
         //If currently in a loading position, the nearest position is the shooting
         //position that is rotated the least far forward.
@@ -26,35 +26,29 @@ public class CowShootPositionFinder implements CowPositionFinder {
                 || currentPosition == Position.kLoad2 || currentPosition == Position.kLoad3) {
             //Best case: kShoot3
             if(status.slot3) {
-                closestPosition = Position.kShoot3;
-                return;
+                return Position.kShoot3;
             }
             if(status.slot2) {
-                closestPosition = Position.kShoot2;
-                return;
+                return Position.kShoot2;
             }
             if(status.slot1) {
-                closestPosition = Position.kShoot1;
-                return;
+                return Position.kShoot1;
             }
             if(status.slot0) {
-                closestPosition = Position.kShoot0;
-                return;
+                return Position.kShoot0;
             }
         }
 
         //If currently in shoot3 position, closest shoot positions are 2, then 1, then 0
         if(currentPosition == Position.kShoot3) {
             if(status.slot2) {
-                closestPosition = Position.kShoot2;
-                return;
+				return Position.kShoot2;
             }
             if(status.slot1) {
-                closestPosition = Position.kShoot1;
-                return;
+                return Position.kShoot1;
             }
             if(status.slot0) {
-                closestPosition = Position.kShoot0;
+                return Position.kShoot0;
             }
         }
 
@@ -62,16 +56,13 @@ public class CowShootPositionFinder implements CowPositionFinder {
 		if(currentPosition == Position.kShoot2) {
 			//Arbitrarily prioritize slot 1 over 3, because it is more central
 			if(status.slot1) {
-				closestPosition = Position.kShoot1;
-				return;
+				return Position.kShoot1;
 			}
 			if(status.slot3) {
-				closestPosition = Position.kShoot3;
-				return;
+				return Position.kShoot3;
 			}
 			if(status.slot0) {
-				closestPosition = Position.kShoot0;
-				return;
+				return Position.kShoot0;
 			}
 		}
 
@@ -79,45 +70,32 @@ public class CowShootPositionFinder implements CowPositionFinder {
 		if(currentPosition == Position.kShoot1) {
 			//Prefer position 2, because it is more central
 			if(status.slot2) {
-				closestPosition = Position.kShoot2;
-				return;
+				return Position.kShoot2;
 			}
 			if(status.slot0) {
-				closestPosition = Position.kShoot0;
-				return;
+				return Position.kShoot0;
 			}
 
 			if(status.slot3) {
-				closestPosition = Position.kShoot3;
-				return;
+				return Position.kShoot3;
 			}
 		}
 
 		//If currently in shoot0 position, preference is 1, then 2, and so on
 		if(currentPosition == Position.kShoot0) {
 			if(status.slot1) {
-				closestPosition = Position.kShoot1;
-				return;
+				return Position.kShoot1;
 			}
 			if(status.slot2) {
-				closestPosition = Position.kShoot2;
-				return;
+				return Position.kShoot2;
 			}
 			if(status.slot3) {
-				closestPosition = Position.kShoot3;
-				return;
+				return Position.kShoot3;
 			}
 		}
-
-		//The return statements shouldn't let code execution get here.
-		System.err.println("CowShootPositionFinder: Closest position not found!");
-    }
-
-
-
-    public Position getClosestPosition() {
-
-        return closestPosition;
-    }
+		
+		//Throw a new exception indicating an algorithm error
+		throw new NoCowPositionException(NoCowPositionException.Cause.kAlgorithmError);
+	}
 
 }

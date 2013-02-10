@@ -4,6 +4,7 @@ import org.team751.commands.CommandBase;
 import org.team751.subsystems.Cow2;
 import org.team751.subsystems.Cow2.Position;
 import org.team751.util.cow.CowShootPositionFinder;
+import org.team751.util.cow.NoCowPositionException;
 
 /**
  * Moves the cow to the next (closest) open position for shooting.
@@ -20,7 +21,12 @@ public class MoveToNextShootPosition extends CommandBase {
     // Called just before this Command runs the first time
     protected void initialize() {
         //Choose the best position to move to
-		Position targetPosition = new CowShootPositionFinder(cow.getOccupationStatus(), cow.getTargetPosition()).getClosestPosition();
+		Position targetPosition = null;
+		try {
+			targetPosition = new CowShootPositionFinder().getClosestPosition(cow.getOccupationStatus(), cow.getTargetPosition());
+		} catch (NoCowPositionException ex) {
+			ex.printStackTrace();
+		}
 
 		cow.setTargetPosition(targetPosition);
     }

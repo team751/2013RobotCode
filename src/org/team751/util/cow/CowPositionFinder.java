@@ -13,7 +13,16 @@ public interface CowPositionFinder {
     /**
      * Get the closest position to move to. If two positions are equally close,
      * one may be chosen arbitrarily.
-     * @return the closest position
+	 * 
+	 * @param status The current cow slot occupancy status
+	 * @param currentPosition The current cow target position
+	 * @return the closest position
+	 * @throws NoCowPositionException if no position could be found. This might
+	 * happen when trying to find a shooting position when no slot contains
+	 * a disk, or when trying to find a loading position when every slot
+	 * contains a disk.
      */
-    public Cow2.Position getClosestPosition();
+    public Cow2.Position getClosestPosition
+			(final CowOccupationStatus status, final Cow2.Position currentPosition)
+			throws NoCowPositionException;
 }
