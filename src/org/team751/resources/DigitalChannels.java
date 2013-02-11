@@ -93,7 +93,7 @@ public class DigitalChannels {
             System.err.println((fieldCount - 3)+" digital channels are assigned! The maximum number available on this module is "+CHANNEL_COUNT);
         }
         
-        int[] usedChannels = new int[fieldCount - 1];
+        int[] usedChannels = new int[fieldCount - 3];
         
         for(int i = 0; i < fieldCount; i++) {
             //get the i'th static field

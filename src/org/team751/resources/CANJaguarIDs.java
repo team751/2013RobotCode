@@ -23,16 +23,38 @@ public class CANJaguarIDs {
     public static final int SR_DRIVE_RIGHT_1 = 3;
     public static final int SR_DRIVE_RIGHT_2 = 4;
     
-    public static final int COW_ROTATE = 5;
+    //Competition robot drivetrain uses 2, 3, 4, 5, 6 and 7
+    
+    public static final int DRIVE_LEFT_A = 2;
+    
+    public static final int DRIVE_LEFT_B = 3;
+    
+    public static final int DRIVE_LEFT_C = 4;
+    
+    public static final int DRIVE_RIGHT_A = 5;
+    
+    public static final int DRIVE_RIGHT_B = 6;
+    
+    public static final int DRIVE_RIGHT_C = 7;
+    
+    /**
+     * Jaguar for the cow rotation motor
+     */
+    public static final int COW_ROTATE = 8;
+    
+    /**
+     * Jaguar for the pusher that pushes disks from the cow into the shooter
+     */
+    public static final int PUSHER = 9;
     
     /**
      * Jaguar for the slower shooter wheel that the disk contacts first
      */
-    public static final int SHOOTER_FIRST = 6;
+    public static final int SHOOTER_FIRST = 10;
     /**
      * Jaguar for the faster shooter wheel that the disk contacts second
      */
-    public static final int SHOOTER_SECOND = 7;
+    public static final int SHOOTER_SECOND = 11;
     
     static {
         //This code block runs when the class is loaded
