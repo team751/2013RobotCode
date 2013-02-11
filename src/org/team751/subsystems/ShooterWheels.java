@@ -71,6 +71,9 @@ public class ShooterWheels extends Subsystem {
             ex.printStackTrace();
         }
         
+		//Start counting encoder pulses
+		firstEncoder.start();
+		secondEncoder.start();
     }
     
     /**

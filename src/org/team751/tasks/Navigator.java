@@ -63,6 +63,10 @@ public class Navigator extends PeriodicTask implements Sendable, LiveWindowSenda
         //Set the periodic task to run this 10 times/second
         setTaskTime(0.1);
 
+		//Start counting encoder pulses
+		leftEncoder.start();
+		rightEncoder.start();
+		
     }
 
     /**
