@@ -3,6 +3,7 @@ package org.team751.subsystems;
 import edu.wpi.first.wpilibj.CANJaguar;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import org.team751.commands.CommandBase;
 import org.team751.resources.CANJaguarIDs;
 import org.team751.resources.DigitalChannels;
 import org.team751.util.LimitSwitch;
@@ -243,11 +244,20 @@ public class Cow2 extends Subsystem {
      * Enable the rotation PID. This will allow the motor to move.
      */
     public void enable() {
+		
+		if(CommandBase.pusher.isRetracted()) {
+		
         try {
             rotationMotor.enableControl();
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }
+		
+		}
+		else {
+			System.err.println("Protection failure! Attempted to enable cow when"
+					+ "pusher is not retracted.");
+		}
     }
 
     protected void initDefaultCommand() {

@@ -4,6 +4,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import org.team751.OI;
 import org.team751.subsystems.Cow2;
 import org.team751.subsystems.Drivetrain;
+import org.team751.subsystems.Pusher;
+import org.team751.subsystems.ShooterWheels;
 import org.team751.tasks.Navigator;
 import org.team751.util.OnBoardDiagnostics;
 
@@ -20,6 +22,10 @@ public abstract class CommandBase extends Command {
     public static Drivetrain driveTrain = new Drivetrain();
     
     public static Cow2 cow = new Cow2();
+	
+	public static Pusher pusher = new Pusher();
+	
+	public static ShooterWheels shooterWheels = new ShooterWheels();
     
     //Periodic tasks here (these are not subsystems)
     public static Navigator navigator = new Navigator();

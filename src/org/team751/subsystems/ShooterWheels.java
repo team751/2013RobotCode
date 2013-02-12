@@ -109,6 +109,15 @@ public class ShooterWheels extends Subsystem {
         firstController.setTargetRpm(firstTarget);
         secondController.setTargetRpm(secondTarget);
     }
+	
+	/**
+	 * Determine if both wheels are close to their target speeds.
+	 * This is defined by {@link ClosedLoopSpeedController#isOnTarget() }.
+	 * @return True if both are on target, otherwise false.
+	 */
+	public boolean isOnTarget() {
+		return firstController.isOnTarget() && secondController.isOnTarget();
+	}
     
     /**
      * Configure the Jaguars to use PID. This should be called after any Jaguar

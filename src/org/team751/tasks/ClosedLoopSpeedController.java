@@ -63,6 +63,19 @@ public class ClosedLoopSpeedController extends PeriodicTask {
     public synchronized void setTargetRpm(double rpm) {
         targetRpm = rpm;
     }
+	
+	/**
+	 * Determine if the actual speed and the target speed match to within
+	 * 100 RPM.
+	 * @return true if on target, otherwise false
+	 */
+	public synchronized boolean isOnTarget() {
+		double actualRpm = source.getRpm();
+		
+		double difference = Math.abs(actualRpm - targetRpm);
+		
+		return difference < 100;
+	}
 
     protected synchronized void run() {
         if (enabled) {
