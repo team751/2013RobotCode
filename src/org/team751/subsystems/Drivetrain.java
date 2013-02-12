@@ -28,14 +28,10 @@ public class Drivetrain extends Subsystem {
 	 * monitor.
 	 */
 	//Left side Jaguars
-	private SpeedController left1;
+	private SpeedController leftA, leftB, leftC;
 
-	private SpeedController left2;
 	//Right side Jaguars
-
-	private SpeedController right1;
-
-	private SpeedController right2;
+	private SpeedController rightA, rightB, rightC;
 
 	private PolyMotorRobotDrive drive;
 
@@ -45,22 +41,27 @@ public class Drivetrain extends Subsystem {
 
 	public Drivetrain() {
 		try {
-			left1 = new NamedCANJaguar(CANJaguarIDs.SR_DRIVE_LEFT_1,
-									   "Drivetrain left 1");
-			left2 = new NamedCANJaguar(CANJaguarIDs.SR_DRIVE_LEFT_2,
-									   "Drivetrain left 2");
+			leftA = new NamedCANJaguar(CANJaguarIDs.DRIVE_LEFT_A,
+									   "Drivetrain left A");
+			leftB = new NamedCANJaguar(CANJaguarIDs.DRIVE_LEFT_B,
+									   "Drivetrain left B");
+			leftC = new NamedCANJaguar(CANJaguarIDs.DRIVE_LEFT_C,
+									   "Drivetrain left C");
 
-			right1 = new NamedCANJaguar(CANJaguarIDs.SR_DRIVE_RIGHT_1,
-										"Drivetrain right 1");
-			right2 = new NamedCANJaguar(CANJaguarIDs.SR_DRIVE_RIGHT_2,
-										"Drivetrain right 2");
+			rightA = new NamedCANJaguar(CANJaguarIDs.DRIVE_RIGHT_A,
+										"Drivetrain right A");
+			rightB = new NamedCANJaguar(CANJaguarIDs.DRIVE_RIGHT_B,
+										"Drivetrain right B");
+			rightC = new NamedCANJaguar(CANJaguarIDs.DRIVE_RIGHT_C,
+										"Drivetrain right C");
 
 		} catch (CANTimeoutException e) {
 			System.out.println("CANTimeoutException: " + e);
 		}
 		drive = new PolyMotorRobotDrive(
-				new SpeedController[]{left1, left2}, new SpeedController[]{
-					right1, right2});
+				new SpeedController[]{leftA, leftB, leftC},
+				new SpeedController[]{
+					rightA, rightB, rightC});
 
 
 
@@ -72,15 +73,17 @@ public class Drivetrain extends Subsystem {
 		//until after 1 second of non-response.
 
 		try {
-			((MotorSafety) left1).setExpiration(1);
-			((MotorSafety) left2).setExpiration(1);
-			((MotorSafety) right1).setExpiration(1);
-			((MotorSafety) right2).setExpiration(1);
+			((MotorSafety) leftA).setExpiration(1);
+			((MotorSafety) leftB).setExpiration(1);
+			((MotorSafety) leftC).setExpiration(1);
+			((MotorSafety) rightA).setExpiration(1);
+			((MotorSafety) rightB).setExpiration(1);
+			((MotorSafety) rightC).setExpiration(1);
 		} catch (ClassCastException e) {
 		}
 
-		monitor = new DrivetrainMonitor(new SpeedController[]{left1, left2,
-															  right1, right2},
+		monitor = new DrivetrainMonitor(
+				new SpeedController[]{leftA, leftB, leftC, rightA, rightB, rightC},
 										null);
 		monitor.start();
 	}

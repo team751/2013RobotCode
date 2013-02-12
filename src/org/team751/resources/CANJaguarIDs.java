@@ -16,15 +16,7 @@ import com.sun.squawk.Klass;
  */
 public class CANJaguarIDs {
     
-    //SR-prefixed IDs for Jaguars on the summer robot
-    public static final int SR_DRIVE_LEFT_1 = 1;
-    public static final int SR_DRIVE_LEFT_2 = 2;
-    
-    public static final int SR_DRIVE_RIGHT_1 = 3;
-    public static final int SR_DRIVE_RIGHT_2 = 4;
-    
     //Competition robot drivetrain uses 2, 3, 4, 5, 6 and 7
-    
     public static final int DRIVE_LEFT_A = 2;
     
     public static final int DRIVE_LEFT_B = 3;
