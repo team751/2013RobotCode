@@ -1,10 +1,6 @@
 package org.team751.tasks;
 
-import edu.wpi.first.wpilibj.ADXL345_I2C;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Gyro;
-import edu.wpi.first.wpilibj.PIDSource;
-import edu.wpi.first.wpilibj.Sendable;
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import edu.wpi.first.wpilibj.tables.ITable;
 import org.team751.resources.AnalogChannels;
@@ -24,6 +20,21 @@ import org.team751.util.Vec2;
  */
 public class Navigator extends PeriodicTask implements Sendable, LiveWindowSendable {
 
+	//Constants for measuring movement
+	/**
+	 * The number of encoder counts for every wheel revolution
+	 */
+	private static final int COUNTS_PER_REVOLUTION = 250;
+	/**
+	 * The diameter of the wheel, in meters
+	 */
+	private static final double WHEEL_DIAMETER = 0.1524;
+	
+	/**
+	 * The distance, in meters, that the robot moves for each encoder count
+	 */
+	private static final double ROBOT_DISTANCE_PER_COUNT = ( 1 / (double) COUNTS_PER_REVOLUTION) * WHEEL_DIAMETER * Math.PI;
+	
     private ADXL345_I2C accel = new ADXL345_I2C(2, ADXL345_I2C.DataFormat_Range.k4G);
     private Gyro gyro = new Gyro(AnalogChannels.GYRO);
     //encoders
@@ -62,6 +73,12 @@ public class Navigator extends PeriodicTask implements Sendable, LiveWindowSenda
 
         //Set the periodic task to run this 10 times/second
         setTaskTime(0.1);
+		
+		//Configure encoders
+		leftEncoder.setDistancePerPulse(ROBOT_DISTANCE_PER_COUNT);
+		rightEncoder.setDistancePerPulse(ROBOT_DISTANCE_PER_COUNT);
+		//Reverse the right side encoder so that forward will give a positive value for both encoders
+		rightEncoder.setReverseDirection(true);
 
 		//Start counting encoder pulses
 		leftEncoder.start();
