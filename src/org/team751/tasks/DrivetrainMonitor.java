@@ -5,8 +5,8 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import java.util.Vector;
-import org.team751.util.DrivetrainTemperatureSensor;
 import org.team751.util.NamedCANJaguar;
+import org.team751.util.TemperatureSensor;
 
 /**
  * Monitors the speed controllers and motors of the drivetrain
@@ -22,7 +22,7 @@ public class DrivetrainMonitor extends PeriodicTask {
     /**
      * The motor temperature sensors that are being monitored
      */
-    private DrivetrainTemperatureSensor[] temperatureSensors;
+    private TemperatureSensor[] temperatureSensors;
     /**
      * The cached temperatures of all the Jaguars
      */
@@ -32,7 +32,7 @@ public class DrivetrainMonitor extends PeriodicTask {
      */
     private static final double LOOP_TIME = 0.5;
 
-    public DrivetrainMonitor(SpeedController[] controllers, DrivetrainTemperatureSensor[] sensors) {
+    public DrivetrainMonitor(SpeedController[] controllers, TemperatureSensor[] sensors) {
 
         //Set this task to be executed with the correct frequency
         setTaskTime(LOOP_TIME);
@@ -88,6 +88,12 @@ public class DrivetrainMonitor extends PeriodicTask {
 
         }
 
+		//Get the temperatures from the drivetrain temperature sensors
+		for(int i = 0; i < temperatureSensors.length; i++) {
+			TemperatureSensor sensor = temperatureSensors[i];
+			//Send data to the dashboard
+			SmartDashboard.putNumber(sensor.getName(), sensor.getTemperature());
+		}
     }
 
     public double getJaguarTemperature(int index) {

@@ -6,10 +6,13 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.team751.commands.drivetrain.JoystickDrive;
+import org.team751.resources.AnalogChannels;
 import org.team751.resources.CANJaguarIDs;
 import org.team751.tasks.DrivetrainMonitor;
+import org.team751.util.DrivetrainTemperatureSensor;
 import org.team751.util.NamedCANJaguar;
 import org.team751.util.PolyMotorRobotDrive;
+import org.team751.util.TemperatureSensor;
 
 /**
  *
@@ -32,6 +35,9 @@ public class Drivetrain extends Subsystem {
 
 	//Right side Jaguars
 	private SpeedController rightA, rightB, rightC;
+	
+	//Temperature sensors
+	private DrivetrainTemperatureSensor leftSensor, rightSensor;
 
 	private PolyMotorRobotDrive drive;
 
@@ -68,7 +74,8 @@ public class Drivetrain extends Subsystem {
 		//Timing note: The software sometimes does other things for a pretty
 		//long time (100-500 milliseconds) between running the drive command.
 		//When this happens, the motor safety mechanism stops the motors.
-		//This is not good.
+		//Stopping the motors in normal matches is not good, although we
+		//do not want to fully disable this feature.
 		//This sets the motor safety mechanism to not stop the motors
 		//until after 1 second of non-response.
 
@@ -81,10 +88,14 @@ public class Drivetrain extends Subsystem {
 			((MotorSafety) rightC).setExpiration(1);
 		} catch (ClassCastException e) {
 		}
+		
+		leftSensor = new DrivetrainTemperatureSensor(AnalogChannels.TEMP_DRIVETRAIN_LEFT, "Drivetrain left");
+		rightSensor = new DrivetrainTemperatureSensor(AnalogChannels.TEMP_DRIVETRAIN_RIGHT, "Drivetrain right");
 
 		monitor = new DrivetrainMonitor(
 				new SpeedController[]{leftA, leftB, leftC, rightA, rightB, rightC},
-										null);
+				new TemperatureSensor[] { leftSensor, rightSensor });
+		
 		monitor.start();
 	}
 
@@ -117,6 +128,7 @@ public class Drivetrain extends Subsystem {
 	public DrivetrainMonitor getMonitor() {
 		return monitor;
 	}
+	
 	//PID support for turning in place
 	/**
 	 * A PID output used to turn in place
