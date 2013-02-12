@@ -1,10 +1,18 @@
+<<<<<<< HEAD:src/org/team751/util/DrivetrainCurrentMonitor.java
 package org.team751.util;
+=======
+package org.team751.tasks;
+>>>>>>> summer-robot:src/org/team751/tasks/DrivetrainCurrentMonitor.java
 
 import com.sun.squawk.util.MathUtils;
 import edu.wpi.first.wpilibj.CANJaguar;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
 import java.util.Timer;
 import java.util.TimerTask;
+<<<<<<< HEAD:src/org/team751/util/DrivetrainCurrentMonitor.java
+=======
+import org.team751.util.FixedCapacityDoubleQueue;
+>>>>>>> summer-robot:src/org/team751/tasks/DrivetrainCurrentMonitor.java
 
 /**
  * Monitors the current consumed by drivetrain motors.

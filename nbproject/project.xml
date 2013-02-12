@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
 
     This is a sample netbeans project file for a Sun Spot Application project.
@@ -19,6 +19,11 @@
                 <property-file>${sunspot.home}/default.properties</property-file>
             </properties>
             <folders>
+                <source-folder>
+                    <label>2013RobotCode</label>
+                    <location>.</location>
+                    <encoding>MacRoman</encoding>
+                </source-folder>
                 <source-folder>
                     <label>src</label>
                     <type>java</type>
@@ -102,8 +107,8 @@
         <java-data xmlns="http://www.netbeans.org/ns/freeform-project-java/1">
             <compilation-unit>
                 <package-root>src</package-root>
-                <classpath mode="boot">${sunspot.home}\lib\squawk.jar</classpath>
-                <classpath mode="compile">${sunspot.home}\lib\wpilibj.jar;${sunspot.home}\lib\networktables-crio.jar</classpath>
+                <package-root>json</package-root>
+                <classpath mode="compile">${sunspot.home}/lib/wpilibj.jar:${sunspot.home}/lib/networktables-crio.jar:${sunspot.home}/lib/squawk.jar</classpath>
                 <built-to>build</built-to>
                 <source-level>1.4</source-level>
             </compilation-unit>

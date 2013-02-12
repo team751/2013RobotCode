@@ -1,10 +1,13 @@
 package org.team751.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.team751.OI;
+import org.team751.subsystems.Cow2;
 import org.team751.subsystems.Drivetrain;
-import org.team751.subsystems.ExampleSubsystem;
+import org.team751.subsystems.Pusher;
+import org.team751.subsystems.ShooterWheels;
+import org.team751.tasks.Navigator;
+import org.team751.util.OnBoardDiagnostics;
 
 /**
  * The base for all commands. All atomic commands should subclass CommandBase.
@@ -16,8 +19,18 @@ public abstract class CommandBase extends Command {
 
     public static OI oi;
     // Create a single static instance of all of your subsystems
-    public static ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
     public static Drivetrain driveTrain = new Drivetrain();
+    
+    public static Cow2 cow = new Cow2();
+	
+	public static Pusher pusher = new Pusher();
+	
+	public static ShooterWheels shooterWheels = new ShooterWheels();
+    
+    //Periodic tasks here (these are not subsystems)
+    public static Navigator navigator = new Navigator();
+    public static OnBoardDiagnostics obd = new OnBoardDiagnostics();
+    
     public static void init() {
         // This MUST be here. If the OI creates Commands (which it very likely
         // will), constructing it during the construction of CommandBase (from
@@ -26,8 +39,9 @@ public abstract class CommandBase extends Command {
         // news. Don't move it.
         oi = new OI();
 
-        // Show what command your subsystem is running on the SmartDashboard
-        SmartDashboard.putData(exampleSubsystem);
+        //Start the periodic tasks
+        navigator.start();
+        obd.start();
     }
 
     public CommandBase(String name) {
