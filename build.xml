@@ -90,4 +90,22 @@
     For more information on using ant, see http://ant.apache.org.
 
     -->
+
+<target name="git.save_revision" description="Saves the hash of the git revision to org.team751.Revision.java">
+	<exec executable="git" outputproperty="git.revision">
+		<arg value="rev-parse" />
+		<arg value="HEAD" />
+	</exec>
+	<echo file="./src/org/team751/Revision.java" message="
+package org.team751;${line.separator}	
+/**${line.separator}
+ * This class is generated automatically by the build system. It has one${line.separator}
+ * field that stores the revision number that the project was built from.${line.separator}
+ */${line.separator}
+public class Revision {${line.separator}
+	public static final String revisionString = &quot;${git.revision}&quot;;${line.separator}
+}${line.separator}
+" />
+</target>
+	
 </project>

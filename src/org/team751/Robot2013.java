@@ -1,10 +1,12 @@
 package org.team751;
 
 
+import com.sun.squawk.Klass;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Utility;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import com.sun.squawk.Field;
 import org.team751.commands.CommandBase;
 
 /**
@@ -22,6 +24,8 @@ public class Robot2013 extends IterativeRobot {
      */
     public void robotInit() {
 
+		printRevision();
+		
         // Initialize all subsystems
         CommandBase.init();
         
@@ -63,4 +67,21 @@ public class Robot2013 extends IterativeRobot {
     public void testPeriodic() {
         LiveWindow.run();
     }
+	
+	public void printRevision() {
+		try {
+			//Try to load the class
+			Klass revClass = Klass.asKlass(Class.forName("org.team751.Revision"));
+			
+			//Get the first static field
+			Field revStringField = revClass.getField(0, true);
+			
+			String revision = revStringField.getStringConstantValue();
+			
+			System.out.println("Code compiled from git revision "+revision);
+			
+		} catch (ClassNotFoundException ex) {
+			ex.printStackTrace();
+		}
+	}
 }

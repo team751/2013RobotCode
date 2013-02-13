@@ -1,3 +1,5 @@
 /build/
 .DS_Store
 /doc/
+# Ignore the Revision file - it is automatically generated during the build process
+/src/org/team751/Revision.java
