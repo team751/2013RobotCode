@@ -3,6 +3,7 @@ package org.team751.util;
 import edu.wpi.first.wpilibj.CANJaguar;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.team751.resources.CANSyncGroups;
 
 /**
@@ -45,7 +46,7 @@ public class PolyMotorRobotDrive {
      */
     public void arcadeDrive(double moveValue, double rotateValue) {
         //Based on http://www.chiefdelphi.com/media/papers/2661?langid=2
-
+		
         double max = Math.abs(rotateValue);
         if (Math.abs(moveValue) > max) {
             max = Math.abs(moveValue);

@@ -26,7 +26,18 @@ public class JoystickDrive extends CommandBase {
     protected void execute() {
         double x = oi.rightStick.getX();
         double y = oi.rightStick.getY();
-        driveTrain.arcadeDrive(y, x);
+		
+		//Square the values to make things smoother
+		double xSquared = x * x;
+		if(x < 0) xSquared = -xSquared;
+		double ySquared = y * y;
+		if(y < 0) ySquared = -ySquared;
+		
+		//For the joystick Y axis, forward is negative.
+		//This changes it back so that forward is positive.
+		ySquared = -ySquared;
+		
+        driveTrain.arcadeDrive(ySquared, xSquared);
     }
 
     // Make this return true when this Command no longer needs to run execute()

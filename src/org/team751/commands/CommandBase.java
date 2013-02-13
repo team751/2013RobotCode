@@ -1,6 +1,7 @@
 package org.team751.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.team751.OI;
 import org.team751.subsystems.Cow2;
 import org.team751.subsystems.Drivetrain;
@@ -42,6 +43,9 @@ public abstract class CommandBase extends Command {
         //Start the periodic tasks
         navigator.start();
         obd.start();
+		
+		//Send command data to SmartDashboard
+		SmartDashboard.putData(driveTrain);
     }
 
     public CommandBase(String name) {

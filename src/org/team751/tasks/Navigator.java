@@ -2,6 +2,7 @@ package org.team751.tasks;
 
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.tables.ITable;
 import org.team751.resources.AnalogChannels;
 import org.team751.resources.DigitalChannels;
@@ -35,7 +36,7 @@ public class Navigator extends PeriodicTask implements Sendable, LiveWindowSenda
 	 */
 	private static final double ROBOT_DISTANCE_PER_COUNT = ( 1 / (double) COUNTS_PER_REVOLUTION) * WHEEL_DIAMETER * Math.PI;
 	
-    private ADXL345_I2C accel = new ADXL345_I2C(2, ADXL345_I2C.DataFormat_Range.k4G);
+    private ADXL345_I2C accel = new ADXL345_I2C(1, ADXL345_I2C.DataFormat_Range.k4G);
     private Gyro gyro = new Gyro(AnalogChannels.GYRO);
     //encoders
     Encoder leftEncoder = new Encoder(DigitalChannels.DRIVE_LEFT_ENCODER_A, DigitalChannels.DRIVE_LEFT_ENCODER_B);
@@ -78,7 +79,7 @@ public class Navigator extends PeriodicTask implements Sendable, LiveWindowSenda
 		leftEncoder.setDistancePerPulse(ROBOT_DISTANCE_PER_COUNT);
 		rightEncoder.setDistancePerPulse(ROBOT_DISTANCE_PER_COUNT);
 		//Reverse the right side encoder so that forward will give a positive value for both encoders
-		rightEncoder.setReverseDirection(true);
+		leftEncoder.setReverseDirection(true);
 
 		//Start counting encoder pulses
 		leftEncoder.start();
@@ -128,6 +129,16 @@ public class Navigator extends PeriodicTask implements Sendable, LiveWindowSenda
             
             //Update the encoder distance
             encoderDistance = (leftEncoder.getDistance() + rightEncoder.getDistance()) / 2.0;
+			
+			//Debug
+			SmartDashboard.putNumber("Encoder distance", encoderDistance);
+			//Limit heading heading to [0, 360] degrees
+			double dashboardHeading = heading % 360;
+			if(dashboardHeading < 0) {
+				dashboardHeading += 360;
+			}
+			
+			SmartDashboard.putNumber("Heading", dashboardHeading);
         }
 
     }
