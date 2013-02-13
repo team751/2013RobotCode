@@ -110,6 +110,8 @@ package org.team751;${line.separator}
 public class Revision {${line.separator}
 	public static final String revisionString = &quot;${git.revision}&quot;;${line.separator}
 	public static final String branchName = &quot;${git.branch}&quot;;${line.separator}
+	${line.separator}
+	private Revision() {}
 }${line.separator}
 " />
 </target>
