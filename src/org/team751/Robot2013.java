@@ -90,7 +90,7 @@ public class Robot2013 extends IterativeRobot {
 			System.out.println("Code compiled from branch "+branch+", revision "+revision);
 			
 		} catch (ClassNotFoundException ex) {
-			ex.printStackTrace();
+			System.err.println("Revision information not found.");
 		}
 	}
 }
