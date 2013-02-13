@@ -8,7 +8,6 @@ import org.team751.subsystems.Drivetrain;
 import org.team751.subsystems.Pusher;
 import org.team751.subsystems.ShooterWheels;
 import org.team751.tasks.Navigator;
-import org.team751.util.OnBoardDiagnostics;
 
 /**
  * The base for all commands. All atomic commands should subclass CommandBase.
@@ -30,7 +29,8 @@ public abstract class CommandBase extends Command {
     
     //Periodic tasks here (these are not subsystems)
     public static Navigator navigator = new Navigator();
-    public static OnBoardDiagnostics obd = new OnBoardDiagnostics();
+	//On-board diagnostics are currently disabled - see issue #5
+//    public static OnBoardDiagnostics obd = new OnBoardDiagnostics();
     
     public static void init() {
         // This MUST be here. If the OI creates Commands (which it very likely
@@ -42,7 +42,7 @@ public abstract class CommandBase extends Command {
 
         //Start the periodic tasks
         navigator.start();
-        obd.start();
+//        obd.start();
 		
 		//Send command data to SmartDashboard
 		SmartDashboard.putData(driveTrain);
