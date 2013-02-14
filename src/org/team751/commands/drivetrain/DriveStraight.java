@@ -2,6 +2,7 @@ package org.team751.commands.drivetrain;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.team751.PIDConstants;
 import org.team751.commands.CommandBase;
 
@@ -20,6 +21,12 @@ public class DriveStraight extends CommandBase {
     
     private PIDController moveController;
     private PIDController rotateController;
+	
+	/**
+	 * The distance, in meters, that the robot should move in the course of
+	 * this command
+	 */
+	private double distance = 0;
     
     /**
      * Constructor
@@ -28,6 +35,8 @@ public class DriveStraight extends CommandBase {
      */
     public DriveStraight(double meters) {
         requires(driveTrain);
+		
+		this.distance = meters;
         
         moveController = new PIDController(PIDConstants.DRIVE_MOVE_P, PIDConstants.DRIVE_MOVE_I, PIDConstants.DRIVE_MOVE_D, navigator.movementPidSource, moveOutput);
         rotateController = new PIDController(PIDConstants.DRIVE_ROTATE_P, PIDConstants.DRIVE_ROTATE_I, PIDConstants.DRIVE_ROTATE_D, navigator.headingPidSource, rotateOutput);
@@ -37,27 +46,36 @@ public class DriveStraight extends CommandBase {
         
         //Configure on-target tolerance for move PID
         moveController.setPercentTolerance(10);
-        
-        //Set the controller setpoints
-        moveController.setSetpoint(meters);
-            //(no rotation)
-        rotateController.setSetpoint(0);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+		
+		System.out.println("DriveStraight initializing");
         
         //Ensure that the Navigator currently returns an encoder position of 0
         navigator.resetEncoderDistance();
+		
+		
+        //Set the controller setpoints
+        moveController.setSetpoint(distance);
+        //(no rotation)
+        rotateController.setSetpoint(0);
         
         //Enable the controllers
         moveController.enable();
         rotateController.enable();
+		
+		SmartDashboard.putData("Move controller", moveController);
+		SmartDashboard.putData("Rotate controller", rotateController);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected synchronized void execute() {
         driveTrain.arcadeDrive(moveValue, rotateValue);
+		
+		SmartDashboard.putData("Move controller", moveController);
+		SmartDashboard.putData("Rotate controller", rotateController);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -91,6 +109,8 @@ public class DriveStraight extends CommandBase {
             synchronized(DriveStraight.this) {
                 moveValue = output;
             }
+			
+			System.out.println("Got move output "+output);
         }
     };
     
@@ -99,6 +119,8 @@ public class DriveStraight extends CommandBase {
             synchronized(DriveStraight.this) {
                 rotateValue = output;
             }
+			
+			System.out.println("Got rotate output "+output);
         }
     };
 }

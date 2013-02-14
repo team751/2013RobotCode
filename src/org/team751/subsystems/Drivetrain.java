@@ -48,18 +48,18 @@ public class Drivetrain extends Subsystem {
 	public Drivetrain() {
 		try {
 			leftA = new NamedCANJaguar(CANJaguarIDs.DRIVE_LEFT_A,
-									   "Drivetrain left A");
+									   "Left A");
 			leftB = new NamedCANJaguar(CANJaguarIDs.DRIVE_LEFT_B,
-									   "Drivetrain left B");
+									   "Left B");
 			leftC = new NamedCANJaguar(CANJaguarIDs.DRIVE_LEFT_C,
-									   "Drivetrain left C");
+									   "Left C");
 
 			rightA = new NamedCANJaguar(CANJaguarIDs.DRIVE_RIGHT_A,
-										"Drivetrain right A");
+										"Right A");
 			rightB = new NamedCANJaguar(CANJaguarIDs.DRIVE_RIGHT_B,
-										"Drivetrain right B");
+										"Right B");
 			rightC = new NamedCANJaguar(CANJaguarIDs.DRIVE_RIGHT_C,
-										"Drivetrain right C");
+										"Right C");
 
 		} catch (CANTimeoutException e) {
 			System.out.println("CANTimeoutException: " + e);
@@ -89,8 +89,8 @@ public class Drivetrain extends Subsystem {
 		} catch (ClassCastException e) {
 		}
 		
-		leftSensor = new DrivetrainTemperatureSensor(AnalogChannels.TEMP_DRIVETRAIN_LEFT, "Drivetrain left");
-		rightSensor = new DrivetrainTemperatureSensor(AnalogChannels.TEMP_DRIVETRAIN_RIGHT, "Drivetrain right");
+		leftSensor = new DrivetrainTemperatureSensor(AnalogChannels.TEMP_DRIVETRAIN_LEFT, "Motors left");
+		rightSensor = new DrivetrainTemperatureSensor(AnalogChannels.TEMP_DRIVETRAIN_RIGHT, "Motors right");
 
 		monitor = new DrivetrainMonitor(
 				new SpeedController[]{leftA, leftB, leftC, rightA, rightB, rightC},

@@ -7,7 +7,9 @@ import edu.wpi.first.wpilibj.Utility;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import com.sun.squawk.Field;
+import edu.wpi.first.wpilibj.command.Command;
 import org.team751.commands.CommandBase;
+import org.team751.commands.drivetrain.DriveStraight;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -34,6 +36,8 @@ public class Robot2013 extends IterativeRobot {
     }
 
     public void autonomousInit() {
+		Command moveCommand = new DriveStraight(1);
+		moveCommand.start();
     }
 
     public void disabledInit() {
