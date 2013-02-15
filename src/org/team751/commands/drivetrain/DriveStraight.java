@@ -50,8 +50,6 @@ public class DriveStraight extends CommandBase {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-		
-		System.out.println("DriveStraight initializing");
         
         //Ensure that the Navigator currently returns an encoder position of 0
         navigator.resetEncoderDistance();
