@@ -37,7 +37,7 @@ public abstract class PeriodicTask {
      */
     public void start() {
         //start the timer
-        periodicTaskTimer.scheduleAtFixedRate(periodicTask, 0, MathUtils.round(periodicTaskTime * 1000));
+        periodicTaskTimer.schedule(periodicTask, 0, MathUtils.round(periodicTaskTime * 1000));
     }
     
     /**
