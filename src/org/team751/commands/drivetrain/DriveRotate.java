@@ -1,6 +1,7 @@
 package org.team751.commands.drivetrain;
 
 import edu.wpi.first.wpilibj.PIDController;
+import org.team751.PIDConstants;
 import org.team751.commands.CommandBase;
 
 /**
@@ -19,12 +20,12 @@ public class DriveRotate extends CommandBase {
     public DriveRotate(double degreesToTurn) {
         requires(driveTrain);
         
-        controller = new PIDController(0.01, 0, 0, navigator.headingPidSource, driveTrain.turningPidOutput);
-        controller.setPercentTolerance(10);
+        controller = new PIDController(PIDConstants.DRIVE_ROTATE_P, PIDConstants.DRIVE_ROTATE_I, PIDConstants.DRIVE_ROTATE_D, navigator.headingPidSource, driveTrain.turningPidOutput);
+        controller.setPercentTolerance(5);
         
         controller.setSetpoint(navigator.getHeading() + degreesToTurn);
         
-        setTimeout(1);
+        setTimeout(5);
     }
     
     protected void initialize() {

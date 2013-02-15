@@ -45,7 +45,8 @@ public class DriveStraight extends CommandBase {
         setTimeout(10);
         
         //Configure on-target tolerance for move PID
-        moveController.setPercentTolerance(10);
+		//Absolute tolerance of ±10cm
+        moveController.setAbsoluteTolerance(0.1);
     }
 
     // Called just before this Command runs the first time
@@ -58,7 +59,7 @@ public class DriveStraight extends CommandBase {
         //Set the controller setpoints
         moveController.setSetpoint(distance);
         //(no rotation)
-        rotateController.setSetpoint(0);
+        rotateController.setSetpoint(navigator.getHeading());
         
         //Enable the controllers
         moveController.enable();
