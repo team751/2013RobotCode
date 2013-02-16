@@ -20,7 +20,7 @@ public class Pusher extends Subsystem {
 	/**
 	 * The power level (0 to 1) to use for the motor
 	 */
-	private static final double MOTOR_POWER = 0.5;
+	private static final double MOTOR_POWER = -0.3;
     
     /**
      * The Jaguar used to control the pusher. The two limit switches are
