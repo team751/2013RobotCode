@@ -16,28 +16,26 @@ import org.team751.util.Vec2;
  * when it is started, or when {@link #reset()} was last called. The origin of
  * this coordinate system is at the robot's initial location. It does not rotate
  * when the robot turns.
- * 
+ *
  * @author Sam Crow
  */
 public class Navigator extends PeriodicTask implements Sendable, LiveWindowSendable {
 
-	//Constants for measuring movement
-	/**
-	 * The number of encoder counts for every wheel revolution
-	 */
-	private static final int COUNTS_PER_REVOLUTION = 250;
-	/**
-	 * The diameter of the wheel, in meters
-	 */
-	private static final double WHEEL_DIAMETER = 0.1524;
-	
-	/**
-	 * The distance, in meters, that the robot moves for each encoder count
-	 */
-	private static final double ROBOT_DISTANCE_PER_COUNT = ( 1 / (double) COUNTS_PER_REVOLUTION) * WHEEL_DIAMETER * Math.PI;
-	
+    //Constants for measuring movement
+    /**
+     * The number of encoder counts for every wheel revolution
+     */
+    private static final int COUNTS_PER_REVOLUTION = 250;
+    /**
+     * The diameter of the wheel, in meters
+     */
+    private static final double WHEEL_DIAMETER = 0.1524;
+    /**
+     * The distance, in meters, that the robot moves for each encoder count
+     */
+    private static final double ROBOT_DISTANCE_PER_COUNT = (1 / (double) COUNTS_PER_REVOLUTION) * WHEEL_DIAMETER * Math.PI;
     private ADXL345_I2C accel = new ADXL345_I2C(1, ADXL345_I2C.DataFormat_Range.k4G);
-    private Gyro gyro = new Gyro(AnalogChannels.GYRO);
+    private Gyro gyro;
     //encoders
     Encoder leftEncoder = new Encoder(DigitalChannels.DRIVE_LEFT_ENCODER_A, DigitalChannels.DRIVE_LEFT_ENCODER_B);
     Encoder rightEncoder = new Encoder(DigitalChannels.DRIVE_RIGHT_ENCODER_A, DigitalChannels.DRIVE_RIGHT_ENCODER_B);
@@ -53,16 +51,13 @@ public class Navigator extends PeriodicTask implements Sendable, LiveWindowSenda
      * The location of the robot, in meters
      */
     private volatile Vec2 location = new Vec2();
-    
     /**
      * The distance in meters that the robot has traveled forward, according to
      * the drivetrain encoders. This is the average of the left encoder distance
-     * and the right encoder distance.
-     * Note: Each encoder must have been configured with the correct distance per
-     * pulse in meters.
+     * and the right encoder distance. Note: Each encoder must have been
+     * configured with the correct distance per pulse in meters.
      */
     private volatile double encoderDistance = 0;
-    
     /**
      * The timestamp, in milliseconds, at which processing started for the
      * previous call to {@link #run()}. This timing is used to calculate
@@ -71,20 +66,24 @@ public class Navigator extends PeriodicTask implements Sendable, LiveWindowSenda
     private long lastProcessingTime = System.currentTimeMillis();
 
     public Navigator() {
-
+        System.out.println("Navigator constructor called");
         //Set the periodic task to run this 10 times/second
         setTaskTime(0.1);
-		
-		//Configure encoders
-		leftEncoder.setDistancePerPulse(ROBOT_DISTANCE_PER_COUNT);
-		rightEncoder.setDistancePerPulse(ROBOT_DISTANCE_PER_COUNT);
-		//Reverse the right side encoder so that forward will give a positive value for both encoders
-		leftEncoder.setReverseDirection(true);
 
-		//Start counting encoder pulses
-		leftEncoder.start();
-		rightEncoder.start();
-		
+        //Configure encoders
+        leftEncoder.setDistancePerPulse(ROBOT_DISTANCE_PER_COUNT);
+        rightEncoder.setDistancePerPulse(ROBOT_DISTANCE_PER_COUNT);
+        //Reverse the right side encoder so that forward will give a positive value for both encoders
+        leftEncoder.setReverseDirection(true);
+
+        //Start counting encoder pulses
+        leftEncoder.start();
+        rightEncoder.start();
+        
+        System.out.println("Starting gyro init");
+        gyro = new Gyro(AnalogChannels.GYRO);
+        System.out.println("Gyro init done");
+
     }
 
     /**
@@ -98,6 +97,7 @@ public class Navigator extends PeriodicTask implements Sendable, LiveWindowSenda
 
     public void run() {
 
+        System.out.println("Navigator synchronizing self");
         synchronized (this) {
 
             long newTime = System.currentTimeMillis();
@@ -120,25 +120,27 @@ public class Navigator extends PeriodicTask implements Sendable, LiveWindowSenda
 
             //Append the position
             location = location.add(velocity.multiply(timeSeconds));
-            
+
             //Optimization: Correct for accelerometer drift by setting velocity
             //to zero if the encoders say that it is zero
-            if(leftEncoder.getStopped() && rightEncoder.getStopped()) {
+            if (leftEncoder.getStopped() && rightEncoder.getStopped()) {
                 velocity = new Vec2(0, 0);
             }
-            
+
             //Update the encoder distance
             encoderDistance = (leftEncoder.getDistance() + rightEncoder.getDistance()) / 2.0;
-			
-			//Debug
-			SmartDashboard.putNumber("Encoder distance", encoderDistance);
-			//Limit heading heading to [0, 360] degrees
-			double dashboardHeading = heading % 360;
-			if(dashboardHeading < 0) {
-				dashboardHeading += 360;
-			}
-			
-			SmartDashboard.putNumber("Heading", dashboardHeading);
+
+            //Debug
+            SmartDashboard.putNumber("Encoder distance", encoderDistance);
+            //Limit heading heading to [0, 360] degrees
+            double dashboardHeading = heading % 360;
+            if (dashboardHeading < 0) {
+                dashboardHeading += 360;
+            }
+
+            SmartDashboard.putNumber("Heading", dashboardHeading);
+            
+            System.out.println("Navigator releasing self");
         }
 
     }
@@ -146,46 +148,49 @@ public class Navigator extends PeriodicTask implements Sendable, LiveWindowSenda
     //Methods to access location information
     /**
      * Get the robot heading
+     *
      * @return the heading, in degrees
      */
     public synchronized double getHeading() {
         return heading;
     }
-    
+
     /**
      * Get the X location of the robot
+     *
      * @return the location, in meters
      */
     public synchronized double getX() {
         return location.getX();
     }
-    
+
     /**
      * Get the Y location of the robot
+     *
      * @return the location, in meters
      */
     public synchronized double getY() {
         return location.getY();
     }
-    
+
     /**
-     * Get the distance, in meters, that the robot has moved forwards or backwards
-     * since the last call to {@link #resetEncoderDistance()}.
+     * Get the distance, in meters, that the robot has moved forwards or
+     * backwards since the last call to {@link #resetEncoderDistance()}.
+     *
      * @return The distance in meters
      */
     public synchronized double getEncoderDistance() {
         return encoderDistance;
     }
-    
+
     /**
-     * Reset the encoder distance, returned by {@link #getEncoderDistance()},
-     * to zero.
+     * Reset the encoder distance, returned by {@link #getEncoderDistance()}, to
+     * zero.
      */
     public synchronized void resetEncoderDistance() {
         leftEncoder.reset();
         rightEncoder.reset();
     }
-    
     //SmartDashboard/Live Window support section
     /**
      * The table used to send data
@@ -223,28 +228,22 @@ public class Navigator extends PeriodicTask implements Sendable, LiveWindowSenda
 
     public void stopLiveWindowMode() {
     }
-    
     //PID sources
     /**
      * A PID source that returns the heading, in degrees
      */
     public final PIDSource headingPidSource = new PIDSource() {
-
         public double pidGet() {
-            synchronized(Navigator.this) {
+            synchronized (Navigator.this) {
                 return getHeading();
             }
         }
-        
     };
-    
     public final PIDSource movementPidSource = new PIDSource() {
-        
         public double pidGet() {
-            synchronized(Navigator.this) {
+            synchronized (Navigator.this) {
                 return getEncoderDistance();
             }
         }
-        
     };
 }

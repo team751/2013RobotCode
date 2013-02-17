@@ -1,6 +1,5 @@
 package org.team751;
 
-
 import com.sun.squawk.Klass;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Utility;
@@ -19,35 +18,34 @@ import org.team751.commands.drivetrain.DriveRotate;
  * directory.
  */
 public class Robot2013 extends IterativeRobot {
-    
+
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
     public void robotInit() {
 
-		printRevision();
-		
+        printRevision();
+        System.out.println("robotInit called. About to init command base");
         // Initialize all subsystems
         CommandBase.init();
-        
+        System.out.println("CommandBase init done");
         //Send system.err to the driver station console
         Utility.sendErrorStreamToDriverStation(true);
     }
 
     public void autonomousInit() {
-		Command moveCommand = new DriveRotate(90);
-		moveCommand.start();
+        Command moveCommand = new DriveRotate(90);
+        moveCommand.start();
     }
 
     public void disabledInit() {
-        
     }
 
     public void disabledPeriodic() {
-        
+        System.out.println("disabledPeriodic() called");
     }
-    
+
     /**
      * This function is called periodically during autonomous
      */
@@ -62,39 +60,40 @@ public class Robot2013 extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
+        System.out.println("TeleopPeriodic called");
         Scheduler.getInstance().run();
     }
-    
+
     /**
      * This function is called periodically during test mode
      */
     public void testPeriodic() {
         LiveWindow.run();
     }
-	
-	public void printRevision() {
-		try {
-			//Try to load the class
-			Klass revClass = Klass.asKlass(Class.forName("org.team751.Revision"));
-			
-			String branch = "";
-			String revision = "";
-			
-			for(int i = 0, max = revClass.getFieldCount(true); i < max; i++) {
-				Field field = revClass.getField(i, true);
-				
-				if(field.getName().equals("revisionString")) {
-					revision = field.getStringConstantValue();
-				}
-				if(field.getName().equals("branchName")) {
-					branch = field.getStringConstantValue();
-				}
-			}
-			
-			System.out.println("Code compiled from branch "+branch+", revision "+revision);
-			
-		} catch (ClassNotFoundException ex) {
-			System.err.println("Revision information not found.");
-		}
-	}
+
+    public void printRevision() {
+        try {
+            //Try to load the class
+            Klass revClass = Klass.asKlass(Class.forName("org.team751.Revision"));
+
+            String branch = "";
+            String revision = "";
+
+            for (int i = 0, max = revClass.getFieldCount(true); i < max; i++) {
+                Field field = revClass.getField(i, true);
+
+                if (field.getName().equals("revisionString")) {
+                    revision = field.getStringConstantValue();
+                }
+                if (field.getName().equals("branchName")) {
+                    branch = field.getStringConstantValue();
+                }
+            }
+
+            System.out.println("Code compiled from branch " + branch + ", revision " + revision);
+
+        } catch (ClassNotFoundException ex) {
+            System.err.println("Revision information not found.");
+        }
+    }
 }
