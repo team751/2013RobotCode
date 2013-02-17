@@ -2,6 +2,7 @@ package org.team751.util.cow;
 
 import org.team751.commands.CommandBase;
 import org.team751.subsystems.Cow2;
+import org.team751.subsystems.Cow2.Position;
 
 /**
  * Keeps track of the state of the cow and determines if it is safe to move.
@@ -40,6 +41,20 @@ public class CowProtector {
      * @return 
      */
     public boolean canMoveTo(Cow2.Position position) {
+        
+        /*
+         * If the cow is rotated forward so that a stomach that is full is
+         * forward of the shooter, the disk will crash into the shooter.
+         */
+        if(cow.isStomach3Full()) {
+            //Don't move forward of shoot3
+            if(position == Position.kShoot3) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
         
         return false;
         
