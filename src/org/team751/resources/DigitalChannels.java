@@ -79,6 +79,11 @@ public class DigitalChannels {
      * Cow position 3 limit switch
      */
     public static final int COW_STOMACH_3 = 12;
+	
+	/**
+	 * Cow zeroing photoelectric switch
+	 */
+	public static final int COW_ZERO = 13;
     
     static {
         //Confirm that there are no duplicate channels assigned
