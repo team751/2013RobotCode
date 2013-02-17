@@ -67,7 +67,7 @@ public class Pusher extends Subsystem {
 	 * a safe position to extend the pusher, nothing will happen.
 	 */
 	public void push() {
-		if(CommandBase.cow.isInPosition()) {
+//		if(CommandBase.cow.isInPosition()) {
 			try {
 				//Set the motor to move forward. The Jaguar will detect that
 				//the limit switch is pressed and stop the motor by itself.
@@ -75,11 +75,11 @@ public class Pusher extends Subsystem {
 			} catch (CANTimeoutException ex) {
 				ex.printStackTrace();
 			}
-		}
-		else {
-			System.err.println("Protection failure! Pusher commanded to extend "
-					+ "when the cow is not in position.");
-		}
+//		}
+//		else {
+//			System.err.println("Protection failure! Pusher commanded to extend "
+//					+ "when the cow is not in position.");
+//		}
 	}
 	
 	/**

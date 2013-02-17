@@ -2,6 +2,9 @@
 package org.team751;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import org.team751.commands.pusher.PusherExtendRetract;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -12,8 +15,8 @@ public class OI {
     // One type of button is a joystick button which is any button on a joystick.
     // You create one by telling it which joystick it's on and which button
     // number it is.
-    public Joystick leftStick = new Joystick(0);
-    public Joystick rightStick = new Joystick(1);
+    public Joystick driveStick = new Joystick(1);
+    public Joystick operatorStick = new Joystick(2);
     // Button button = new JoystickButton(stick, buttonNumber);
     
     // Another type of button you can create is a DigitalIOButton, which is
@@ -40,5 +43,13 @@ public class OI {
     // Start the command when the button is released  and let it run the command
     // until it is finished as determined by it's isFinished method.
     // button.whenReleased(new ExampleCommand());
+	
+	private Button driveTrigger = new JoystickButton(driveStick, 1);
+	
+	public OI() {
+		
+		driveTrigger.whenPressed(new PusherExtendRetract());
+		
+	}
 }
 

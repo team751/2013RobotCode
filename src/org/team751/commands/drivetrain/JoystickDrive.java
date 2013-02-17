@@ -24,8 +24,8 @@ public class JoystickDrive extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        double x = oi.rightStick.getX();
-        double y = oi.rightStick.getY();
+        double x = oi.driveStick.getX();
+        double y = oi.driveStick.getY();
 		
 		//Square the values to make things smoother
 		double xSquared = x * x;

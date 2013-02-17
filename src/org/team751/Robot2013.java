@@ -43,7 +43,7 @@ public class Robot2013 extends IterativeRobot {
     }
 
     public void disabledPeriodic() {
-        System.out.println("disabledPeriodic() called");
+        
     }
 
     /**
@@ -60,7 +60,6 @@ public class Robot2013 extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-        System.out.println("TeleopPeriodic called");
         Scheduler.getInstance().run();
     }
 
