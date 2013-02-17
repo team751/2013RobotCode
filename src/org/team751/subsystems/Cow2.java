@@ -7,6 +7,7 @@ import org.team751.commands.CommandBase;
 import org.team751.resources.CANJaguarIDs;
 import org.team751.resources.DigitalChannels;
 import org.team751.util.LimitSwitch;
+import org.team751.util.cow.CowProtector;
 import org.team751.util.cow.CowStomachStatus;
 
 /**
@@ -42,11 +43,14 @@ public class Cow2 extends Subsystem {
      * Limit switch for detecting a disk in stomach 3
      */
     private LimitSwitch stomach3Switch = new LimitSwitch(DigitalChannels.COW_STOMACH_3);
+	
+	
+	public final CowProtector protection = new CowProtector(this);
 
     /**
      * The Position that is currently targeted
      */
-    private Position targetPosition = Position.kShoot0;
+    private Position targetPosition = Position.kShoot3;
 
     //<editor-fold defaultstate="collapsed" desc="Position enumeration">
     /**

@@ -42,19 +42,63 @@ public class CowProtector {
      */
     public boolean canMoveTo(Cow2.Position position) {
         
-        /*
-         * If the cow is rotated forward so that a stomach that is full is
-         * forward of the shooter, the disk will crash into the shooter.
-         */
-        if(cow.isStomach3Full()) {
-            //Don't move forward of shoot3
-            if(position == Position.kShoot3) {
-                return true;
-            }
-            else {
-                return false;
-            }
-        }
+		//Return false if the cow can't move at all
+		if(!canMoveAtAll()) return false;
+		
+        if(position == Position.kLoad0) {
+			//Load 0: Loading into furthest back position
+			
+			return true;
+		}
+		else if(position == Position.kLoad1) {
+			//Load 1: Loading into furthest back +1 (this rotates back 1 slot
+			//further than load0)
+			
+			return true;
+		}
+		else if(position == Position.kLoad2) {
+			//Load 2: Back 1 slot further than load1
+			return true;
+		}
+		else if(position == Position.kLoad3) {
+			//Load 3: Back 1 slot further than load2
+		}
+		else if(position == Position.kShoot0) {
+			//Shoot 0: Shoot from the furthest back (topmost) stomach
+			//Stomachs 1-3 must be empty so that no disk crashes into the
+			//shooter as it descends.
+			if(cow.isStomach1Full() || cow.isStomach2Full() || cow.isStomach3Full()) {
+				return false;
+			}
+			else {
+				return true;
+			}
+		}
+		else if(position == Position.kShoot1) {
+			//Shoot 1: One slot back from shoot0
+			//Stomachs 2-3 must be empty
+			if(cow.isStomach2Full() || cow.isStomach3Full()) {
+				return false;
+			}
+			else {
+				return true;
+			}
+		}
+		else if(position == Position.kShoot2) {
+			//Shoot 2: One slot back from shoot1
+			//Stomach 3 must be empty
+			if(cow.isStomach3Full()) {
+				return false;
+			}
+			else {
+				return true;
+			}
+		}
+		else if(position == Position.kShoot3) {
+			//Shooting from the furthest-forward stomach
+			//always safe
+			return true;
+		}
         
         return false;
         
