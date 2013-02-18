@@ -94,42 +94,42 @@ public class Cow2 extends Subsystem {
 		/**
 		 * Position for loading into stomach 0. (stomach 0 is at the bottom).
 		 */
-		public static final Position kLoad0 = new Position(100);
+		public static final Position kLoad0 = new Position(90);
 
 		/**
 		 * Position for loading into stomach 1.
 		 */
-		public static final Position kLoad1 = new Position(115);
+		public static final Position kLoad1 = new Position(100);
 
 		/**
 		 * Position for loading into stomach 2.
 		 */
-		public static final Position kLoad2 = new Position(130);
+		public static final Position kLoad2 = new Position(120);
 
 		/**
 		 * Position for loading into stomach 3. (stomach 3 is at the top)
 		 */
-		public static final Position kLoad3 = new Position(145);
+		public static final Position kLoad3 = new Position(130);
 
 		/**
 		 * Position for shooting from stomach 0. (stomach 0 is at the top)
 		 */
-		public static final Position kShoot0 = new Position(0);
+		public static final Position kShoot0 = new Position(-30);
 
 		/**
 		 * Position for shooting from stomach 1.
 		 */
-		public static final Position kShoot1 = new Position(15);
+		public static final Position kShoot1 = new Position(-20);
 
 		/**
 		 * Position for shooting from stomach 2.
 		 */
-		public static final Position kShoot2 = new Position(30);
+		public static final Position kShoot2 = new Position(-10);
 
 		/**
 		 * Position for shooting from stomach 3. (stomach 3 is at the bottom).
 		 */
-		public static final Position kShoot3 = new Position(45);
+		public static final Position kShoot3 = new Position(0);
 
 		/**
 		 * Constructor
