@@ -3,7 +3,6 @@ package org.team751.subsystems;
 import edu.wpi.first.wpilibj.CANJaguar;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import org.team751.commands.CommandBase;
 import org.team751.resources.CANJaguarIDs;
 
 /**
