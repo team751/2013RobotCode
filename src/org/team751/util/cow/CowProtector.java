@@ -1,8 +1,8 @@
 package org.team751.util.cow;
 
 import org.team751.commands.CommandBase;
-import org.team751.subsystems.Cow2;
-import org.team751.subsystems.Cow2.Position;
+import org.team751.subsystems.Cow;
+import org.team751.subsystems.Cow.Position;
 
 /**
  * Keeps track of the state of the cow and determines if it is safe to move.
@@ -14,13 +14,13 @@ public class CowProtector {
     /**
      * The cow that is being monitored and protected
      */
-    private Cow2 cow;
+    private Cow cow;
     
     /**
      * Constructor
      * @param parent the cow to monitor
      */
-    public CowProtector(Cow2 parent) {
+    public CowProtector(Cow parent) {
         cow = parent;
     }
     
@@ -40,7 +40,7 @@ public class CowProtector {
      * @param position The position to check
      * @return 
      */
-    public boolean canMoveTo(Cow2.Position position) {
+    public boolean canMoveTo(Cow.Position position) {
         
 		//Return false if the cow can't move at all
 		if(!canMoveAtAll()) return false;

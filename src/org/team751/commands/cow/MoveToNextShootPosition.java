@@ -1,8 +1,8 @@
 package org.team751.commands.cow;
 
 import org.team751.commands.CommandBase;
-import org.team751.subsystems.Cow2;
-import org.team751.subsystems.Cow2.Position;
+import org.team751.subsystems.Cow;
+import org.team751.subsystems.Cow.Position;
 import org.team751.util.cow.CowShootPositionFinder;
 import org.team751.util.cow.NoCowPositionException;
 

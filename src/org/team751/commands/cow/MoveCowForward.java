@@ -1,7 +1,7 @@
 package org.team751.commands.cow;
 
 import org.team751.commands.CommandBase;
-import org.team751.subsystems.Cow2.Position;
+import org.team751.subsystems.Cow.Position;
 
 /**
  * Moves the cow forward one position. Finishes when the cow has reached

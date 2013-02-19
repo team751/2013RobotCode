@@ -1,6 +1,6 @@
 package org.team751.util.cow;
 
-import org.team751.subsystems.Cow2.Position;
+import org.team751.subsystems.Cow.Position;
 
 /**
  * Finds the best position to move the cow to to load a disk

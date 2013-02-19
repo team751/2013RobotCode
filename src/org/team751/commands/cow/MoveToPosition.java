@@ -1,7 +1,7 @@
 package org.team751.commands.cow;
 
 import org.team751.commands.CommandBase;
-import org.team751.subsystems.Cow2;
+import org.team751.subsystems.Cow;
 
 /**
  * Moves the Cow to a set position. Finishes when the cow has reached
@@ -13,13 +13,13 @@ public class MoveToPosition extends CommandBase {
     /**
      * The position that is targeted
      */
-    private Cow2.Position targetPosition;
+    private Cow.Position targetPosition;
     
     /**
      * Constructor
      * @param position The position to move to
      */
-    public MoveToPosition(Cow2.Position position) {
+    public MoveToPosition(Cow.Position position) {
         targetPosition = position;
         
         requires(cow);

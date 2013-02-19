@@ -3,7 +3,7 @@ package org.team751.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.team751.OI;
-import org.team751.subsystems.Cow2;
+import org.team751.subsystems.Cow;
 import org.team751.subsystems.Drivetrain;
 import org.team751.subsystems.Pusher;
 import org.team751.subsystems.ShooterWheels;
@@ -21,7 +21,7 @@ public abstract class CommandBase extends Command {
     // Create a single static instance of all of your subsystems
     public static Drivetrain driveTrain = new Drivetrain();
     
-    public static Cow2 cow = new Cow2();
+    public static Cow cow = new Cow();
 	
 	public static Pusher pusher = new Pusher();
 	

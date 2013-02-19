@@ -1,6 +1,6 @@
 package org.team751.util.cow;
 
-import org.team751.subsystems.Cow2;
+import org.team751.subsystems.Cow;
 
 /**
  * An interface for a class that, based on a {@link CowStomachStatus}, can
@@ -22,7 +22,7 @@ public interface CowPositionFinder {
 	 * a disk, or when trying to find a loading position when every slot
 	 * contains a disk.
      */
-    public Cow2.Position getClosestPosition
-			(final CowStomachStatus status, final Cow2.Position currentPosition)
+    public Cow.Position getClosestPosition
+			(final CowStomachStatus status, final Cow.Position currentPosition)
 			throws NoCowPositionException;
 }

@@ -14,7 +14,7 @@ import org.team751.util.cow.CowStomachStatus;
  * Manages the second, simpler, revision of the cow
  * @author Sam Crow
  */
-public class Cow2 extends Subsystem {
+public class Cow extends Subsystem {
 
 	/**
 	 * The Jaguar used to control rotation
@@ -201,7 +201,7 @@ public class Cow2 extends Subsystem {
 	}
 	//</editor-fold>
 
-	public Cow2() {
+	public Cow() {
 		try {
 			rotationMotor = new CANJaguar(CANJaguarIDs.COW_ROTATE);
 
@@ -286,7 +286,7 @@ public class Cow2 extends Subsystem {
 
 	/**
 	 * Determine if the Cow rotation is in the position set by
-	 * {@link #setTargetPosition(org.team751.subsystems.Cow2.Position)}.
+	 * {@link #setTargetPosition(org.team751.subsystems.Cow.Position)}.
 	 * @return True if the Cow is in position, otherwise false
 	 */
 	public boolean isInPosition() {
