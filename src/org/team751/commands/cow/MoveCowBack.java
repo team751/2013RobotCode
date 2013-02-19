@@ -1,7 +1,7 @@
 package org.team751.commands.cow;
 
 import org.team751.commands.CommandBase;
-import org.team751.subsystems.Cow.Position;
+import org.team751.util.cow.CowPosition;
 
 /**
  * Moves the cow back one position. Finishes when the cow has reached
@@ -23,7 +23,7 @@ public class MoveCowBack extends CommandBase {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		Position newPosition = cow.getTargetPosition().nextBack();
+		CowPosition newPosition = cow.getTargetPosition().nextBack();
 		if(newPosition != null) {
 			cow.setTargetPosition(newPosition);
 		}

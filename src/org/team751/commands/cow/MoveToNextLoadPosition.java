@@ -1,7 +1,7 @@
 package org.team751.commands.cow;
 
 import org.team751.commands.CommandBase;
-import org.team751.subsystems.Cow.Position;
+import org.team751.util.cow.CowPosition;
 import org.team751.util.cow.CowLoadPositionFinder;
 import org.team751.util.cow.NoCowPositionException;
 
@@ -22,7 +22,7 @@ public class MoveToNextLoadPosition extends CommandBase {
     // Called just before this Command runs the first time
     protected void initialize() {
         //Choose the best position to move to
-        Position targetPosition = null;
+        CowPosition targetPosition = null;
         try {
             targetPosition =
                 new CowLoadPositionFinder()

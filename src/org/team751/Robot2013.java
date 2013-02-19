@@ -43,7 +43,7 @@ public class Robot2013 extends IterativeRobot {
     }
 
     public void disabledPeriodic() {
-        
+        System.out.println("Cow: at zero "+CommandBase.cow.isAtZero()+" position "+CommandBase.cow.getActualPosition());
     }
 
     /**

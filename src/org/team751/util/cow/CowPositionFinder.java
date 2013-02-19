@@ -22,7 +22,7 @@ public interface CowPositionFinder {
 	 * a disk, or when trying to find a loading position when every slot
 	 * contains a disk.
      */
-    public Cow.Position getClosestPosition
-			(final CowStomachStatus status, final Cow.Position currentPosition)
+    public CowPosition getClosestPosition
+			(final CowStomachStatus status, final CowPosition currentPosition)
 			throws NoCowPositionException;
 }

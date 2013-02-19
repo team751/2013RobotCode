@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import org.team751.commands.cow.MoveCowBack;
 import org.team751.commands.cow.MoveCowForward;
+import org.team751.commands.cow.ZeroCow;
 import org.team751.commands.pusher.PusherExtendRetract;
 import org.team751.commands.shooter.ManualSpeedDecrease;
 import org.team751.commands.shooter.ManualSpeedIncrease;
@@ -73,6 +74,11 @@ public class OI {
 	 */
 	private Button operatorBaseRightBack = new JoystickButton(operatorStick, 10);
 	
+	/**
+	 * Operator joystick, top, back
+	 */
+	private Button operatorStickTopBack = new JoystickButton(operatorStick, 2);
+	
 	public OI() {
 		
 		driveTrigger.whenPressed(new PusherExtendRetract());
@@ -82,6 +88,8 @@ public class OI {
 		
 		operatorBaseRightForward.whenPressed(new MoveCowForward());
 		operatorBaseRightBack.whenPressed(new MoveCowBack());
+		
+		operatorStickTopBack.whenPressed(new ZeroCow());
 		
 	}
 }
