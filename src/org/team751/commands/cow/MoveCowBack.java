@@ -26,6 +26,8 @@ public class MoveCowBack extends CommandBase {
 		CowPosition newPosition = cow.getTargetPosition().nextBack();
 		if(newPosition != null) {
 			cow.setTargetPosition(newPosition);
+			
+			System.out.println("New cow position "+newPosition.toString());
 		}
 		else {
 			canceled = true;

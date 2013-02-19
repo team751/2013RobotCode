@@ -6,10 +6,12 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import org.team751.commands.cow.MoveCowBack;
 import org.team751.commands.cow.MoveCowForward;
-import org.team751.commands.cow.ZeroCow;
+import org.team751.commands.cow.ZeroCowStep1;
 import org.team751.commands.pusher.PusherExtendRetract;
 import org.team751.commands.shooter.ManualSpeedDecrease;
 import org.team751.commands.shooter.ManualSpeedIncrease;
+import org.team751.commands.shooter.ShooterOff;
+import org.team751.commands.shooter.ShooterOn;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -54,6 +56,8 @@ public class OI {
 	 */
 	private Button driveTrigger = new JoystickButton(driveStick, 1);
 	
+	private Button driveTopBack = new JoystickButton(driveStick, 2);
+	
 	/**
 	 * Operator joystick, base, left side, forward button
 	 */
@@ -82,6 +86,8 @@ public class OI {
 	public OI() {
 		
 		driveTrigger.whenPressed(new PusherExtendRetract());
+		driveTopBack.whenPressed(new ShooterOn());
+		driveTopBack.whenReleased(new ShooterOff());
 		
 		operatorBaseLeftForward.whenPressed(new ManualSpeedIncrease());
 		operatorBaseLeftBack.whenPressed(new ManualSpeedDecrease());
@@ -89,7 +95,7 @@ public class OI {
 		operatorBaseRightForward.whenPressed(new MoveCowForward());
 		operatorBaseRightBack.whenPressed(new MoveCowBack());
 		
-		operatorStickTopBack.whenPressed(new ZeroCow());
+		operatorStickTopBack.whenPressed(new ZeroCowStep1());
 		
 	}
 }

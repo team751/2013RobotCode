@@ -44,20 +44,20 @@ public class ShooterWheels extends Subsystem {
      * The target speed of the first (slower) wheel, compared to the speed
      * of the second (faster) wheel
      */
-    private static final double FIRST_WHEEL_SPEED_RATIO = 0.8;
+    private static final double FIRST_WHEEL_SPEED_RATIO = 1;
     
     /**
      * The maximum speed, in RPM, of the second (faster) wheel
      */
-    private static final double MAXIMUM_SPEED = 4000;
+    private static final double MAXIMUM_SPEED = 2873;
     
     
    
     //Speed controllers
     
-    private ClosedLoopSpeedController firstController;
+//    private ClosedLoopSpeedController firstController;
     
-    private ClosedLoopSpeedController secondController;
+//    private ClosedLoopSpeedController secondController;
 
     public ShooterWheels() {
         try {
@@ -66,16 +66,21 @@ public class ShooterWheels extends Subsystem {
             
             configJaguars();
             
-            firstController = new ClosedLoopSpeedController(new EncoderSpeedSource(firstEncoder), firstMotor);
-            secondController = new ClosedLoopSpeedController(new EncoderSpeedSource(secondEncoder), secondMotor);
+//            firstController = new ClosedLoopSpeedController(new EncoderSpeedSource(firstEncoder), firstMotor);
+//            secondController = new ClosedLoopSpeedController(new EncoderSpeedSource(secondEncoder), secondMotor);
             
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }
         
+		firstEncoder.setReverseDirection(true);
+		secondEncoder.setReverseDirection(true);
+		
 		//Start counting encoder pulses
 		firstEncoder.start();
 		secondEncoder.start();
+		
+		setSpeed(0.5);
     }
     
     /**
@@ -83,19 +88,19 @@ public class ShooterWheels extends Subsystem {
      * greater than zero, the wheels will spin.
      */
     public void enable() {
-        firstController.start();
-        firstController.enable();
+//        firstController.start();
+//        firstController.enable();
         
-        secondController.start();
-        secondController.enable();
+//        secondController.start();
+//        secondController.enable();
     }
     
     /**
      * Disable the shooter wheels. They will stop after they spin down.
      */
     public void disable() {
-        firstController.disable();
-        secondController.disable();
+//        firstController.disable();
+//        secondController.disable();
     }
     
     /**
@@ -108,8 +113,8 @@ public class ShooterWheels extends Subsystem {
         double secondTarget = MAXIMUM_SPEED * ratio;
         double firstTarget = secondTarget * FIRST_WHEEL_SPEED_RATIO;
         
-        firstController.setTargetRpm(firstTarget);
-        secondController.setTargetRpm(secondTarget);
+//        firstController.setTargetRpm(firstTarget);
+//        secondController.setTargetRpm(secondTarget);
     }
 	
 	/**
@@ -118,7 +123,8 @@ public class ShooterWheels extends Subsystem {
 	 * @return True if both are on target, otherwise false.
 	 */
 	public boolean isOnTarget() {
-		return firstController.isOnTarget() && secondController.isOnTarget();
+//		return firstController.isOnTarget() && secondController.isOnTarget();
+		return false;
 	}
     
     /**
@@ -132,6 +138,8 @@ public class ShooterWheels extends Subsystem {
         firstMotor.configNeutralMode(CANJaguar.NeutralMode.kCoast);
         secondMotor.configNeutralMode(CANJaguar.NeutralMode.kCoast);
         
+		firstMotor.changeControlMode(CANJaguar.ControlMode.kPercentVbus);
+		firstMotor.changeControlMode(CANJaguar.ControlMode.kPercentVbus);
         
         //Set the maximum ramp rate to 24 volts/second
         //(1/2 second for a full voltage range traversal)
@@ -173,4 +181,21 @@ public class ShooterWheels extends Subsystem {
 		}
 	}
 	
+	public double getFirstEncoderCount() {
+		return firstEncoder.get();
+	}
+	
+	public double getSecondEncoderCount() {
+		return secondEncoder.get();
+	}
+	
+	public double getFirstRpm() {
+//		return firstController.getActualRpm();
+		return 0;
+	}
+	
+	public double getSecondRpm() {
+//		return secondController.getActualRpm();
+		return 0;
+	}
 }

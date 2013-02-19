@@ -90,6 +90,7 @@ public class Cow extends Subsystem {
 		targetPosition = position;
 		try {
 			rotationMotor.setX(zeroPosition + targetPosition.getEncoderValue());
+			rotationMotor.enableControl();
 		} catch (CANTimeoutException ex) {
 			ex.printStackTrace();
 		}
@@ -106,7 +107,9 @@ public class Cow extends Subsystem {
 		rotationMotor.configEncoderCodesPerRev(1);
 		rotationMotor.setPID(kP, kI, kD);
 
-		rotationMotor.setX(0);
+		rotationMotor.setX(zeroPosition);
+		
+		rotationMotor.setSafetyEnabled(false);
 	}
 
 	//<editor-fold defaultstate="collapsed" desc="isFull methods and occupation status">
@@ -203,6 +206,7 @@ public class Cow extends Subsystem {
 		if (CommandBase.pusher.isRetracted()) {
 
 			try {
+				configJaguars();
 				rotationMotor.changeControlMode(CANJaguar.ControlMode.kPosition);
 				rotationMotor.enableControl();
 			} catch (CANTimeoutException ex) {
@@ -230,7 +234,7 @@ public class Cow extends Subsystem {
 	public void manualMoveForwardFast() {
 		configJaguarsPercentVbus();
 		try {
-			rotationMotor.setX(-0.2);
+			rotationMotor.setX(-0.1);
 		} catch (CANTimeoutException ex) {
 			ex.printStackTrace();
 		}
@@ -303,7 +307,7 @@ public class Cow extends Subsystem {
 	 */
 	public double getActualPosition() {
 		try {
-			return rotationMotor.getPosition();
+			return rotationMotor.getPosition() - zeroPosition;
 		} catch (CANTimeoutException ex) {
 			ex.printStackTrace();
 			return 0;

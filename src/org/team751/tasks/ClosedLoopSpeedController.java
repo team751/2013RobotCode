@@ -36,6 +36,8 @@ public class ClosedLoopSpeedController extends PeriodicTask {
     public ClosedLoopSpeedController(SpeedSource source, SpeedController controller) {
         this.source = source;
         this.controller = controller;
+		
+		setTaskTime(0.1);
     }
     
     
@@ -85,25 +87,29 @@ public class ClosedLoopSpeedController extends PeriodicTask {
 
             if (currentRpm > targetRpm) {
                 //slightly decrease the power
-                power -= 0.01;
+                power = 0;
 
             }
             
             if(currentRpm < targetRpm) {
                 //slightly increase the power
-                power += 0.1;
+                power += 1;
             }
 
             //Prevent the motor from going into reverse
             if (power < 0) {
-                power = 0;
+                power -= 0.1;
             }
             //Limit to <= 1
             if(power > 1) {
-                power = 1;
+                power += 0.1;
             }
-
+			System.out.println("Target "+targetRpm+" actual "+currentRpm+" output "+power);
             controller.set(power);
         }
     }
+	
+	public synchronized double getActualRpm() {
+		return source.getRpm();
+	}
 }

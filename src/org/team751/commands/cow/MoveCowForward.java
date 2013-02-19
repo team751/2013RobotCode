@@ -26,9 +26,12 @@ public class MoveCowForward extends CommandBase {
 		CowPosition newPosition = cow.getTargetPosition().nextForward();
 		if(newPosition != null) {
 			cow.setTargetPosition(newPosition);
+			
+			System.out.println("New cow position "+newPosition.toString());
 		}
 		else {
 			canceled = true;
+			System.out.println("Cow command canceling. No forward position");
 		}
 	}
 

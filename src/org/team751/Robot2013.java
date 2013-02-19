@@ -43,7 +43,7 @@ public class Robot2013 extends IterativeRobot {
     }
 
     public void disabledPeriodic() {
-        System.out.println("Cow: at zero "+CommandBase.cow.isAtZero()+" position "+CommandBase.cow.getActualPosition());
+//		doDebug();
     }
 
     /**
@@ -61,6 +61,7 @@ public class Robot2013 extends IterativeRobot {
      */
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
+//		doDebug();
     }
 
     /**
@@ -95,4 +96,8 @@ public class Robot2013 extends IterativeRobot {
             System.err.println("Revision information not found.");
         }
     }
+	
+	private void doDebug() {
+		System.out.println("Cow actual "+CommandBase.cow.getActualPosition()+" target "+CommandBase.cow.getTargetPosition().getEncoderValue()+" at zero "+CommandBase.cow.isAtZero());
+	}
 }

@@ -11,6 +11,8 @@ import java.util.TimerTask;
  * @author Sam Crow
  */
 public abstract class PeriodicTask {
+	
+	private boolean started = false;
     
     private Timer periodicTaskTimer = new Timer();
     
@@ -36,8 +38,11 @@ public abstract class PeriodicTask {
      * set by {@link #setTaskTime(double) }.
      */
     public void start() {
-        //start the timer
-        periodicTaskTimer.schedule(periodicTask, 0, MathUtils.round(periodicTaskTime * 1000));
+		if(!started) {
+			//start the timer
+			periodicTaskTimer.schedule(periodicTask, 0, MathUtils.round(periodicTaskTime * 1000));
+			started = true;
+		}
     }
     
     /**
