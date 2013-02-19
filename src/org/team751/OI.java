@@ -4,7 +4,11 @@ package org.team751;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import org.team751.commands.cow.MoveCowBack;
+import org.team751.commands.cow.MoveCowForward;
 import org.team751.commands.pusher.PusherExtendRetract;
+import org.team751.commands.shooter.ManualSpeedDecrease;
+import org.team751.commands.shooter.ManualSpeedIncrease;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -44,11 +48,40 @@ public class OI {
     // until it is finished as determined by it's isFinished method.
     // button.whenReleased(new ExampleCommand());
 	
+	/**
+	 * Drive joystick, trigger
+	 */
 	private Button driveTrigger = new JoystickButton(driveStick, 1);
+	
+	/**
+	 * Operator joystick, base, left side, forward button
+	 */
+	private Button operatorBaseLeftForward = new JoystickButton(operatorStick, 6);
+	
+	/**
+	 * Operator joystick, base, left side, back button
+	 */
+	private Button operatorBaseLeftBack = new JoystickButton(operatorStick, 7);
+	
+	/**
+	 * Operator joystick, base, right side, forward button
+	 */
+	private Button operatorBaseRightForward = new JoystickButton(operatorStick, 11);
+	
+	/**
+	 * Operator joystick, base, right side, back button
+	 */
+	private Button operatorBaseRightBack = new JoystickButton(operatorStick, 10);
 	
 	public OI() {
 		
 		driveTrigger.whenPressed(new PusherExtendRetract());
+		
+		operatorBaseLeftForward.whenPressed(new ManualSpeedIncrease());
+		operatorBaseLeftBack.whenPressed(new ManualSpeedDecrease());
+		
+		operatorBaseRightForward.whenPressed(new MoveCowForward());
+		operatorBaseRightBack.whenPressed(new MoveCowBack());
 		
 	}
 }

@@ -5,6 +5,8 @@ import edu.wpi.first.wpilibj.CounterBase;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.team751.commands.shooter.ManualShooterSpeed;
 import org.team751.resources.CANJaguarIDs;
 import org.team751.resources.DigitalChannels;
 import org.team751.tasks.ClosedLoopSpeedController;
@@ -139,7 +141,36 @@ public class ShooterWheels extends Subsystem {
     }
     
     public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
+        setDefaultCommand(new ManualShooterSpeed());
     }
+	
+	public void setSpeedOpenLoop(double speed) {
+		if(speed < 0) {
+			speed = 0;
+		}
+		try {
+			
+			firstMotor.setX(speed);
+			secondMotor.setX(speed);
+			
+		} catch (CANTimeoutException ex) {
+			ex.printStackTrace();
+		}
+		
+		SmartDashboard.putNumber("Shooter speed", speed);
+	}
+	
+	/**
+	 * Get the recently set open-loop speed
+	 * @return 
+	 */
+	public double getSpeedOpenLoop() {
+		try {
+			return secondMotor.getX();
+		} catch (CANTimeoutException ex) {
+			ex.printStackTrace();
+			return 0;
+		}
+	}
+	
 }

@@ -146,6 +146,58 @@ public class Cow2 extends Subsystem {
 		double getEncoderValue() {
 			return encoderValue;
 		}
+		
+		/**
+		 * Get the position that is one position back from this one.
+		 * @return The next back position. If no position is further back
+		 * than this one, returns null.
+		 */
+		public Position nextBack() {
+			if(this == Position.kShoot3) return Position.kLoad0;
+			
+			if(this == Position.kShoot2) return Position.kShoot3;
+			
+			if(this == Position.kShoot1) return Position.kShoot2;
+			
+			if(this == Position.kShoot0) return Position.kShoot1;
+			
+			
+			if(this == Position.kLoad0) return Position.kLoad1;
+			
+			if(this == Position.kLoad1) return Position.kLoad2;
+			
+			if(this == Position.kLoad2) return Position.kLoad3;
+			
+			if(this == Position.kLoad3) return null;
+			
+			return null;
+		}
+		
+		/**
+		 * Get the position that is one forward of this one.
+		 * @return The next forward position. If not position is further forward
+		 * than this one, returns null.
+		 */
+		public Position nextForward() {
+			
+			if(this == Position.kLoad3) return Position.kLoad2;
+			
+			if(this == Position.kLoad2) return Position.kLoad1;
+			
+			if(this == Position.kLoad1) return Position.kLoad0;
+			
+			if(this == Position.kLoad0) return Position.kShoot3;
+			
+			if(this == Position.kShoot3) return Position.kShoot2;
+			
+			if(this == Position.kShoot2) return Position.kShoot1;
+			
+			if(this == Position.kShoot1) return Position.kShoot0;
+			
+			if(this == Position.kShoot0) return null;
+			
+			return null;
+		}
 	}
 	//</editor-fold>
 

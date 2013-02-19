@@ -19,13 +19,13 @@ public abstract class CommandBase extends Command {
 
     public static OI oi;
     // Create a single static instance of all of your subsystems
-    public static Drivetrain driveTrain;
+    public static Drivetrain driveTrain = new Drivetrain();
     
-    public static Cow2 cow;
+    public static Cow2 cow = new Cow2();
 	
-	public static Pusher pusher;
+	public static Pusher pusher = new Pusher();
 	
-	public static ShooterWheels shooterWheels;
+	public static ShooterWheels shooterWheels = new ShooterWheels();
     
     //Periodic tasks here (these are not subsystems)
     public static Navigator navigator;
@@ -35,12 +35,6 @@ public abstract class CommandBase extends Command {
     public static void init() {
         
         System.out.println("CommandBase.init() called");
-        
-        driveTrain = new Drivetrain();
-        cow = new Cow2();
-        pusher = new Pusher();
-        shooterWheels = new ShooterWheels();
-        navigator = new Navigator();
         
         // This MUST be here. If the OI creates Commands (which it very likely
         // will), constructing it during the construction of CommandBase (from

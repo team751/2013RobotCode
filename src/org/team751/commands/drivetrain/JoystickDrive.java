@@ -27,6 +27,9 @@ public class JoystickDrive extends CommandBase {
         double x = oi.driveStick.getX();
         double y = oi.driveStick.getY();
 		
+		//Scale down the rotation
+		x *= 0.7;
+		
 		//Square the values to make things smoother
 		double xSquared = x * x;
 		if(x < 0) xSquared = -xSquared;

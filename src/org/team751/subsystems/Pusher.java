@@ -39,10 +39,11 @@ public class Pusher extends Subsystem {
     
     /**
      * Determine if the pusher is retracted enough to safely move the cow
-     */
+	 * @return 
+	 */
     public boolean isRetracted() {
         try {
-            return !jaguar.getReverseLimitOK();
+            return !jaguar.getForwardLimitOK();
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }
@@ -51,10 +52,11 @@ public class Pusher extends Subsystem {
 	
 	/**
 	 * Determine if the pusher is fully extended
+	 * @return 
 	 */
 	public boolean isExtended() {
 		try {
-			return !jaguar.getForwardLimitOK();
+			return !jaguar.getReverseLimitOK();
 		} catch (CANTimeoutException ex) {
 			ex.printStackTrace();
 		}
