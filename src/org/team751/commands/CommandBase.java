@@ -3,10 +3,7 @@ package org.team751.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.team751.OI;
-import org.team751.subsystems.Drivetrain;
-import org.team751.subsystems.Pusher;
-import org.team751.subsystems.ShooterWheels;
-import org.team751.subsystems.SimpleCow;
+import org.team751.subsystems.*;
 import org.team751.tasks.Navigator;
 
 /**
@@ -24,6 +21,8 @@ public abstract class CommandBase extends Command {
 //    public static Cow cow = new Cow();
 	
 	public static SimpleCow simpleCow = new SimpleCow();
+	
+	public static Cow3 cow3 = new Cow3();
 	
 	public static Pusher pusher = new Pusher();
 	
