@@ -98,6 +98,6 @@ public class Robot2013 extends IterativeRobot {
     }
 	
 	private void doDebug() {
-		System.out.println("Cow actual "+CommandBase.cow.getActualPosition()+" target "+CommandBase.cow.getTargetPosition().getEncoderValue()+" at zero "+CommandBase.cow.isAtZero());
+		
 	}
 }

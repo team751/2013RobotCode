@@ -4,9 +4,8 @@ package org.team751;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import org.team751.commands.cow.MoveCowBack;
-import org.team751.commands.cow.MoveCowForward;
-import org.team751.commands.cow.ZeroCowStep1;
+import org.team751.commands.cow.simple.SimpleCowBack;
+import org.team751.commands.cow.simple.SimpleCowForwards;
 import org.team751.commands.pusher.PusherExtendRetract;
 import org.team751.commands.shooter.ManualSpeedDecrease;
 import org.team751.commands.shooter.ManualSpeedIncrease;
@@ -92,10 +91,8 @@ public class OI {
 		operatorBaseLeftForward.whenPressed(new ManualSpeedIncrease());
 		operatorBaseLeftBack.whenPressed(new ManualSpeedDecrease());
 		
-		operatorBaseRightForward.whenPressed(new MoveCowForward());
-		operatorBaseRightBack.whenPressed(new MoveCowBack());
-		
-		operatorStickTopBack.whenPressed(new ZeroCowStep1());
+		operatorBaseRightForward.whileHeld(new SimpleCowForwards());
+		operatorBaseRightBack.whileHeld(new SimpleCowBack());
 		
 	}
 }
