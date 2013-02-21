@@ -29,7 +29,7 @@ public class DriveRotate extends CommandBase {
     }
     
     protected void initialize() {
-        
+        driveTrain.setBrakeMode();
         controller.enable();
     }
 
@@ -54,6 +54,7 @@ public class DriveRotate extends CommandBase {
         
         //Ensure that the drivetrain is stopped
         driveTrain.arcadeDrive(0, 0);
+        driveTrain.setDefaultNeutralMode();
     }
 
     protected void interrupted() {

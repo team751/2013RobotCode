@@ -142,4 +142,44 @@ public class PolyMotorRobotDrive {
             }
         }
     }
+    
+    /**
+     * Set each CAN Jaguar to use brake mode, instead of the mode configured
+     * by the physical jumper.
+     */
+    public void setBrakeMode() {
+        setNeutralMode(CANJaguar.NeutralMode.kBrake);
+    }
+    
+    /**
+     * Set each CAN Jaguar to use the default mode specified by the jumper.
+     */
+    public void setDefaultNeutralMode() {
+        setNeutralMode(CANJaguar.NeutralMode.kJumper);
+    }
+    
+    /**
+     * Set the neutral mode of each Jaguar
+     * @param mode the mode to set
+     */
+    private void setNeutralMode(CANJaguar.NeutralMode mode) {
+        for(int i = 0; i < leftMotors.length; i++) {
+            if(leftMotors[i] instanceof CANJaguar) {
+                try {
+                    ((CANJaguar) leftMotors[i]).configNeutralMode(mode);
+                } catch (CANTimeoutException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        for(int i = 0; i < rightMotors.length; i++) {
+            if(rightMotors[i] instanceof CANJaguar) {
+                try {
+                    ((CANJaguar) rightMotors[i]).configNeutralMode(mode);
+                } catch (CANTimeoutException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+    }
 }
