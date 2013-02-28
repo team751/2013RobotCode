@@ -12,6 +12,7 @@ import org.team751.tasks.DrivetrainMonitor;
 import org.team751.util.DrivetrainTemperatureSensor;
 import org.team751.util.NamedCANJaguar;
 import org.team751.util.PolyMotorRobotDrive;
+import org.team751.util.SubsystemStatusReporter;
 import org.team751.util.TemperatureSensor;
 
 /**
@@ -39,6 +40,11 @@ public class Drivetrain extends Subsystem {
     private PolyMotorRobotDrive drive;
     private long lastRunTime = System.currentTimeMillis();
     private DrivetrainMonitor monitor;
+    
+    /**
+     * The system that tracks the status of this subsystem and reports it
+     */
+    public final SubsystemStatusReporter reporter = new SubsystemStatusReporter("drivetrain");
 
     public Drivetrain() {
         try {
@@ -58,6 +64,8 @@ public class Drivetrain extends Subsystem {
 
         } catch (CANTimeoutException e) {
             System.out.println("CANTimeoutException: " + e);
+            
+            reporter.reportInitFailed(e);
         }
         drive = new PolyMotorRobotDrive(
                 new SpeedController[]{leftA, leftB, leftC},
@@ -82,6 +90,7 @@ public class Drivetrain extends Subsystem {
             ((MotorSafety) rightB).setExpiration(1);
             ((MotorSafety) rightC).setExpiration(1);
         } catch (ClassCastException e) {
+            e.printStackTrace();
         }
 
         leftSensor = new DrivetrainTemperatureSensor(AnalogChannels.TEMP_DRIVETRAIN_LEFT, "Motors left");
@@ -96,6 +105,8 @@ public class Drivetrain extends Subsystem {
 
     public void arcadeDrive(double moveValue, double rotateValue) {
 
+        if(reporter.isSubsystemWorking()) {
+        
         //timing
         long now = System.currentTimeMillis();
         long loopTime = now - lastRunTime;
@@ -105,9 +116,16 @@ public class Drivetrain extends Subsystem {
         if (loopTime > 100) {
             System.out.println("Long loop! " + loopTime + " ms");
         }
-
-
-        drive.arcadeDrive(moveValue, rotateValue);
+        
+        try {
+            drive.arcadeDrive(moveValue, rotateValue);
+            
+            reporter.reportWorking();
+        } catch (CANTimeoutException ex) {
+            reporter.reportNotWorking(ex);
+        }
+        
+        }
     }
 
     public void initDefaultCommand() {
@@ -121,14 +139,28 @@ public class Drivetrain extends Subsystem {
      * This can be reverted by calling {@link #setDefaultNeutralMode() }.
      */
     public void setBrakeMode() {
-        drive.setBrakeMode();
+        if(reporter.isSubsystemWorking()) {
+            try {
+                drive.setBrakeMode();
+                reporter.reportWorking();
+            } catch (CANTimeoutException ex) {
+                reporter.reportNotWorking(ex);
+            }
+        }
     }
 
     /**
      * Configure the Jaguars to use the neutral mode specified by the jumper
      */
     public void setDefaultNeutralMode() {
-        drive.setDefaultNeutralMode();
+        if(reporter.isSubsystemWorking()) {
+        try {
+            drive.setDefaultNeutralMode();
+            reporter.reportWorking();
+        } catch (CANTimeoutException ex) {
+            reporter.reportNotWorking(ex);
+        }
+        }
     }
 
     /**
