@@ -17,10 +17,6 @@ public abstract class CommandBase extends Command {
     public static OI oi;
     // Create a single static instance of all of your subsystems
     public static Drivetrain driveTrain = new Drivetrain();
-    
-//    public static Cow cow = new Cow();
-	
-	public static SimpleCow simpleCow = new SimpleCow();
 	
 	public static Cow3 cow3 = new Cow3();
 	

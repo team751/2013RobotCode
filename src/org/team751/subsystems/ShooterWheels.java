@@ -149,7 +149,7 @@ public class ShooterWheels extends Subsystem {
     }
     
     public void initDefaultCommand() {
-        setDefaultCommand(new ManualShooterSpeed());
+        
     }
 	
 	public void setSpeedOpenLoop(double speed) {

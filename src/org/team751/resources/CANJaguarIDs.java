@@ -29,6 +29,13 @@ public class CANJaguarIDs {
     
     public static final int DRIVE_RIGHT_C = 7;
     
+    
+    //Summer robot jaguars
+    public static final int SR_DRIVE_LEFT_A = 1;
+    public static final int SR_DRIVE_LEFT_B = 2;
+    public static final int SR_DRIVE_RIGHT_A = 3;
+    public static final int SR_DRIVE_RIGHT_B = 4;
+    
     /**
      * Jaguar for the cow rotation motor
      */

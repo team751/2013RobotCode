@@ -65,7 +65,7 @@ public class SubsystemStatusReporter {
      * @param e An Exception to provide for diagnostics
      */
     public void reportInitFailed(Exception e) {
-        String exceptionType = e.getClass().getSimpleName();
+        String exceptionType = e.getClass().getName();
 
         System.out.print("Subsystem " + name + " failed to initialize. It encountered a " + exceptionType + '!');
         
@@ -94,7 +94,7 @@ public class SubsystemStatusReporter {
         if(isWorking == true) {
             
             if(e != null) {
-                System.out.println("Subsystem "+name+" encountered a "+e.getClass().getSimpleName()+" and has stopped working!");
+                System.out.println("Subsystem "+name+" encountered a "+e.getClass().getName()+" and has stopped working!");
             }
             else {
                 System.out.println("Subsystem "+name+" has stopped working!");

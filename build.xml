@@ -92,28 +92,7 @@
     -->
 
 <target name="git.save_revision" description="Saves the hash of the git revision to org.team751.Revision.java">
-	<exec executable="git" outputproperty="git.revision">
-		<arg value="rev-parse" />
-		<arg value="HEAD" />
-	</exec>
-	<exec executable="git" outputproperty="git.branch">
-		<arg value="rev-parse" />
-		<arg value="--abbrev-ref" />
-		<arg value="HEAD" />
-	</exec>
-	<echo file="./src/org/team751/Revision.java" message="
-package org.team751;${line.separator}	
-/**${line.separator}
- * This class is generated automatically by the build system. It stores information${line.separator}
- * on the branch and revision that the project was built from.${line.separator}
- */${line.separator}
-public class Revision {${line.separator}
-	public static final String revisionString = &quot;${git.revision}&quot;;${line.separator}
-	public static final String branchName = &quot;${git.branch}&quot;;${line.separator}
-	${line.separator}
-	private Revision() {}
-}${line.separator}
-" />
+	
 </target>
 	
 </project>
