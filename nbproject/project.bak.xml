@@ -25,6 +25,11 @@
                     <encoding>MacRoman</encoding>
                 </source-folder>
                 <source-folder>
+                    <label>2013RobotCode</label>
+                    <location>.</location>
+                    <encoding>MacRoman</encoding>
+                </source-folder>
+                <source-folder>
                     <label>src</label>
                     <type>java</type>
                     <location>src</location>
@@ -39,17 +44,20 @@
             </folders>
             <ide-actions>
                 <action name="build">
+                    <target>git.save_revision</target>
                     <target>jar-app</target>
                 </action>
                 <action name="clean">
                     <target>clean</target>
                 </action>
                 <action name="run">
+                    <target>git.save_revision</target>
                     <target>deploy</target>
                     <target>run</target>
                 </action>
                 <action name="rebuild">
                     <target>clean</target>
+                    <target>git.save_revision</target>
                     <target>jar-app</target>
                 </action>
                 <action name="debug">
@@ -60,11 +68,6 @@
                     <target>javadoc</target>
                 </action>
             </ide-actions>
-            <export>
-                <type>folder</type>
-                <location>build</location>
-                <build-target>jar-app</build-target>
-            </export>
             <view>
                 <items>
                     <source-folder style="packages">
@@ -81,11 +84,12 @@
                 </items>
                 <context-menu>
                     <ide-action name="build"/>
-                    <ide-action name="clean"/>
-                    <ide-action name="run"/>
                     <ide-action name="rebuild"/>
-                    <ide-action name="debug"/>
+                    <ide-action name="clean"/>
                     <ide-action name="javadoc"/>
+                    <ide-action name="run"/>
+                    <ide-action name="debug"/>
+                    <separator/>
                     <action>
                         <label>Sun SPOT-deploy</label>
                         <target>deploy</target>
@@ -94,7 +98,6 @@
                         <label>Sun SPOT-jar-deploy</label>
                         <target>jar-deploy</target>
                     </action>
-                    <separator/>
                 </context-menu>
             </view>
             <subprojects/>
@@ -107,11 +110,16 @@
                 <built-to>build</built-to>
                 <source-level>1.4</source-level>
             </compilation-unit>
+            <compilation-unit>
+                <package-root>json</package-root>
+                <source-level>1.4</source-level>
+            </compilation-unit>
         </java-data>
         <spellchecker-wordlist xmlns="http://www.netbeans.org/ns/spellchecker-wordlist/1">
             <word>drivetrain</word>
             <word>Jaguars</word>
             <word>pandaboard</word>
+            <word>Photoswitch</word>
             <word>unconfigured</word>
         </spellchecker-wordlist>
     </configuration>
