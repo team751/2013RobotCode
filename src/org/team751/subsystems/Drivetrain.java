@@ -146,6 +146,7 @@ public class Drivetrain extends StatusReportingSubsystem {
 
         try {
             setupJaguars();
+            reportWorking();
         } catch (CANTimeoutException e) {
             throw new SubsystemStatusException(e);
         }

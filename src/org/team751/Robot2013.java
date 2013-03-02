@@ -26,12 +26,8 @@ public class Robot2013 extends IterativeRobot {
     public void robotInit() {
 
         printRevision();
-        System.out.println("robotInit called. About to init command base");
         // Initialize all subsystems
         CommandBase.init();
-        System.out.println("CommandBase init done");
-        //Send system.err to the driver station console
-        Utility.sendErrorStreamToDriverStation(true);
     }
 
     public void autonomousInit() {
@@ -60,6 +56,9 @@ public class Robot2013 extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
+        
+        CommandBase.checkSubsystems();
+        
         Scheduler.getInstance().run();
 //		doDebug();
     }
@@ -96,8 +95,7 @@ public class Robot2013 extends IterativeRobot {
             System.err.println("Revision information not found.");
         }
     }
-	
-	private void doDebug() {
-		
-	}
+
+    private void doDebug() {
+    }
 }

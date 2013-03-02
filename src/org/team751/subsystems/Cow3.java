@@ -233,6 +233,7 @@ public class Cow3 extends StatusReportingSubsystem {
     public void retry() throws SubsystemStatusException {
         try {
             setupJaguar();
+            reportWorking();
         } catch (CANTimeoutException ex) {
             throw new SubsystemStatusException(ex);
         }
