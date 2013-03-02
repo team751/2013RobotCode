@@ -3,10 +3,11 @@ package org.team751.subsystems;
 import edu.wpi.first.wpilibj.CANJaguar;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
-import edu.wpi.first.wpilibj.command.Subsystem;
 import org.team751.resources.CANJaguarIDs;
 import org.team751.resources.DigitalChannels;
-import org.team751.util.SubsystemStatusReporter;
+import org.team751.util.NamedCANJaguar;
+import org.team751.util.StatusReportingSubsystem;
+import org.team751.util.SubsystemStatusException;
 import org.team751.util.cow.CowPosition;
 
 /**
@@ -14,7 +15,7 @@ import org.team751.util.cow.CowPosition;
  *
  * @author samcrow
  */
-public class Cow3 extends Subsystem {
+public class Cow3 extends StatusReportingSubsystem {
 
     private CANJaguar rotationJaguar;
     /**
@@ -33,18 +34,14 @@ public class Cow3 extends Subsystem {
      * Photoswitch for zeroing the cow position
      */
     private DigitalInput zeroSwitch = new DigitalInput(DigitalChannels.COW_ZERO);
-    /**
-     * The reporter that tracks the status of this system
-     */
-    private SubsystemStatusReporter reporter = new SubsystemStatusReporter("cow");
 
     public Cow3() {
-        try {
-            rotationJaguar = new CANJaguar(CANJaguarIDs.COW_ROTATE);
+        super("cow");
 
-            configJaguarVbus();
+        try {
+            setupJaguar();
         } catch (CANTimeoutException ex) {
-            reporter.reportInitFailed(ex);
+            reportInitFailed(ex);
         }
     }
 
@@ -55,10 +52,10 @@ public class Cow3 extends Subsystem {
      */
     public void setTargetPosition(CowPosition newPosition) {
 
-        if (reporter.isSubsystemWorking()) {
+        if (isSubsystemWorking()) {
 
             if (currentMode != CANJaguar.ControlMode.kPosition) {
-                configJaguarPosition();
+                tryConfigJaguarPosition();
             }
 
             targetPosition = newPosition;
@@ -66,7 +63,7 @@ public class Cow3 extends Subsystem {
             try {
                 rotationJaguar.setX(zeroPosition + newPosition.getEncoderValue());
             } catch (CANTimeoutException ex) {
-                ex.printStackTrace();
+                reportNotWorking(ex);
             }
         }
     }
@@ -86,11 +83,11 @@ public class Cow3 extends Subsystem {
      * @return
      */
     public double getActualCount() {
-        if (reporter.isSubsystemWorking()) {
+        if (isSubsystemWorking()) {
             try {
                 return rotationJaguar.getPosition();
             } catch (CANTimeoutException ex) {
-                ex.printStackTrace();
+                reportNotWorking(ex);
                 return 0;
             }
         } else {
@@ -113,7 +110,7 @@ public class Cow3 extends Subsystem {
      * @return
      */
     public boolean isInPosition() {
-        if (reporter.isSubsystemWorking()) {
+        if (isSubsystemWorking()) {
             try {
                 double target = getTargetCount();
                 double actual = rotationJaguar.getPosition();
@@ -123,7 +120,7 @@ public class Cow3 extends Subsystem {
                 return diff < 10;
 
             } catch (CANTimeoutException ex) {
-                ex.printStackTrace();
+                reportNotWorking(ex);
             }
             return false;
         }
@@ -132,34 +129,58 @@ public class Cow3 extends Subsystem {
 
     /**
      * Configure the jaguar in percent Vbus mode
+     * 
+     * @throws CANTimeoutException if an exception was encountered
      */
-    private void configJaguarVbus() {
+    private void configJaguarVbus() throws CANTimeoutException {
+        rotationJaguar.changeControlMode(CANJaguar.ControlMode.kPercentVbus);
+        rotationJaguar.setX(0);
+        currentMode = CANJaguar.ControlMode.kPercentVbus;
+    }
+    
+    /**
+     * Try to configure the jaguar in percent Vbus mode.
+     * 
+     * This is equivalent to {@link #configJaguarVbus()}, but it does not
+     * throw exceptions.
+     */
+    private void tryConfigJaguarVbus() {
         try {
-            rotationJaguar.changeControlMode(CANJaguar.ControlMode.kPercentVbus);
-            rotationJaguar.setX(0);
-            currentMode = CANJaguar.ControlMode.kPercentVbus;
+            configJaguarVbus();
         } catch (CANTimeoutException ex) {
-            ex.printStackTrace();
+            reportNotWorking(ex);
         }
     }
 
     /**
      * Configure the jaguar in position mode and enable position control
+     * 
+     * @throws CANTimeoutException if an exception was encountered
      */
-    private void configJaguarPosition() {
+    private void configJaguarPosition() throws CANTimeoutException {
+        rotationJaguar.setPositionReference(CANJaguar.PositionReference.kQuadEncoder);
+        rotationJaguar.configEncoderCodesPerRev(1);
+        rotationJaguar.changeControlMode(CANJaguar.ControlMode.kPosition);
+
+        rotationJaguar.setPID(5, 0, 0);
+
+        rotationJaguar.setX(rotationJaguar.getX());
+        rotationJaguar.enableControl();
+
+        currentMode = CANJaguar.ControlMode.kPosition;
+    }
+    
+    /**
+     * Try to configure the jaguar in position mode.
+     * 
+     * This is equivalent to {@link #configJaguarPosition()}, but it does not
+     * throw exceptions.
+     */
+    private void tryConfigJaguarPosition() {
         try {
-            rotationJaguar.setPositionReference(CANJaguar.PositionReference.kQuadEncoder);
-            rotationJaguar.configEncoderCodesPerRev(1);
-            rotationJaguar.changeControlMode(CANJaguar.ControlMode.kPosition);
-
-            rotationJaguar.setPID(5, 0, 0);
-
-            rotationJaguar.setX(rotationJaguar.getX());
-            rotationJaguar.enableControl();
-
-            currentMode = CANJaguar.ControlMode.kPosition;
+            configJaguarPosition();
         } catch (CANTimeoutException ex) {
-            ex.printStackTrace();
+            reportNotWorking(ex);
         }
     }
 
@@ -167,14 +188,14 @@ public class Cow3 extends Subsystem {
      * Manually set the cow to move slowly forward
      */
     public void moveSlowForward() {
-        if (reporter.isSubsystemWorking()) {
+        if (isSubsystemWorking()) {
             if (currentMode != CANJaguar.ControlMode.kPercentVbus) {
-                configJaguarVbus();
+                tryConfigJaguarVbus();
             }
             try {
                 rotationJaguar.setX(-0.1);
             } catch (CANTimeoutException ex) {
-                ex.printStackTrace();
+                reportNotWorking(ex);
             }
         }
     }
@@ -183,14 +204,14 @@ public class Cow3 extends Subsystem {
      * Manually stop the cow
      */
     public void manualStop() {
-        if (reporter.isSubsystemWorking()) {
+        if (isSubsystemWorking()) {
             if (currentMode != CANJaguar.ControlMode.kPercentVbus) {
-                configJaguarVbus();
+                tryConfigJaguarVbus();
             }
             try {
                 rotationJaguar.setX(0);
             } catch (CANTimeoutException ex) {
-                ex.printStackTrace();
+                reportNotWorking(ex);
             }
         }
     }
@@ -207,5 +228,24 @@ public class Cow3 extends Subsystem {
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
+    }
+
+    public void retry() throws SubsystemStatusException {
+        try {
+            setupJaguar();
+        } catch (CANTimeoutException ex) {
+            throw new SubsystemStatusException(ex);
+        }
+    }
+
+    /**
+     * Constructs the Jaguar object, if it is null, and configures it in
+     * percent Vbus mode by default
+     * @throws CANTimeoutException if an exception was encountered
+     */
+    private void setupJaguar() throws CANTimeoutException {
+        if(rotationJaguar == null) rotationJaguar = new NamedCANJaguar(CANJaguarIDs.COW_ROTATE, "cow rotation");
+        
+        configJaguarVbus();
     }
 }

@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.MotorSafety;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
-import edu.wpi.first.wpilibj.command.Subsystem;
 import org.team751.commands.drivetrain.JoystickDrive;
 import org.team751.resources.AnalogChannels;
 import org.team751.resources.CANJaguarIDs;
@@ -12,14 +11,15 @@ import org.team751.tasks.DrivetrainMonitor;
 import org.team751.util.DrivetrainTemperatureSensor;
 import org.team751.util.NamedCANJaguar;
 import org.team751.util.PolyMotorRobotDrive;
-import org.team751.util.SubsystemStatusReporter;
+import org.team751.util.StatusReportingSubsystem;
+import org.team751.util.SubsystemStatusException;
 import org.team751.util.TemperatureSensor;
 
 /**
  *
  * @author sambaumgarten
  */
-public class Drivetrain extends Subsystem {
+public class Drivetrain extends StatusReportingSubsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 
@@ -40,64 +40,22 @@ public class Drivetrain extends Subsystem {
     private PolyMotorRobotDrive drive;
     private long lastRunTime = System.currentTimeMillis();
     private DrivetrainMonitor monitor;
-    
-    /**
-     * The system that tracks the status of this subsystem and reports it
-     */
-    public final SubsystemStatusReporter reporter = new SubsystemStatusReporter("drivetrain");
 
     public Drivetrain() {
-        try {
-//            leftA = new NamedCANJaguar(CANJaguarIDs.DRIVE_LEFT_A,
-//                    "Left A");
-//            leftB = new NamedCANJaguar(CANJaguarIDs.DRIVE_LEFT_B,
-//                    "Left B");
-//            leftC = new NamedCANJaguar(CANJaguarIDs.DRIVE_LEFT_C,
-//                    "Left C");
-//
-//            rightA = new NamedCANJaguar(CANJaguarIDs.DRIVE_RIGHT_A,
-//                    "Right A");
-//            rightB = new NamedCANJaguar(CANJaguarIDs.DRIVE_RIGHT_B,
-//                    "Right B");
-//            rightC = new NamedCANJaguar(CANJaguarIDs.DRIVE_RIGHT_C,
-//                    "Right C");
-            
-            leftA = new NamedCANJaguar(CANJaguarIDs.SR_DRIVE_LEFT_A, "Left A");
-            leftB = new NamedCANJaguar(CANJaguarIDs.SR_DRIVE_LEFT_B, "Left B");
-            rightA = new NamedCANJaguar(CANJaguarIDs.SR_DRIVE_RIGHT_A, "Right A");
-            rightB = new NamedCANJaguar(CANJaguarIDs.SR_DRIVE_RIGHT_B, "Right B");
 
+        //Note the name of the subsystem
+        super("drivetrain");
+
+        try {
+            setupJaguars();
         } catch (CANTimeoutException e) {
-            System.out.println("CANTimeoutException: " + e);
-            
-            reporter.reportInitFailed(e);
+            reportInitFailed(e);
             return;
         }
         drive = new PolyMotorRobotDrive(
                 new SpeedController[]{leftA, leftB},
                 new SpeedController[]{
                     rightA, rightB});
-
-
-
-        //Timing note: The software sometimes does other things for a pretty
-        //long time (100-500 milliseconds) between running the drive command.
-        //When this happens, the motor safety mechanism stops the motors.
-        //Stopping the motors in normal matches is not good, although we
-        //do not want to fully disable this feature.
-        //This sets the motor safety mechanism to not stop the motors
-        //until after 1 second of non-response.
-
-        try {
-            ((MotorSafety) leftA).setExpiration(1);
-            ((MotorSafety) leftB).setExpiration(1);
-//            ((MotorSafety) leftC).setExpiration(1);
-            ((MotorSafety) rightA).setExpiration(1);
-            ((MotorSafety) rightB).setExpiration(1);
-//            ((MotorSafety) rightC).setExpiration(1);
-        } catch (ClassCastException e) {
-            e.printStackTrace();
-        }
 
         leftSensor = new DrivetrainTemperatureSensor(AnalogChannels.TEMP_DRIVETRAIN_LEFT, "Motors left");
         rightSensor = new DrivetrainTemperatureSensor(AnalogChannels.TEMP_DRIVETRAIN_RIGHT, "Motors right");
@@ -111,26 +69,24 @@ public class Drivetrain extends Subsystem {
 
     public void arcadeDrive(double moveValue, double rotateValue) {
 
-        if(reporter.isSubsystemWorking()) {
-        
-        //timing
-        long now = System.currentTimeMillis();
-        long loopTime = now - lastRunTime;
+        if (isSubsystemWorking()) {
 
-        lastRunTime = now;
+            //timing
+            long now = System.currentTimeMillis();
+            long loopTime = now - lastRunTime;
 
-        if (loopTime > 100) {
-            System.out.println("Long loop! " + loopTime + " ms");
-        }
-        
-        try {
-            drive.arcadeDrive(moveValue, rotateValue);
-            
-            reporter.reportWorking();
-        } catch (CANTimeoutException ex) {
-            reporter.reportNotWorking(ex);
-        }
-        
+            lastRunTime = now;
+
+            if (loopTime > 100) {
+                System.out.println("Long loop! " + loopTime + " ms");
+            }
+
+            try {
+                drive.arcadeDrive(moveValue, rotateValue);
+            } catch (CANTimeoutException ex) {
+                reportNotWorking(ex);
+            }
+
         }
     }
 
@@ -141,16 +97,15 @@ public class Drivetrain extends Subsystem {
     }
 
     /**
-     * Configure the Jaguars to use brake mode.
-     * This can be reverted by calling {@link #setDefaultNeutralMode() }.
+     * Configure the Jaguars to use brake mode. This can be reverted by calling {@link #setDefaultNeutralMode()
+     * }.
      */
     public void setBrakeMode() {
-        if(reporter.isSubsystemWorking()) {
+        if (isSubsystemWorking()) {
             try {
                 drive.setBrakeMode();
-                reporter.reportWorking();
             } catch (CANTimeoutException ex) {
-                reporter.reportNotWorking(ex);
+                reportNotWorking(ex);
             }
         }
     }
@@ -159,13 +114,12 @@ public class Drivetrain extends Subsystem {
      * Configure the Jaguars to use the neutral mode specified by the jumper
      */
     public void setDefaultNeutralMode() {
-        if(reporter.isSubsystemWorking()) {
-        try {
-            drive.setDefaultNeutralMode();
-            reporter.reportWorking();
-        } catch (CANTimeoutException ex) {
-            reporter.reportNotWorking(ex);
-        }
+        if (isSubsystemWorking()) {
+            try {
+                drive.setDefaultNeutralMode();
+            } catch (CANTimeoutException ex) {
+                reportNotWorking(ex);
+            }
         }
     }
 
@@ -187,4 +141,61 @@ public class Drivetrain extends Subsystem {
             arcadeDrive(0, d);
         }
     };
+
+    public void retry() throws SubsystemStatusException {
+
+        try {
+            setupJaguars();
+        } catch (CANTimeoutException e) {
+            throw new SubsystemStatusException(e);
+        }
+
+    }
+
+    /**
+     * Constructs each Jaguar, if it is null, and configures it for use.
+     *
+     * @throws CANTimeoutException if an exception was encountered
+     */
+    private void setupJaguars() throws CANTimeoutException {
+        
+        
+//          leftA = new NamedCANJaguar(CANJaguarIDs.DRIVE_LEFT_A,
+//                    "Left A");
+//          leftB = new NamedCANJaguar(CANJaguarIDs.DRIVE_LEFT_B,
+//                    "Left B");
+//          leftC = new NamedCANJaguar(CANJaguarIDs.DRIVE_LEFT_C,
+//                    "Left C");
+//
+//          rightA = new NamedCANJaguar(CANJaguarIDs.DRIVE_RIGHT_A,
+//                    "Right A");
+//          rightB = new NamedCANJaguar(CANJaguarIDs.DRIVE_RIGHT_B,
+//                    "Right B");
+//          rightC = new NamedCANJaguar(CANJaguarIDs.DRIVE_RIGHT_C,
+//                    "Right C");
+
+        if(leftA == null) leftA = new NamedCANJaguar(CANJaguarIDs.SR_DRIVE_LEFT_A, "Left A");
+        if(leftB == null) leftB = new NamedCANJaguar(CANJaguarIDs.SR_DRIVE_LEFT_B, "Left B");
+        if(rightA == null) rightA = new NamedCANJaguar(CANJaguarIDs.SR_DRIVE_RIGHT_A, "Right A");
+        if(rightB == null) rightB = new NamedCANJaguar(CANJaguarIDs.SR_DRIVE_RIGHT_B, "Right B");
+
+        //Timing note: The software sometimes does other things for a pretty
+        //long time (100-500 milliseconds) between running the drive command.
+        //When this happens, the motor safety mechanism stops the motors.
+        //Stopping the motors in normal matches is not good, although we
+        //do not want to fully disable this feature.
+        //This sets the motor safety mechanism to not stop the motors
+        //until after 1 second of non-response.
+
+        try {
+            ((MotorSafety) leftA).setExpiration(1);
+            ((MotorSafety) leftB).setExpiration(1);
+//            ((MotorSafety) leftC).setExpiration(1);
+            ((MotorSafety) rightA).setExpiration(1);
+            ((MotorSafety) rightB).setExpiration(1);
+//            ((MotorSafety) rightC).setExpiration(1);
+        } catch (ClassCastException e) {
+            System.out.println("Casting a SpeedController into a MotorSafety failed!");
+        }
+    }
 }

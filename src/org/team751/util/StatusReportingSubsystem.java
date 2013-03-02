@@ -11,11 +11,17 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public abstract class StatusReportingSubsystem extends Subsystem {
 
+    
     /**
      * If this subsystem is currently working
      */
     private boolean isWorking = true;
 
+    public StatusReportingSubsystem(String name) {
+        super(name);
+    }
+    
+    
     /**
      * Indicate that the subsystem has initialized successfully
      */
@@ -100,4 +106,16 @@ public abstract class StatusReportingSubsystem extends Subsystem {
     public boolean isSubsystemWorking() {
         return isWorking;
     }
+    
+    /**
+     * Try to reconnect to peripherals and do anything else that might be done
+     * to restore it to normal operation.
+     * 
+     * An implementation should call {@link #reportWorking()} if reconnecting
+     * was successful. It should throw an exception if it was unsuccessful.
+     * 
+     * @throws SubsystemStatusException if resuming normal operation failed
+     */
+    public abstract void retry() throws SubsystemStatusException;
+    
 }
