@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.team751.commands.shooter.ManualShooterSpeed;
 import org.team751.resources.CANJaguarIDs;
 import org.team751.resources.DigitalChannels;
-import org.team751.tasks.ClosedLoopSpeedController;
+import org.team751.tasks.BangBangSpeedController;
 import org.team751.util.EncoderSpeedSource;
 
 /**
@@ -55,9 +55,9 @@ public class ShooterWheels extends Subsystem {
    
     //Speed controllers
     
-//    private ClosedLoopSpeedController firstController;
+//    private BangBangSpeedController firstController;
     
-//    private ClosedLoopSpeedController secondController;
+//    private BangBangSpeedController secondController;
 
     public ShooterWheels() {
         try {
@@ -66,8 +66,8 @@ public class ShooterWheels extends Subsystem {
             
             configJaguars();
             
-//            firstController = new ClosedLoopSpeedController(new EncoderSpeedSource(firstEncoder), firstMotor);
-//            secondController = new ClosedLoopSpeedController(new EncoderSpeedSource(secondEncoder), secondMotor);
+//            firstController = new BangBangSpeedController(new EncoderSpeedSource(firstEncoder), firstMotor);
+//            secondController = new BangBangSpeedController(new EncoderSpeedSource(secondEncoder), secondMotor);
             
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
@@ -119,7 +119,7 @@ public class ShooterWheels extends Subsystem {
 	
 	/**
 	 * Determine if both wheels are close to their target speeds.
-	 * This is defined by {@link ClosedLoopSpeedController#isOnTarget() }.
+	 * This is defined by {@link BangBangSpeedController#isOnTarget() }.
 	 * @return True if both are on target, otherwise false.
 	 */
 	public boolean isOnTarget() {
