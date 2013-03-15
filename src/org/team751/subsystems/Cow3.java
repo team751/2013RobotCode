@@ -245,7 +245,9 @@ public class Cow3 extends StatusReportingSubsystem {
      * @throws CANTimeoutException if an exception was encountered
      */
     private void setupJaguar() throws CANTimeoutException {
-        if(rotationJaguar == null) rotationJaguar = new NamedCANJaguar(CANJaguarIDs.COW_ROTATE, "cow rotation");
+        if(rotationJaguar == null) {
+            rotationJaguar = new NamedCANJaguar(CANJaguarIDs.COW_ROTATE, "cow rotation");
+        }
         
         configJaguarVbus();
     }

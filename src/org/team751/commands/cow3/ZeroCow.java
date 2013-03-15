@@ -30,6 +30,7 @@ public class ZeroCow extends CommandBase {
 	// Called once after isFinished returns true
 	protected void end() {
 		cow3.manualStop();
+                
 		cow3.setTargetPosition(CowPosition.kShoot3);
 	}
 
