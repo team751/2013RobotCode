@@ -162,7 +162,7 @@ public class Cow3 extends StatusReportingSubsystem {
         rotationJaguar.configEncoderCodesPerRev(1);
         rotationJaguar.changeControlMode(CANJaguar.ControlMode.kPosition);
 
-        rotationJaguar.setPID(5, 0, 0);
+        rotationJaguar.setPID(3, 0, 0);
 
         rotationJaguar.setX(rotationJaguar.getX());
         rotationJaguar.enableControl();
@@ -193,7 +193,7 @@ public class Cow3 extends StatusReportingSubsystem {
                 tryConfigJaguarVbus();
             }
             try {
-                rotationJaguar.setX(-0.1);
+                rotationJaguar.setX(-0.3);
             } catch (CANTimeoutException ex) {
                 reportNotWorking(ex);
             }
@@ -222,7 +222,11 @@ public class Cow3 extends StatusReportingSubsystem {
      * @return
      */
     public boolean isAtZero() {
-        return !zeroSwitch.get();
+        return zeroSwitch.get() == false;
+    }
+    
+    public void setThisAsZero() {
+        zeroPosition = getActualCount();
     }
 
     public void initDefaultCommand() {
@@ -250,5 +254,31 @@ public class Cow3 extends StatusReportingSubsystem {
         }
         
         configJaguarVbus();
+    }
+    
+    /**
+     * Set the rotation Jaguar to brake mode
+     */
+    public void setBrakeMode() {
+        if(isSubsystemWorking()) {
+            try {
+                rotationJaguar.configNeutralMode(CANJaguar.NeutralMode.kBrake);
+            } catch (CANTimeoutException ex) {
+                reportNotWorking(ex);
+            }
+        }
+    }
+    
+    /**
+     * Set the rotation Jaguar to coast mode
+     */
+    public void setCoastMode() {
+        if(isSubsystemWorking()) {
+            try {
+                rotationJaguar.configNeutralMode(CANJaguar.NeutralMode.kCoast);
+            } catch (CANTimeoutException ex) {
+                reportNotWorking(ex);
+            }
+        }
     }
 }

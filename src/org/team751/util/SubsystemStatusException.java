@@ -6,8 +6,13 @@ package org.team751.util;
  */
 public class SubsystemStatusException extends Exception {
 
+    /**
+     * The exception that caused this one
+     */
+    private Exception cause;
+    
     public SubsystemStatusException(Exception e) {
-        super(e);
+        cause = e;
     }
     
     

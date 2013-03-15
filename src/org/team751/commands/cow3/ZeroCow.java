@@ -5,38 +5,39 @@ import org.team751.util.cow.CowPosition;
 
 /**
  * Moves the cow to zero, then sets that position as zero and exits
+ *
  * @author Sam Crow
  */
 public class ZeroCow extends CommandBase {
-	
-	public ZeroCow() {
-		requires(cow3);
-	}
 
-	// Called just before this Command runs the first time
-	protected void initialize() {
-		cow3.moveSlowForward();
-	}
+    public ZeroCow() {
+        requires(cow3);
+    }
 
-	// Called repeatedly when this Command is scheduled to run
-	protected void execute() {
-	}
+    // Called just before this Command runs the first time
+    protected void initialize() {
+        cow3.moveSlowForward();
+    }
 
-	// Make this return true when this Command no longer needs to run execute()
-	protected boolean isFinished() {
-		return cow3.isAtZero();
-	}
+    // Called repeatedly when this Command is scheduled to run
+    protected void execute() {
+    }
 
-	// Called once after isFinished returns true
-	protected void end() {
-		cow3.manualStop();
-                
-		cow3.setTargetPosition(CowPosition.kShoot3);
-	}
+    // Make this return true when this Command no longer needs to run execute()
+    protected boolean isFinished() {
+        return cow3.isAtZero();
+    }
 
-	// Called when another command which requires one or more of the same
-	// subsystems is scheduled to run
-	protected void interrupted() {
-		cow3.manualStop();
-	}
+    // Called once after isFinished returns true
+    protected void end() {
+        cow3.manualStop();
+        cow3.setThisAsZero();
+        cow3.setTargetPosition(CowPosition.kShoot3);
+    }
+
+    // Called when another command which requires one or more of the same
+    // subsystems is scheduled to run
+    protected void interrupted() {
+        cow3.manualStop();
+    }
 }

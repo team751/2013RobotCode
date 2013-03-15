@@ -4,6 +4,9 @@ package org.team751;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import org.team751.commands.cow3.CowBack;
+import org.team751.commands.cow3.CowForward;
+import org.team751.commands.cow3.ZeroCow;
 import org.team751.commands.pusher.PusherExtendRetract;
 import org.team751.commands.shooter.ManualSpeedDecrease;
 import org.team751.commands.shooter.ManualSpeedIncrease;
@@ -54,6 +57,11 @@ public class OI {
 	private Button driveTrigger = new JoystickButton(driveStick, 1);
 	
 	private Button driveTopBack = new JoystickButton(driveStick, 2);
+        
+        /**
+         * Operator joystick, trigger
+         */
+        private Button operatorTrigger = new JoystickButton(operatorStick, 1);
 	
 	/**
 	 * Operator joystick, base, left side, forward button
@@ -89,6 +97,10 @@ public class OI {
 		operatorBaseLeftForward.whenPressed(new ManualSpeedIncrease());
 		operatorBaseLeftBack.whenPressed(new ManualSpeedDecrease());
 		
+                operatorTrigger.whenPressed(new ZeroCow());
+                
+                operatorBaseLeftForward.whenPressed(new CowForward());
+                operatorBaseLeftBack.whenPressed(new CowBack());
 	}
 }
 

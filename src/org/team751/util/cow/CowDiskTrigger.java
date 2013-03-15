@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.buttons.Trigger;
 public class CowDiskTrigger extends Trigger {
 
     public boolean get() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return false;
     }
     
 }
