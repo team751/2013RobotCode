@@ -199,6 +199,19 @@ public class Cow3 extends StatusReportingSubsystem {
             }
         }
     }
+    
+    public void moveSlowBack() {
+        if (isSubsystemWorking()) {
+            if (currentMode != CANJaguar.ControlMode.kPercentVbus) {
+                tryConfigJaguarVbus();
+            }
+            try {
+                rotationJaguar.setX(0.2);
+            } catch (CANTimeoutException ex) {
+                reportNotWorking(ex);
+            }
+        }
+    }
 
     /**
      * Manually stop the cow
