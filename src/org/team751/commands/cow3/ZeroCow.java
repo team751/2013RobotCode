@@ -11,6 +11,7 @@ public class ZeroCow extends CommandGroup {
     public ZeroCow() {
         addSequential(new ZeroCow1());
         addSequential(new ZeroCow2());
+        addSequential(new ZeroCow3());
     }
     
 }

@@ -8,7 +8,11 @@ import org.team751.resources.DigitalChannels;
 import org.team751.util.NamedCANJaguar;
 import org.team751.util.StatusReportingSubsystem;
 import org.team751.util.SubsystemStatusException;
+import org.team751.util.cow.CowGainScheduler;
+import org.team751.util.cow.CowGainScheduler.PID;
 import org.team751.util.cow.CowPosition;
+import org.team751.util.cow.CowStomachs;
+import org.team751.util.cow.CowTriggers;
 
 /**
  * Implements the third software revision for the cow
@@ -33,7 +37,11 @@ public class Cow3 extends StatusReportingSubsystem {
     /**
      * Photoswitch for zeroing the cow position
      */
-    private DigitalInput zeroSwitch = new DigitalInput(DigitalChannels.COW_ZERO);
+    private final DigitalInput zeroSwitch = new DigitalInput(DigitalChannels.COW_ZERO);
+    
+    private final CowStomachs stomachs = new CowStomachs();
+    
+    private CowTriggers triggers;
 
     public Cow3() {
         super("cow");
@@ -57,10 +65,23 @@ public class Cow3 extends StatusReportingSubsystem {
             if (currentMode != CANJaguar.ControlMode.kPosition) {
                 tryConfigJaguarPosition();
             }
+            
+            System.out.println("Moving from "+targetPosition+" to "+newPosition);
+            
+            //Configure the PID constants for this move
+            PID newPids = CowGainScheduler.getGainForMove(targetPosition, newPosition);
 
             targetPosition = newPosition;
+            
+            //Tell the trigger mechanism if the new position is feeding or not
+            if(newPosition.isLoadPosition()) {
+                triggers.setLoadMode(true);
+            } else {
+                triggers.setLoadMode(false);
+            }
 
             try {
+                rotationJaguar.setPID(newPids.p, newPids.i, newPids.d);
                 rotationJaguar.setX(zeroPosition + newPosition.getEncoderValue());
             } catch (CANTimeoutException ex) {
                 reportNotWorking(ex);
@@ -117,7 +138,7 @@ public class Cow3 extends StatusReportingSubsystem {
 
                 double diff = Math.abs(target - actual);
 
-                return diff < 10;
+                return diff < 3;
 
             } catch (CANTimeoutException ex) {
                 reportNotWorking(ex);
@@ -294,4 +315,48 @@ public class Cow3 extends StatusReportingSubsystem {
             }
         }
     }
+
+    public void moveExtraSlowForward() {
+        if(isSubsystemWorking()) {
+            try {
+                rotationJaguar.setX(-0.1);
+            } catch (CANTimeoutException ex) {
+                reportNotWorking(ex);
+            }
+        }
+    }
+    
+    
+    public void debugPosition() {
+        try {
+            System.out.println("Current "+ (rotationJaguar.getPosition() - zeroPosition) +" target "+targetPosition.getEncoderValue());
+        } catch (CANTimeoutException ex) {
+            reportNotWorking(ex);
+        } catch (NullPointerException ex) {
+            reportNotWorking(ex);
+        }
+    }
+    
+    /**
+     * Get the object that keeps track of the stomachs for this cow
+     * @return 
+     */
+    public CowStomachs getStomachs() {
+        return stomachs;
+    }
+    /**
+     * Get the object that keeps track of triggers and loading mode
+     * @return 
+     */
+    public CowTriggers getTriggers() {
+        return triggers;
+    }
+
+    /**
+     * Set up the triggers. This must be called after the cow is constructed.
+     */
+    public void init() {
+        triggers = new CowTriggers();
+    }
+    
 }

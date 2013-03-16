@@ -6,11 +6,17 @@ package org.team751.util.cow;
  */
 public class CowGainScheduler {
     
+    private static final PID upGains = new PID(4, 0.01, 0.2);
+    
+    private static final PID downGains = new PID(3, 0, 0.2);
+    
+    private static final PID upOverGains = new PID(3, 0, 0.2);
+    
     //<editor-fold defaultstate="collapsed" desc="PID class">
     /**
      * Encapsulates P, I, and D parameters
      */
-    private static class PID {
+    public static class PID {
         /**
          * P parameter
          */
@@ -29,17 +35,38 @@ public class CowGainScheduler {
             this.i = i;
             this.d = d;
         }
+        
+        /**
+         * A set of PID constants that are all zero
+         */
+        public static final PID zeroes = new PID(0, 0, 0);
     }
     //</editor-fold>
     
     /**
      * Get the PID gain parameters for a move from one CowPosition to another
-     * @param from The current cow position
-     * @param to The position to move to
+     * @param current The current cow position
+     * @param target The position to move to
      * @return the PID values for this move
      */
-    private PID getGainForMove(CowPosition from, CowPosition to) {
-        return null;
+    public static PID getGainForMove(CowPosition current, CowPosition target) {
+        
+        CowPosition.MoveType type = current.moveTypeTo(target);
+        
+        System.out.println("Move type: "+type.toString());
+        
+        if(type == CowPosition.MoveType.kUp) {
+            return upGains;
+        }
+        if(type == CowPosition.MoveType.kDown) {
+            return downGains;
+        }
+        if(type == CowPosition.MoveType.kUpOver) {
+            return upOverGains;
+        }
+        
+        System.err.println("Cow gain scheduler got unexpected input. Returning zeroes.");
+        return PID.zeroes;
     }
     
 }

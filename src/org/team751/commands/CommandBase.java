@@ -65,6 +65,8 @@ public abstract class CommandBase extends Command {
         SmartDashboard.putData(cow3);
         SmartDashboard.putData(pusher);
         SmartDashboard.putData(shooterWheels);
+        
+        cow3.init();
     }
     
     /**

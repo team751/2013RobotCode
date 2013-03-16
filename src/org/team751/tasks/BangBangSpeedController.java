@@ -9,7 +9,7 @@ import org.team751.util.SpeedSource;
  *
  * @author Sam Crow
  */
-public class BangBangSpeedController extends PeriodicTask implements ClosedLoopSpeedController {
+public class BangBangSpeedController extends ClosedLoopSpeedController {
 
     /**
      * If the controller is enabled and should control the motor

@@ -11,7 +11,7 @@ import org.team751.util.SpeedSource;
  * 
  * @author Sam Crow
  */
-public class TakeBackHalfSpeedController extends PeriodicTask implements ClosedLoopSpeedController {
+public class TakeBackHalfSpeedController extends ClosedLoopSpeedController {
     
     /**
      * The source used to get the current speed

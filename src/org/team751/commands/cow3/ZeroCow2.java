@@ -10,7 +10,7 @@ public class ZeroCow2 extends CommandBase {
     
     public ZeroCow2() {
         requires(cow3);
-        setTimeout(1);
+        setTimeout(0.5);
     }
 
     // Called just before this Command runs the first time

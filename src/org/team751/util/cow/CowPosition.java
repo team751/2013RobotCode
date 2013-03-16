@@ -232,7 +232,7 @@ public class CowPosition {
     /**
      * Get the type of move for a movement from this position to another
      * @param other the position to move to
-     * @return the type of move
+     * @return the type of move, or null if an algorithm error was encountered
      */
     public MoveType moveTypeTo(CowPosition other) {
         
@@ -295,7 +295,68 @@ public class CowPosition {
             }
         }
         
-        //Load position: TODO
+        //Load positions
+        
+        //Load 0: top loading position
+        if(this == kLoad0) {
+            
+            //Moving down to another loading position
+            if(other == kLoad1 || other == kLoad2 || other == kLoad3) {
+                return MoveType.kDown;
+            }
+            
+            //Moving up and over to a shooting position
+            if(other.isShootPosition()) {
+                return MoveType.kUpOver;
+            }
+            
+        }
+        
+        //Load 1 : one below load 0
+        if(this == kLoad1) {
+            //Moving up to load 0
+            if(other == kLoad0) {
+                return MoveType.kUp;
+            }
+            //Moving down to another load position
+            if(other == kLoad2 || other == kLoad3) {
+                return MoveType.kDown;
+            }
+            //Moving up and over to a shooting position
+            if(other.isShootPosition()) {
+                return MoveType.kUpOver;
+            }
+        }
+        
+        //Load 2
+        if(this == kLoad2) {
+            //Moving up to load 0 or 1
+            if(other == kLoad0 || other == kLoad1) {
+                return MoveType.kUp;
+            }
+            //Moving down to load 3
+            if(other == kLoad3) {
+                return MoveType.kDown;
+            }
+            //Moving up and over to a shooting position
+            if(other.isShootPosition()) {
+                return MoveType.kUpOver;
+            }
+        }
+        
+        //Load 3: lowest loading position
+        if(this == kLoad3) {
+            //Moving up to another loading position
+            if(other.isLoadPosition()) {
+                return MoveType.kUp;
+            }
+            //Moving up and over to a shooting position
+            if(other.isShootPosition()) {
+                return MoveType.kUpOver;
+            }
+        }
+        
+        //Execution should not get here.
         
         return null;
     }
