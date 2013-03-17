@@ -2,7 +2,7 @@ package org.team751.cheesy;
 
 /**
  * A utility class that stores constants for Cheesy Drive algorithms
- * @author Sam Crow
+ * @author Team 254, translated to Java by Sam Crow
  */
 public class CheesyDriveConstants {
     

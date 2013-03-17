@@ -4,7 +4,7 @@ package org.team751.cheesy;
  * Calculates values for drivetrain control. Ported from team 254's C++
  * implementation in their 2012 code.
  *
- * @author Sam Crow
+ * @author Team 254, translated to Java by Sam Crow
  */
 public class CheesyDrive {
 
