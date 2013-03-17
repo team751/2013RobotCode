@@ -11,7 +11,7 @@ import org.team751.commands.CommandBase;
  * @author sambaumgarten
  */
 public class JoystickDrive extends CommandBase {
-    
+
     public JoystickDrive() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
@@ -26,20 +26,24 @@ public class JoystickDrive extends CommandBase {
     protected void execute() {
         double x = oi.driveStick.getX();
         double y = oi.driveStick.getY();
-		
-		//Scale down the rotation
-		x *= 0.7;
-		
-		//Square the values to make things smoother
-		double xSquared = x * x;
-		if(x < 0) xSquared = -xSquared;
-		double ySquared = y * y;
-		if(y < 0) ySquared = -ySquared;
-		
-		//For the joystick Y axis, forward is negative.
-		//This changes it back so that forward is positive.
-		ySquared = -ySquared;
-		
+
+        //Scale down the rotation
+        x *= 0.7;
+
+        //Square the values to make things smoother
+        double xSquared = x * x;
+        if (x < 0) {
+            xSquared = -xSquared;
+        }
+        double ySquared = y * y;
+        if (y < 0) {
+            ySquared = -ySquared;
+        }
+
+        //For the joystick Y axis, forward is negative.
+        //This changes it back so that forward is positive.
+        ySquared = -ySquared;
+
         driveTrain.arcadeDrive(ySquared, xSquared);
     }
 

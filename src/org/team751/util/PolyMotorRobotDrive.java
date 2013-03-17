@@ -86,10 +86,10 @@ public class PolyMotorRobotDrive {
      * @param rightOutput
      * @throws CANTimeoutException if an exception was encountered
      */
-    protected void setLeftRightMotorOutputs(double leftOutput, double rightOutput) throws CANTimeoutException {
+    public void setLeftRightMotorOutputs(double leftOutput, double rightOutput) throws CANTimeoutException {
 
         /**
-         * If any of the speed controllers is a CANJaguar If this is true, the
+         * If any of the speed controllers is a CANJaguar. If this is true, the
          * CAN sync group will be updated at the end
          */
         boolean usingCan = false;

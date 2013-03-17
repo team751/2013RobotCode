@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.MotorSafety;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
+import org.team751.cheesy.CheesyDrive;
 import org.team751.commands.drivetrain.JoystickDrive;
 import org.team751.resources.AnalogChannels;
 import org.team751.resources.CANJaguarIDs;
@@ -40,11 +41,16 @@ public class Drivetrain extends StatusReportingSubsystem {
     private PolyMotorRobotDrive drive;
     private long lastRunTime = System.currentTimeMillis();
     private DrivetrainMonitor monitor;
+    
+    /**
+     * Keeps track of Cheesy Drive data
+     */
+    private CheesyDrive cheeseDrive = new CheesyDrive();
 
     public Drivetrain() {
 
         //Note the name of the subsystem
-        super("drivetrain");
+        super("Drivetrain");
 
         try {
             setupJaguars();
@@ -67,19 +73,14 @@ public class Drivetrain extends StatusReportingSubsystem {
         monitor.start();
     }
 
+    /**
+     * Drive the robot, arcade drive style
+     * @param moveValue Forward/back motion. +1 is full forwards, -1 is full reverse
+     * @param rotateValue Rotation. -1 is left, +1 is right
+     */
     public void arcadeDrive(double moveValue, double rotateValue) {
 
         if (isSubsystemWorking()) {
-
-            //timing
-            long now = System.currentTimeMillis();
-            long loopTime = now - lastRunTime;
-
-            lastRunTime = now;
-
-            if (loopTime > 100) {
-                System.out.println("Long loop! " + loopTime + " ms");
-            }
 
             try {
                 drive.arcadeDrive(moveValue, rotateValue);
@@ -87,6 +88,22 @@ public class Drivetrain extends StatusReportingSubsystem {
                 reportNotWorking(ex);
             }
 
+        }
+    }
+    
+    /**
+     * Drive the robot with the Cheesy Drive algorithm
+     * @param throttle Forward/back motion. +1 is full forwards, -1 is full reverse
+     * @param wheel Rotation. -1 is left, +1 is right
+     * @param quickTurn If quick turn mode should be used
+     */
+    public void cheesyDrive(double throttle, double wheel, boolean quickTurn) {
+        
+        CheesyDrive.MotorOutputs outputs = cheeseDrive.cheesyDrive(throttle, wheel, quickTurn);
+        try {
+            drive.setLeftRightMotorOutputs(outputs.left, outputs.right);
+        } catch (CANTimeoutException ex) {
+            reportNotWorking(ex);
         }
     }
 
