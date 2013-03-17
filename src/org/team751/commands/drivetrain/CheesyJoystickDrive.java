@@ -8,8 +8,12 @@ import org.team751.commands.CommandBase;
  */
 public class CheesyJoystickDrive extends CommandBase {
 
+    public CheesyJoystickDrive() {
+        requires(driveTrain);
+    }
+    
     protected void initialize() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        
     }
 
     protected void execute() {

@@ -92,6 +92,7 @@
     -->
 
 <target name="git.save_revision" description="Saves the hash of the git revision to org.team751.Revision.java">
+    <!-- Get data: git.revision, git.branch -->
 	<exec executable="git" outputproperty="git.revision" osfamily="unix">
 		<arg value="rev-parse" />
 		<arg value="HEAD" />
@@ -101,7 +102,16 @@
 		<arg value="--abbrev-ref" />
 		<arg value="HEAD" />
 	</exec>
-	<echo file="./src/org/team751/Revision.java" message="
+        <basename property="project_name" file="${basedir}" />
+        
+        <!-- Copy the revion file template into its place -->
+        <copy file="./Revision.template.java" tofile="./src/org/team751/Revision.java" overwrite="true" />
+        <!-- Replace placeholders with data -->
+        <replace file="./src/org/team751/Revision.java" token="@revision@" value="${git.revision}" />
+        <replace file="./src/org/team751/Revision.java" token="@branch@" value="${git.branch}" />
+        <replace file="./src/org/team751/Revision.java" token="@project@" value="${project_name}" />
+        
+	<!--<echo file="./src/org/team751/Revision.java" message="
 package org.team751;${line.separator}	
 /**${line.separator}
  * This class is generated automatically by the build system. It stores information${line.separator}
@@ -113,7 +123,7 @@ public class Revision {${line.separator}
 	${line.separator}
 	private Revision() {}
 }${line.separator}
-" />
+" />-->
 </target>
 	
 </project>

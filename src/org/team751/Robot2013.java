@@ -83,21 +83,25 @@ public class Robot2013 extends IterativeRobot {
             //Try to load the class
             Klass revClass = Klass.asKlass(Class.forName("org.team751.Revision"));
 
+            String project = "";
             String branch = "";
             String revision = "";
 
             for (int i = 0, max = revClass.getFieldCount(true); i < max; i++) {
                 Field field = revClass.getField(i, true);
 
-                if (field.getName().equals("revisionString")) {
+                if (field.getName().equals("revision")) {
                     revision = field.getStringConstantValue();
                 }
-                if (field.getName().equals("branchName")) {
+                if (field.getName().equals("branch")) {
                     branch = field.getStringConstantValue();
+                }
+                if (field.getName().equals("project")) {
+                    project = field.getStringConstantValue();
                 }
             }
 
-            System.out.println("Code compiled from branch " + branch + ", revision " + revision);
+            System.out.println("Running "+project+", compiled from revision "+revision+" on branch "+branch);
 
         } catch (ClassNotFoundException ex) {
             System.err.println("Revision information not found.");
