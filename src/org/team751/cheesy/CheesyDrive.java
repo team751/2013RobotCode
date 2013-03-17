@@ -67,16 +67,22 @@ public class CheesyDrive {
      */
     public MotorOutputs cheesyDrive(double throttle, double wheel, boolean isQuickTurn) {
 
+        //Get the steering non-linearity constant
         double wheelNonLinearity = CheesyDriveConstants.kWheelNonLinearity;
 
+        //Calculate the change in steering value from the last loop to this one
+        //Positive is a change toward the right
         double neg_inertia = wheel - oldWheel;
         oldWheel = wheel;
 
-        // Apply a sin function that's scaled to make it feel better.
+        // Apply a sin function that's scaled to make it feel better
+        //Each one of these calls can be visualized with the graph of the function,
+        //available at http://www.wolframalpha.com/input/?i=sin%28pi%2F2+*+0.8+*+x%29+%2F+sin%28pi%2F2+*+0.8%29
         wheel = Math.sin((Math.PI / 2.0) * wheelNonLinearity * wheel) / Math.sin((Math.PI / 2.0) * wheelNonLinearity);
         wheel = Math.sin((Math.PI / 2.0) * wheelNonLinearity * wheel) / Math.sin((Math.PI / 2.0) * wheelNonLinearity);
         wheel = Math.sin((Math.PI / 2.0) * wheelNonLinearity * wheel) / Math.sin((Math.PI / 2.0) * wheelNonLinearity);
 
+        //Initialize the left and right PWM values
         double left_pwm, right_pwm, overPower;
         double sensitivity;
 
@@ -86,6 +92,8 @@ public class CheesyDrive {
         // Negative inertia!
         double neg_inertia_scalar;
 
+        //If the current rotate command and the change in rotate command have
+        //the same sign:
         if (wheel * neg_inertia > 0) {
             neg_inertia_scalar = CheesyDriveConstants.kNegInertiaLowMore;
         } else {
