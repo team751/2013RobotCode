@@ -1,6 +1,8 @@
-package org.team751.tasks;
+package org.team751.speedcontrol;
 
 import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.Utility;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.team751.util.SpeedSource;
 
 /**
@@ -9,7 +11,7 @@ import org.team751.util.SpeedSource;
  *
  * @author Sam Crow
  */
-public class BangBangSpeedController extends ClosedLoopSpeedController {
+public class BangBangSpeedController extends ThreadedSpeedController {
 
     /**
      * If the controller is enabled and should control the motor
@@ -27,6 +29,10 @@ public class BangBangSpeedController extends ClosedLoopSpeedController {
      * The target speed, in RPM
      */
     private volatile double targetRpm = 0;
+    /**
+     * The time in microseconds when this loop last ran
+     */
+    private long lastLoopTime = Utility.getFPGATime();
 
     /**
      * Constructor
@@ -37,25 +43,6 @@ public class BangBangSpeedController extends ClosedLoopSpeedController {
     public BangBangSpeedController(SpeedSource source, SpeedController controller) {
         this.source = source;
         this.controller = controller;
-
-        setTaskTime(0.1);
-    }
-
-    /**
-     * Enable the controller. This will start the motor if the target RPM has
-     * been set above zero.
-     */
-    public synchronized void enable() {
-        enabled = true;
-    }
-
-    /**
-     * Disable the controller and stop the motor.
-     */
-    public synchronized void disable() {
-        enabled = false;
-        //Ensure that the motor is stopped
-        controller.set(0);
     }
 
     /**
@@ -81,34 +68,41 @@ public class BangBangSpeedController extends ClosedLoopSpeedController {
         return difference < 100;
     }
 
-    protected synchronized void run() {
-        if (enabled) {
+    protected void runSpeedControl() {
 
-            double currentRpm = source.getRpm();
-            double power = controller.get();
+//        System.out.println("Loop time " + (Utility.getFPGATime() - lastLoopTime) + " microseconds");
+//        lastLoopTime = Utility.getFPGATime();
 
-            if (currentRpm > targetRpm) {
-                //slightly decrease the power
-                power = 0;
+        double currentRpm = source.getRpm();
+        double power = controller.get();
+        
+        SmartDashboard.putNumber(toString(), currentRpm);
 
-            }
+        if (currentRpm > targetRpm) {
+            //slightly decrease the power
+            power = 0;
 
-            if (currentRpm < targetRpm) {
-                //slightly increase the power
-                power += 1;
-            }
-
-            //Prevent the motor from going into reverse
-            if (power < 0) {
-                power -= 0.1;
-            }
-            //Limit to <= 1
-            if (power > 1) {
-                power += 0.1;
-            }
-            System.out.println("Target " + targetRpm + " actual " + currentRpm + " output " + power);
-            controller.set(power);
         }
+
+        if (currentRpm < targetRpm) {
+            //slightly increase the power
+            power += 1;
+        }
+
+        //Prevent the motor from going into reverse
+        if (power < 0) {
+            power = 0;
+        }
+        //Limit to <= 1
+        if (power > 1) {
+            power = 1;
+        }
+
+        controller.set(power);
+    }
+    
+    protected void stopMotor() {
+        controller.set(0);
     }
 
     public synchronized double getActualRpm() {

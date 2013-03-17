@@ -10,6 +10,8 @@ import org.team751.commands.cow3.CowForward;
 import org.team751.commands.cow3.ZeroCow;
 import org.team751.commands.shooter.ShooterOff;
 import org.team751.commands.shooter.ShooterOn;
+import org.team751.commands.shooter.ShooterSpeedDecrease;
+import org.team751.commands.shooter.ShooterSpeedIncrease;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -91,6 +93,9 @@ public class OI {
 		driveTrigger.whenPressed(new Fire());
 		driveTopBack.whenPressed(new ShooterOn());
 		driveTopBack.whenReleased(new ShooterOff());
+                
+                operatorBaseRightForward.whenPressed(new ShooterSpeedIncrease());
+                operatorBaseRightBack.whenPressed(new ShooterSpeedDecrease());
 		
                 operatorTrigger.whenPressed(new ZeroCow());
                 

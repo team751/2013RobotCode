@@ -3,14 +3,15 @@ package org.team751.subsystems;
 import edu.wpi.first.wpilibj.CANJaguar;
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
-import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.team751.resources.CANJaguarIDs;
 import org.team751.resources.DigitalChannels;
-import org.team751.tasks.BangBangSpeedController;
-import org.team751.tasks.ClosedLoopSpeedController;
+import org.team751.speedcontrol.BangBangSpeedController;
+import org.team751.speedcontrol.TakeBackHalfSpeedController;
+import org.team751.speedcontrol.ThreadedSpeedController;
 import org.team751.util.CounterSpeedSource;
-import org.team751.util.EncoderSpeedSource;
+import org.team751.util.StatusReportingSubsystem;
+import org.team751.util.SubsystemStatusException;
 
 /**
  * A Subsystem that includes the shooter wheels and sensors for measuring their
@@ -18,7 +19,7 @@ import org.team751.util.EncoderSpeedSource;
  *
  * @author Sam Crow
  */
-public class ShooterWheels extends Subsystem {
+public class ShooterWheels extends StatusReportingSubsystem {
 
     /**
      * The Jaguar controlling the slower wheel that the disk contacts first
@@ -47,21 +48,25 @@ public class ShooterWheels extends Subsystem {
      */
     private static final double MAXIMUM_SPEED = 2800;
     //Speed controllers
-    private ClosedLoopSpeedController firstController;
-    private ClosedLoopSpeedController secondController;
+    private ThreadedSpeedController firstController;
+    private ThreadedSpeedController secondController;
+    
+    /**
+     * Target speed, ratio from 0 to 1
+     */
+    private double targetSpeedRatio = 0;
 
     public ShooterWheels() {
+        super("Shooter wheels");
+        
         try {
-            firstMotor = new CANJaguar(CANJaguarIDs.SHOOTER_FIRST);
-            secondMotor = new CANJaguar(CANJaguarIDs.SHOOTER_SECOND);
-
             configJaguars();
 
-            firstController = new BangBangSpeedController(new CounterSpeedSource(firstEncoder), firstMotor);
-            secondController = new BangBangSpeedController(new CounterSpeedSource(secondEncoder), secondMotor);
+            firstController = new TakeBackHalfSpeedController(new CounterSpeedSource(firstEncoder), firstMotor);
+            secondController = new TakeBackHalfSpeedController(new CounterSpeedSource(secondEncoder), secondMotor);
 
         } catch (CANTimeoutException ex) {
-            ex.printStackTrace();
+            reportInitFailed(ex);
         }
 
         firstEncoder.setReverseDirection(true);
@@ -108,6 +113,8 @@ public class ShooterWheels extends Subsystem {
 
         firstController.setTargetRpm(firstTarget);
         secondController.setTargetRpm(secondTarget);
+        
+        targetSpeedRatio = ratio;
     }
 
     /**
@@ -127,6 +134,13 @@ public class ShooterWheels extends Subsystem {
      * @throws CANTimeoutException if an exception was encountered
      */
     private void configJaguars() throws CANTimeoutException {
+        
+        if(firstMotor == null) {
+            firstMotor = new CANJaguar(CANJaguarIDs.SHOOTER_FIRST);
+        }
+        if(secondMotor == null) {
+            secondMotor = new CANJaguar(CANJaguarIDs.SHOOTER_SECOND);
+        }
 
         //Set motors to coast
         firstMotor.configNeutralMode(CANJaguar.NeutralMode.kCoast);
@@ -138,8 +152,8 @@ public class ShooterWheels extends Subsystem {
         //Set the maximum ramp rate to 24 volts/second
         //(1/2 second for a full voltage range traversal)
         //to prevent jerkiness
-        firstMotor.setVoltageRampRate(24);
-        secondMotor.setVoltageRampRate(24);
+        firstMotor.setVoltageRampRate(0);
+        secondMotor.setVoltageRampRate(0);
     }
 
     public void initDefaultCommand() {
@@ -189,5 +203,21 @@ public class ShooterWheels extends Subsystem {
 
     public double getSecondRpm() {
         return secondController.getActualRpm();
+    }
+
+    public void retry() throws SubsystemStatusException {
+        try {
+            configJaguars();
+        } catch (CANTimeoutException ex) {
+            throw new SubsystemStatusException(ex);
+        }
+    }
+
+    /**
+     * Get the target speed ratio, 0-1
+     * @return 
+     */
+    public double getTargetSpeedRatio() {
+        return targetSpeedRatio;
     }
 }

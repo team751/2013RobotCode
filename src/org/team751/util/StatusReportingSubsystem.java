@@ -51,7 +51,7 @@ public abstract class StatusReportingSubsystem extends Subsystem {
     public void reportInitFailed(Exception e) {
         String exceptionType = e.getClass().getName();
 
-        System.out.print("Subsystem " + getName() + " failed to initialize. It encountered a " + exceptionType + '!');
+        System.out.println("Subsystem " + getName() + " failed to initialize. It encountered a " + exceptionType + '!');
 
         SmartDashboard.putBoolean(getName(), false);
 
