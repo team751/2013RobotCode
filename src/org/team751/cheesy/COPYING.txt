@@ -1,4 +1,4 @@
-Source files in this package (org.team751.cheesy) are derivative works of
+Source files in this package (org.team751.cheesy) and its subpackages are derivative works of
 portions of Team 254's 2012 robot code, which is available at
 https://github.com/Team254/FRC-2012
 
