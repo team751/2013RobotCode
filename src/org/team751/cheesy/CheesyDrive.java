@@ -43,13 +43,6 @@ public class CheesyDrive {
          * @param right The right motor output ratio, -1 to 1
          */
         public MotorOutputs(double left, double right) {
-            if (Math.abs(left) > 1) {
-                throw new IllegalArgumentException("Left value must be -1 to 1");
-            }
-            if (Math.abs(right) > 1) {
-                throw new IllegalArgumentException("Right value must be -1 to 1");
-            }
-
             this.left = left;
             this.right = right;
         }
@@ -122,6 +115,10 @@ public class CheesyDrive {
         linear_power = throttle;
         // Quickturn!
         if (isQuickTurn) {
+            
+            //Scale down the turn amount to make things less jerky
+            wheel *= 0.7;
+            
             if (Math.abs(linear_power) < 0.2) {
                 double alpha = CheesyDriveConstants.kQuickStopTimeConstant;
                 quickStopAccumulator = (1 - alpha) * quickStopAccumulator + alpha * pwmLimit(wheel) * CheesyDriveConstants.kQuickStopStickScalar;

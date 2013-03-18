@@ -19,12 +19,14 @@ public class CheesyJoystickDrive extends CommandBase {
     protected void execute() {
         double x = oi.driveStick.getX();
         double y = oi.driveStick.getY();
+        
+        boolean quickTurn = oi.driveStick.getRawButton(2);
 
         //For the joystick Y axis, forward is negative.
         //This changes it back so that forward is positive.
         y = -y;
         
-        driveTrain.cheesyDrive(y, x, false);//TODO: Add a button for quickTurn
+        driveTrain.cheesyDrive(y, x, quickTurn);//TODO: Add a button for quickTurn
     }
 
     protected boolean isFinished() {

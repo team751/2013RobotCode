@@ -110,7 +110,8 @@ public class ContinuousAccelFilter extends AccelFilterBase {
             accel_time = (top_v - curr_vel) / start_a;
         }
 
-        assert (top_v > -max_v);
+        //No assert in CLDC 1.0
+//        assert (top_v > -max_v);
 
         data.t1 = accel_time;
         data.a1 = start_a;

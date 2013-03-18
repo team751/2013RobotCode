@@ -56,7 +56,7 @@ public class OI {
 	 */
 	private Button driveTrigger = new JoystickButton(driveStick, 1);
 	
-	private Button driveTopBack = new JoystickButton(driveStick, 2);
+	private Button driveTopFront = new JoystickButton(driveStick, 3);
         
         /**
          * Operator joystick, trigger
@@ -91,8 +91,8 @@ public class OI {
 	public OI() {
 		
 		driveTrigger.whenPressed(new Fire());
-		driveTopBack.whenPressed(new ShooterOn());
-		driveTopBack.whenReleased(new ShooterOff());
+		driveTopFront.whenPressed(new ShooterOn());
+		driveTopFront.whenReleased(new ShooterOff());
                 
                 operatorBaseRightForward.whenPressed(new ShooterSpeedIncrease());
                 operatorBaseRightBack.whenPressed(new ShooterSpeedDecrease());

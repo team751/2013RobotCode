@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
 import org.team751.cheesy.CheesyDrive;
-import org.team751.commands.drivetrain.JoystickDrive;
+import org.team751.commands.drivetrain.CheesyJoystickDrive;
 import org.team751.resources.AnalogChannels;
 import org.team751.resources.CANJaguarIDs;
 import org.team751.tasks.DrivetrainMonitor;
@@ -101,7 +101,8 @@ public class Drivetrain extends StatusReportingSubsystem {
         
         CheesyDrive.MotorOutputs outputs = cheeseDrive.cheesyDrive(throttle, wheel, quickTurn);
         try {
-            drive.setLeftRightMotorOutputs(outputs.left, outputs.right);
+            //Invert the right motor output so that it will work
+            drive.setLeftRightMotorOutputs(outputs.left, -outputs.right);
         } catch (CANTimeoutException ex) {
             reportNotWorking(ex);
         }
@@ -110,7 +111,7 @@ public class Drivetrain extends StatusReportingSubsystem {
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
-        setDefaultCommand(new JoystickDrive());
+        setDefaultCommand(new CheesyJoystickDrive());
     }
 
     /**
