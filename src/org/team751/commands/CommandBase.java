@@ -21,7 +21,7 @@ public abstract class CommandBase extends Command {
     public static OI oi;
     // Create a single static instance of all of your subsystems
     public static final Drivetrain driveTrain = new Drivetrain();
-    public static final Cow3 cow3 = new Cow3();
+    public static final Cow cow = new Cow();
     public static final Pusher pusher = new Pusher();
     public static final ShooterWheels shooterWheels = new ShooterWheels();
     //Periodic tasks here (these are not subsystems)
@@ -34,7 +34,7 @@ public abstract class CommandBase extends Command {
      */
     private static final StatusReportingSubsystem[] allSubsystems = {
         driveTrain,
-        cow3,
+        cow,
         pusher,
     };
     
@@ -62,11 +62,11 @@ public abstract class CommandBase extends Command {
 
         //Send command data to SmartDashboard
         SmartDashboard.putData(driveTrain);
-        SmartDashboard.putData(cow3);
+        SmartDashboard.putData(cow);
         SmartDashboard.putData(pusher);
         SmartDashboard.putData(shooterWheels);
         
-        cow3.init();
+        cow.init();
     }
     
     /**

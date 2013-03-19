@@ -22,13 +22,13 @@ public class CowDiskTrigger extends Trigger {
     public boolean get() {
         switch(stomachNumber) {
             case 0:
-                return CommandBase.cow3.getStomachs().stomach0Full();
+                return CommandBase.cow.getStomachs().stomach0Full();
             case 1:
-                return CommandBase.cow3.getStomachs().stomach1Full();
+                return CommandBase.cow.getStomachs().stomach1Full();
             case 2:
-                return CommandBase.cow3.getStomachs().stomach2Full();
+                return CommandBase.cow.getStomachs().stomach2Full();
             case 3:
-                return CommandBase.cow3.getStomachs().stomach3Full();
+                return CommandBase.cow.getStomachs().stomach3Full();
             default:
                 System.err.println("CowDiskTrigger constructed with a stomach number not in range 0-3!");
                 return false;

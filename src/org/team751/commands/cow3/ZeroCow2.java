@@ -9,13 +9,13 @@ import org.team751.commands.CommandBase;
 public class ZeroCow2 extends CommandBase {
     
     public ZeroCow2() {
-        requires(cow3);
+        requires(cow);
         setTimeout(0.5);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        cow3.moveSlowBack();
+        cow.moveSlowBack();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -29,12 +29,12 @@ public class ZeroCow2 extends CommandBase {
 
     // Called once after isFinished returns true
     protected void end() {
-        cow3.manualStop();
+        cow.manualStop();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-        cow3.manualStop();
+        cow.manualStop();
     }
 }

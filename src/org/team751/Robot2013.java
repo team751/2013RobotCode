@@ -30,19 +30,19 @@ public class Robot2013 extends IterativeRobot {
         CommandBase.init();
         
         //Put the cow in coast mode, for easy disk loading
-        CommandBase.cow3.setCoastMode();
+        CommandBase.cow.setCoastMode();
     }
 
     public void autonomousInit() {
         //Set the cow to brake mode, for normal operation
-        CommandBase.cow3.setBrakeMode();
+        CommandBase.cow.setBrakeMode();
         
         Command moveCommand = new DriveRotate(90);
         moveCommand.start();
     }
 
     public void disabledInit() {
-        CommandBase.cow3.setCoastMode();
+        CommandBase.cow.setCoastMode();
     }
 
     public void disabledPeriodic() {
@@ -57,7 +57,7 @@ public class Robot2013 extends IterativeRobot {
     }
 
     public void teleopInit() {
-        CommandBase.cow3.setBrakeMode();
+        CommandBase.cow.setBrakeMode();
     }
 
     /**

@@ -12,24 +12,24 @@ import org.team751.util.cow.CowPosition;
 public class NextLoadingPosition extends CommandBase {
     
     public NextLoadingPosition() {
-        requires(cow3);
+        requires(cow);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        if(!cow3.getTriggers().isLoadMode()) {
+        if(!cow.getTriggers().isLoadMode()) {
             //Don't do anything
             cancel();
             return;
         }
         
-        CowPosition forwardPosition = cow3.getTargetPosition().nextForward();
+        CowPosition forwardPosition = cow.getTargetPosition().nextForward();
         
         if(forwardPosition == null) {
             System.err.println("Next forward position is null. Bug!");
         }
         
-        cow3.setTargetPosition(forwardPosition);
+        cow.setTargetPosition(forwardPosition);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -38,7 +38,7 @@ public class NextLoadingPosition extends CommandBase {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return cow3.isInPosition();
+        return cow.isInPosition();
     }
 
     // Called once after isFinished returns true
