@@ -13,6 +13,10 @@ public class ContinuousAccelFilter extends AccelFilterBase {
     public ContinuousAccelFilter(double currPos, double currVel, double currAcc) {
         super(currPos, currVel, currAcc);
     }
+    
+    public ContinuousAccelFilter() {
+        this(0, 0, 0);
+    }
 
     public void CalcSystem(double distance_to_target, double v, double goal_v, double max_a, double max_v, double dt) {
 

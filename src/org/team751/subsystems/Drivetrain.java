@@ -108,6 +108,19 @@ public class Drivetrain extends StatusReportingSubsystem {
         }
     }
 
+    /**
+     * Set the left and right motor outputs
+     * @param leftOutput
+     * @param rightOutput
+     */
+    public void setLeftRightMotorOutputs(double leftOutput, double rightOutput) {
+        try {
+            drive.setLeftRightMotorOutputs(leftOutput, rightOutput);
+        } catch (CANTimeoutException ex) {
+            reportNotWorking(ex);
+        }
+    }
+
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());

@@ -1,5 +1,11 @@
 package org.team751.commands.drivetrain;
 
+import Jama.Matrix;
+import edu.wpi.first.wpilibj.DriverStationLCD;
+import edu.wpi.first.wpilibj.Timer;
+import org.team751.cheesy.StateSpaceController;
+import org.team751.cheesy.util.AccelFilterBase;
+import org.team751.cheesy.util.ContinuousAccelFilter;
 import org.team751.commands.CommandBase;
 
 /*
@@ -30,9 +36,9 @@ public class CheesyDriveCommand extends CommandBase {
   double curJeez_; // Jesusfish
   double curWubl_; // Wubbleu
   double curThet_; // Theta
-  struct matrix *y_;
-  struct matrix *r_;
-  ss_controller *ssc_;
+  Matrix y_;
+  Matrix r_;
+  StateSpaceController ssc_;
   AccelFilterBase straightFilter_;
   AccelFilterBase turnFilter_;
   
@@ -54,9 +60,9 @@ public CheesyDriveCommand(double distance, double angle, double timeout, double 
 
   
   brakeTimer_ = new Timer();
-  ssc_ = new ss_controller(2, 2, 4, ss_controller::DRIVE);
-  y_ = init_matrix(2, 1);
-  r_ = init_matrix(4, 1);
+  ssc_ = new StateSpaceController(2, 2, 4, StateSpaceController.Controllers.drive);
+  y_ = new Matrix(2, 1);
+  r_ = new Matrix(4, 1);
   straightFilter_ = new ContinuousAccelFilter();
   turnFilter_ = new ContinuousAccelFilter();
   
@@ -75,9 +81,10 @@ public void initialize() {
   curThet_ = 0.0;
   turnOffset_ = 0.0;
   sumStoppedError_ = 0.0;
-  flash_matrix(y_, 0.0, 0.0);
-  flash_matrix(r_, 0.0, 0.0, 0.0, 0.0);
-  ssc_->reset();
+  //Reset y_ to zeroes
+  y_ = new Matrix(2, 1);
+  r_ = new Matrix(4, 1);
+  ssc_.reset();
   straightFilter_ = new ContinuousAccelFilter();
   turnFilter_ = new ContinuousAccelFilter();
 }
@@ -131,11 +138,16 @@ protected void execute() {
   }
   turnOffset_ += doffset;
   double turnCompensationOffset = (turnOffset_ + sumStoppedError_ + gyroError * KpTurn) * robotWidth;
-  flash_matrix(r_, curX_ - turnCompensationOffset / 2.0 - thetaFactor, curV_ - wubbleuFactor, curX_ + turnCompensationOffset / 2.0 + thetaFactor, curV_ + wubbleuFactor);
-  flash_matrix(y_, currLeftDist, currRightDist);
-  ssc_->update(r_, y_);
+  r_.set(0, 0, curX_ - turnCompensationOffset / 2.0 - thetaFactor);
+  r_.set(0, 1, curV_ - wubbleuFactor);
+  r_.set(0, 2, curX_ + turnCompensationOffset / 2.0 + thetaFactor);
+  r_.set(0, 3, curV_ + wubbleuFactor);
+  
+  y_.set(0, 0, currLeftDist);
+  y_.set(0, 1, currRightDist);
+  ssc_.update(r_, y_);
 
-  drive_->SetLinearPower(ssc_->U->data[0] / 12.0, ssc_->U->data[1] / 12.0);
+  driveTrain.setLeftRightMotorOutputs(ssc_.getU().get(0, 0) / 12.0, ssc_.getU().get(1, 0) / 12.0);
   DriverStationLCD::GetInstance()->PrintfLine(DriverStationLCD::kUser_Line1, "curX:%f", curX_);
   DriverStationLCD::GetInstance()->PrintfLine(DriverStationLCD::kUser_Line2, "stoppedError:%f", sumStoppedError_);
   DriverStationLCD::GetInstance()->PrintfLine(DriverStationLCD::kUser_Line3, "thetaFactor:%f", thetaFactor);
@@ -144,8 +156,8 @@ protected void execute() {
   DriverStationLCD::GetInstance()->PrintfLine(DriverStationLCD::kUser_Line6, "%f", 0);
   DriverStationLCD::GetInstance()->UpdateLCD();
   bool angleDone = fabs(drive_->GetGyroAngle() * 0.01714532925 - angGoal) < 0.5;
-  bool leftDone = fabs((distGoal - angGoal * robotWidth / 2.0) - currLeftDist) < 0.03;
-  bool rightDone = fabs((distGoal + angGoal * robotWidth / 2.0) - currRightDist) < 0.03;
+  boolean leftDone = Math.abs((distGoal - angGoal * robotWidth / 2.0) - currLeftDist) < 0.03;
+  boolean rightDone = Math.abs((distGoal + angGoal * robotWidth / 2.0) - currRightDist) < 0.03;
 
 }
 
