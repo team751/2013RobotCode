@@ -65,10 +65,7 @@ public class TakeBackHalfSpeedController extends ThreadedSpeedController {
         this.controller = controller;
     }
 
-    protected void runSpeedControl() {
-//
-//        System.out.println("Loop time " + (Utility.getFPGATime() - lastLoopTime) + " microseconds");
-//        lastLoopTime = Utility.getFPGATime();
+    protected synchronized void runSpeedControl() {
 
         double error = targetRpm - getActualRpm();
         
@@ -100,7 +97,7 @@ public class TakeBackHalfSpeedController extends ThreadedSpeedController {
         return Math.abs(difference) < 100;
     }
 
-    public void setTargetRpm(double newRpm) {
+    public synchronized void setTargetRpm(double newRpm) {
         
         //Set up values for optimized spinup to the target
         if(targetRpm < newRpm) {
@@ -114,9 +111,6 @@ public class TakeBackHalfSpeedController extends ThreadedSpeedController {
         tbh = (2 * (newRpm / kMaxRpm)) - 1;
         
         targetRpm = newRpm;
-        
-        
-        System.out.println("Target RPM set to "+newRpm);
     }
 
     /**

@@ -75,6 +75,9 @@ public abstract class ThreadedSpeedController extends Thread {
             if(enabled) {
                 runSpeedControl();
             }
+            try {
+                sleep(1);
+            } catch (InterruptedException ex) {}
         }
     }
     

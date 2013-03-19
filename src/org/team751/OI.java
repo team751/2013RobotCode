@@ -66,12 +66,12 @@ public class OI {
 	/**
 	 * Operator joystick, base, left side, forward button
 	 */
-	private Button operatorBaseLeftForward = new JoystickButton(operatorStick, 6);
+	private Button driveBaseLeftForward = new JoystickButton(driveStick, 6);
 	
 	/**
 	 * Operator joystick, base, left side, back button
 	 */
-	private Button operatorBaseLeftBack = new JoystickButton(operatorStick, 7);
+	private Button driveBaseLeftBack = new JoystickButton(driveStick, 7);
 	
 	/**
 	 * Operator joystick, base, right side, forward button
@@ -93,14 +93,11 @@ public class OI {
 		driveTrigger.whenPressed(new Fire());
 		driveTopFront.whenPressed(new ShooterOn());
 		driveTopFront.whenReleased(new ShooterOff());
-                
-                operatorBaseRightForward.whenPressed(new ShooterSpeedIncrease());
-                operatorBaseRightBack.whenPressed(new ShooterSpeedDecrease());
 		
                 operatorTrigger.whenPressed(new ZeroCow());
                 
-                operatorBaseLeftForward.whenPressed(new CowForward());
-                operatorBaseLeftBack.whenPressed(new CowBack());
+                driveBaseLeftForward.whenPressed(new ShooterSpeedIncrease());
+                driveBaseLeftBack.whenPressed(new ShooterSpeedDecrease());
 	}
 }
 

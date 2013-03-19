@@ -104,8 +104,11 @@ public class ShooterWheels extends StatusReportingSubsystem {
      * @param ratio The desired speed, from 0 to 1
      */
     public void setSpeed(double ratio) {
-        if (ratio < 0 || ratio > 1) {
-            throw new IllegalArgumentException("Ratio must be from 0 to 1");
+        if(ratio > 1) {
+            ratio = 1;
+        }
+        if(ratio < 0) {
+            ratio = 1;
         }
 
         double secondTarget = MAXIMUM_SPEED * ratio;
