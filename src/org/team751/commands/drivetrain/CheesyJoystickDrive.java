@@ -7,7 +7,7 @@ import org.team751.commands.CommandBase;
  * @author samcrow
  */
 public class CheesyJoystickDrive extends CommandBase {
-
+    
     public CheesyJoystickDrive() {
         requires(driveTrain);
     }
@@ -20,7 +20,17 @@ public class CheesyJoystickDrive extends CommandBase {
         double x = oi.driveStick.getX();
         double y = oi.driveStick.getY();
         
-        boolean quickTurn = oi.driveStick.getRawButton(2);
+        boolean quickTurn = oi.driveStick.getRawButton(3);
+        
+        boolean brake = oi.driveStick.getRawButton(2);
+        
+        //Set the drivetrain to brake or coast mode, as requested
+        if(brake) {
+            driveTrain.setBrakeMode();
+        }
+        else {
+            driveTrain.setCoastMode();
+        }
 
         //For the joystick Y axis, forward is negative.
         //This changes it back so that forward is positive.

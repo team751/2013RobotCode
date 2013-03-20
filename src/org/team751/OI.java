@@ -90,7 +90,7 @@ public class OI {
 	
 	public OI() {
 		
-		driveTrigger.whenPressed(new ZeroCow());
+		driveTrigger.whenPressed(new Fire());
 		driveTopFront.whenPressed(new ShooterOn());
 		driveTopFront.whenReleased(new ShooterOff());
 		

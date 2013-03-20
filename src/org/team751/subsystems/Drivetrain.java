@@ -217,4 +217,14 @@ public class Drivetrain extends StatusReportingSubsystem {
             System.out.println("Casting a SpeedController into a MotorSafety failed!");
         }
     }
+
+    public void setCoastMode() {
+        if(isSubsystemWorking()) {
+            try {
+                drive.setCoastMode();
+            } catch (CANTimeoutException ex) {
+                reportNotWorking(ex);
+            }
+        }
+    }
 }

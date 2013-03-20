@@ -16,6 +16,12 @@ import org.team751.resources.CANSyncGroups;
 public class PolyMotorRobotDrive {
 
     /**
+     * The last control mode that the Jaguars were set to. This is used to avoid
+     * setting the mode when it is not required.
+     */
+    private CANJaguar.NeutralMode lastNeutralMode = null;
+    
+    /**
      * The motors on the left side of the robot
      */
     protected SpeedController[] leftMotors;
@@ -158,13 +164,22 @@ public class PolyMotorRobotDrive {
     }
 
     /**
-     * Set the neutral mode of each Jaguar
-     *
+     * Set the neutral mode of each Jaguar.
+     * This class does not send a CAN message if the mode was last set
+     * to the same mode that is being requested.
      * @param mode the mode to set
      *
      * @throws CANTimeoutException if such an exception was encountered
      */
     private void setNeutralMode(CANJaguar.NeutralMode mode) throws CANTimeoutException {
+        
+        //Only set the mode if (a) the neutral mode has been set before
+        //and (b) it was set to a different mode
+        //Return if this is not the case
+        if(lastNeutralMode != null && lastNeutralMode == mode) {
+            return;
+        }
+        
         for (int i = 0; i < leftMotors.length; i++) {
             if (leftMotors[i] instanceof CANJaguar) {
                 ((CANJaguar) leftMotors[i]).configNeutralMode(mode);
@@ -179,5 +194,9 @@ public class PolyMotorRobotDrive {
                 }
             }
         }
+    }
+
+    public void setCoastMode() throws CANTimeoutException {
+        setNeutralMode(CANJaguar.NeutralMode.kCoast);
     }
 }
