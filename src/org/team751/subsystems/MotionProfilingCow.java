@@ -2,7 +2,10 @@ package org.team751.subsystems;
 
 import edu.wpi.first.wpilibj.CANJaguar;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Utility;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
+import org.team751.cheesy.util.AccelFilterBase;
+import org.team751.cheesy.util.ContinuousAccelFilter;
 import org.team751.resources.CANJaguarIDs;
 import org.team751.resources.DigitalChannels;
 import org.team751.util.NamedCANJaguar;
@@ -15,11 +18,15 @@ import org.team751.util.cow.CowStomachs;
 import org.team751.util.cow.CowTriggers;
 
 /**
- * Implements the third software revision for the cow
+ * Implements the third software revision for the cow.
+ * 
+ * The motion profiling variant uses 254's motion profiling code
+ * to optimize its motion. It feeds the target position from the profile
+ * into the PID setpoint.
  *
  * @author samcrow
  */
-public class Cow extends StatusReportingSubsystem {
+public class MotionProfilingCow extends StatusReportingSubsystem {
 
     private CANJaguar rotationJaguar;
     /**
@@ -42,8 +49,13 @@ public class Cow extends StatusReportingSubsystem {
     private final CowStomachs stomachs = new CowStomachs();
     
     private CowTriggers triggers;
+    
+    /**
+     * Calculates acceleration curves
+     */
+    private AccelFilterBase profile;
 
-    public Cow() {
+    public MotionProfilingCow() {
         super("cow");
 
         try {
@@ -79,6 +91,13 @@ public class Cow extends StatusReportingSubsystem {
             } else {
                 triggers.setLoadMode(false);
             }
+            try {
+                //Create a new motion profile for this, starting at the current position
+                profile = new ContinuousAccelFilter(rotationJaguar.getPosition() - zeroPosition, 0, 0);
+                
+            } catch (CANTimeoutException ex) {
+                reportNotWorking(ex);
+            }
 
             try {
                 rotationJaguar.setPID(newPids.p, newPids.i, newPids.d);
@@ -86,6 +105,57 @@ public class Cow extends StatusReportingSubsystem {
             } catch (CANTimeoutException ex) {
                 reportNotWorking(ex);
             }
+        }
+        
+        lastMotionUpdateTime = Utility.getFPGATime();
+        lastPosition = getActualCount() - zeroPosition;
+    }
+    
+    /**
+     * Last FPGA timestamp, in microseconds, when motion was updated
+     */
+    private long lastMotionUpdateTime;
+    /**
+     * The position of the cow at the time defined by lastMotionUpdateTime.
+     * This value is corrected for the zero position.
+     */
+    private double lastPosition;
+    
+    /**
+     * Calculate the position that the cow should have and set the Jaguar
+     * to move to that position.
+     * This should be called frequently while the cow is in motion (in the
+     * execute() method of each relevant command).
+     */
+    public void updateMotion() {
+        if(profile != null) {
+            long now = Utility.getFPGATime();
+            //Calculate the change in time and convert from microseconds
+            //to seconds
+            double dt = (now - lastMotionUpdateTime) / 1000000.0;
+            lastMotionUpdateTime = now;
+            
+            double targetCount = targetPosition.getEncoderValue();
+            double actualCount = getActualCount() - zeroPosition;
+            
+            double dx = actualCount - lastPosition;
+            
+            double distanceToTarget = targetCount - actualCount;
+            
+            double velocity = dx / dt;
+            
+            profile.CalcSystem(distanceToTarget, velocity, 0, 100, 100, dt);
+            
+            System.out.println("Current "+actualCount+" Velocity "+velocity+" Target position "+profile.GetCurrPos());
+            
+            try {
+                //Set the Jaguar to move to the current position
+                rotationJaguar.setX(profile.GetCurrPos() + zeroPosition);
+            } catch (CANTimeoutException ex) {
+                ex.printStackTrace();
+            }
+            
+            lastPosition = actualCount;
         }
     }
 
@@ -99,8 +169,8 @@ public class Cow extends StatusReportingSubsystem {
     }
 
     /**
-     * Get the target encoder value
-     *
+     * Get the target encoder value. This is the value returned by the Jaguar,
+     * not corrected for the zero position
      * @return
      */
     public double getActualCount() {

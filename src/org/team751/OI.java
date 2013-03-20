@@ -90,14 +90,14 @@ public class OI {
 	
 	public OI() {
 		
-		driveTrigger.whenPressed(new Fire());
+		driveTrigger.whenPressed(new ZeroCow());
 		driveTopFront.whenPressed(new ShooterOn());
 		driveTopFront.whenReleased(new ShooterOff());
 		
                 operatorTrigger.whenPressed(new ZeroCow());
                 
-                driveBaseLeftForward.whenPressed(new ShooterSpeedIncrease());
-                driveBaseLeftBack.whenPressed(new ShooterSpeedDecrease());
+                driveBaseLeftForward.whenPressed(new CowForward());
+                driveBaseLeftBack.whenPressed(new CowBack());
 	}
 }
 
