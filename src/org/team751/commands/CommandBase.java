@@ -21,7 +21,7 @@ public abstract class CommandBase extends Command {
     public static OI oi;
     // Create a single static instance of all of your subsystems
     public static final Drivetrain driveTrain = new Drivetrain();
-    public static final MotionProfilingCow cow = new MotionProfilingCow();
+    public static final Cow cow = new Cow();
     public static final Pusher pusher = new Pusher();
     public static final ShooterWheels shooterWheels = new ShooterWheels();
     //Periodic tasks here (these are not subsystems)
