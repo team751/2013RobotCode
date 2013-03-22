@@ -13,11 +13,5 @@ public class ZeroCow extends CommandGroup {
         addSequential(new ZeroCow2());
         addSequential(new ZeroCow3());
     }
-
-    public synchronized boolean isInterruptible() {
-        return true;
-    }
-    
-    
     
 }

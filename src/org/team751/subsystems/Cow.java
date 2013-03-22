@@ -227,7 +227,7 @@ public class Cow extends StatusReportingSubsystem {
                 tryConfigJaguarVbus();
             }
             try {
-                rotationJaguar.setX(0.25);
+                rotationJaguar.setX(0.2);
             } catch (CANTimeoutException ex) {
                 reportNotWorking(ex);
             }

@@ -16,7 +16,6 @@ public class ZeroCow1 extends CommandBase {
     // Called just before this Command runs the first time
     protected void initialize() {
         cow.moveSlowForward();
-        System.out.println("Cow zero step 1 starting");
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -31,7 +30,6 @@ public class ZeroCow1 extends CommandBase {
     // Called once after isFinished returns true
     protected void end() {
         cow.manualStop();
-        System.out.println("Cow zero step 1 finished");
     }
 
     // Called when another command which requires one or more of the same
