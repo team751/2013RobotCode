@@ -1,12 +1,12 @@
 package org.team751;
 
+import com.sun.squawk.Field;
 import com.sun.squawk.Klass;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Utility;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import com.sun.squawk.Field;
-import edu.wpi.first.wpilibj.command.Command;
+import org.team751.commands.Autonomous;
 import org.team751.commands.CommandBase;
 import org.team751.commands.drivetrain.DriveRotate;
 
@@ -18,6 +18,11 @@ import org.team751.commands.drivetrain.DriveRotate;
  * directory.
  */
 public class Robot2013 extends IterativeRobot {
+    
+    /**
+     * The autonomous command
+     */
+    private Command autonomous = new Autonomous();
 
     /**
      * This function is run when the robot is first started up and should be
@@ -37,8 +42,7 @@ public class Robot2013 extends IterativeRobot {
         //Set the cow to brake mode, for normal operation
         CommandBase.cow.setBrakeMode();
         
-        Command moveCommand = new DriveRotate(90);
-        moveCommand.start();
+        autonomous.start();
     }
 
     public void disabledInit() {
@@ -58,6 +62,7 @@ public class Robot2013 extends IterativeRobot {
 
     public void teleopInit() {
         CommandBase.cow.setBrakeMode();
+        autonomous.cancel();
     }
 
     /**

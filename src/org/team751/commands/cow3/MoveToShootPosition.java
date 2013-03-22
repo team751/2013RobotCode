@@ -16,6 +16,28 @@ public class MoveToShootPosition extends CommandBase {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+        
+        //Check that the current target stomach is not full
+        //If it is, moving forward will cause a collision.
+        CowPosition currentPosition = cow.getTargetPosition();
+        if(currentPosition == CowPosition.kShoot3 && cow.getStomachs().stomach3Full()) {
+            
+            return;
+        }
+        if(currentPosition == CowPosition.kShoot2 && cow.getStomachs().stomach2Full()) {
+            
+            return;
+        }
+        if(currentPosition == CowPosition.kShoot2 && cow.getStomachs().stomach2Full()) {
+            
+            return;
+        }
+        if(currentPosition == CowPosition.kShoot1 && cow.getStomachs().stomach1Full()) {
+            
+            return;
+        }
+        
+        
         //Choose which position to move to
         if(cow.getStomachs().stomach3Full()) {
             cow.setTargetPosition(CowPosition.kShoot3);
@@ -37,10 +59,8 @@ public class MoveToShootPosition extends CommandBase {
         CowPosition nextForward = cow.getTargetPosition().nextForward();
         if(nextForward != null) {
             cow.setTargetPosition(nextForward);
-            return;
         }
-        //Otherwise do nothing and cancel this command
-        cancel();
+        //Otherwise do nothing
     }
 
     // Called repeatedly when this Command is scheduled to run

@@ -1,7 +1,6 @@
 package org.team751.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import org.team751.commands.cow3.CowForward;
 import org.team751.commands.cow3.MoveToShootPosition;
 import org.team751.commands.pusher.PusherExtendRetract;
 
@@ -14,7 +13,7 @@ public class Fire extends CommandGroup {
     public Fire() {
         addSequential(new MoveToShootPosition());
         addSequential(new PusherExtendRetract());
-        addSequential(new CowForward());
+        addSequential(new MoveToShootPosition());
     }
     
 }

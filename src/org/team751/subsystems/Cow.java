@@ -261,6 +261,7 @@ public class Cow extends StatusReportingSubsystem {
     
     public void setThisAsZero() {
         zeroPosition = getActualCount();
+        targetPosition = CowPosition.kShoot3;
     }
 
     public void initDefaultCommand() {

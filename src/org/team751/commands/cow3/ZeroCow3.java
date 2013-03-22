@@ -32,7 +32,6 @@ public class ZeroCow3 extends CommandBase {
     protected void end() {
         cow.manualStop();
         cow.setThisAsZero();
-        cow.setTargetPosition(CowPosition.kShoot3);
     }
 
     // Called when another command which requires one or more of the same
