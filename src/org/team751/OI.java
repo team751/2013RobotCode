@@ -52,5 +52,8 @@ public class OI {
         
         operatorStick.baseLeftForward.whenPressed(new CowForward());
         operatorStick.baseLeftBack.whenPressed(new CowBack());
+        
+        operatorStick.topBack.whenPressed(new ShooterOn());
+        operatorStick.topBack.whenReleased(new ShooterOff());
     }
 }

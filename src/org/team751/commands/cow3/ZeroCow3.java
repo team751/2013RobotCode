@@ -16,6 +16,7 @@ public class ZeroCow3 extends CommandBase {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+        System.out.println("Cow zero step 3 starting");
         cow.moveExtraSlowForward();
     }
 
@@ -33,6 +34,7 @@ public class ZeroCow3 extends CommandBase {
         cow.manualStop();
         cow.setThisAsZero();
         cow.setTargetPosition(CowPosition.kShoot3);
+        System.out.println("Cow zero step 3 finished");
     }
 
     // Called when another command which requires one or more of the same

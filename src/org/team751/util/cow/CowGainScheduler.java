@@ -65,8 +65,8 @@ public class CowGainScheduler {
             return upOverGains;
         }
         
-        System.err.println("Cow gain scheduler got unexpected input. Returning zeroes.");
-        return PID.zeroes;
+        System.err.println("Cow gain scheduler got unexpected input. Returning up values.");
+        return upGains;
     }
     
 }

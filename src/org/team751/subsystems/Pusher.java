@@ -19,9 +19,13 @@ import org.team751.util.SubsystemStatusException;
 public class Pusher extends StatusReportingSubsystem {
 
     /**
-     * The power level (0 to 1) to use for the motor
+     * The power applied to push
      */
-    private static final double MOTOR_POWER = -0.2;
+    private static final double PUSH_POWER = -1.0;
+    /**
+     * The power applied to retract
+     */
+    private static final double RETRACT_POWER = 0.4;
     /**
      * The Jaguar used to control the pusher. The two limit switches are
      * connected to it.
@@ -81,7 +85,7 @@ public class Pusher extends StatusReportingSubsystem {
             try {
                 //Set the motor to move forward. The Jaguar will detect that
                 //the limit switch is pressed and stop the motor by itself.
-                jaguar.setX(MOTOR_POWER);
+                jaguar.setX(PUSH_POWER);
             } catch (CANTimeoutException ex) {
                 reportNotWorking(ex);
             }
@@ -99,7 +103,7 @@ public class Pusher extends StatusReportingSubsystem {
     public void retract() {
         if (isSubsystemWorking()) {
             try {
-                jaguar.setX(-MOTOR_POWER);
+                jaguar.setX(RETRACT_POWER);
             } catch (CANTimeoutException ex) {
                 reportNotWorking(ex);
             }
