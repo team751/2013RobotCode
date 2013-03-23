@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import org.team751.commands.Autonomous;
 import org.team751.commands.CommandBase;
+import org.team751.util.DashboardInterface;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -52,7 +53,7 @@ public class Robot2013 extends IterativeRobot {
     }
 
     public void disabledPeriodic() {
-//		doDebug();
+        DashboardInterface.update();
     }
 
     /**
@@ -60,6 +61,7 @@ public class Robot2013 extends IterativeRobot {
      */
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
+        DashboardInterface.update();
     }
 
     public void teleopInit() {
@@ -73,9 +75,9 @@ public class Robot2013 extends IterativeRobot {
     public void teleopPeriodic() {
         
         CommandBase.checkSubsystems();
+        DashboardInterface.update();
         
         Scheduler.getInstance().run();
-//		doDebug();
     }
 
     /**
@@ -113,8 +115,5 @@ public class Robot2013 extends IterativeRobot {
         } catch (ClassNotFoundException ex) {
             System.err.println("Revision information not found.");
         }
-    }
-
-    private void doDebug() {
     }
 }
