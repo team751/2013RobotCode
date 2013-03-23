@@ -76,7 +76,7 @@ public class ShooterWheels extends StatusReportingSubsystem {
         firstEncoder.start();
         secondEncoder.start();
 
-        setSpeed(0.5);
+        setSpeed(1);
     }
 
     /**
