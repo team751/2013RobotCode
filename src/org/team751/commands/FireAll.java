@@ -16,8 +16,11 @@ public class FireAll extends CommandGroup {
         addSequential(new ShooterOn());
         addSequential(new WaitCommand(3));
         addSequential(new Fire());
+        addSequential(new WaitCommand(0.5));
         addSequential(new Fire());
+        addSequential(new WaitCommand(0.5));
         addSequential(new Fire());
+        addSequential(new WaitCommand(0.5));
         addSequential(new Fire());
         addSequential(new ShooterOff());
     }

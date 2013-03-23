@@ -38,24 +38,28 @@ public class ExtendPusher extends CommandBase {
             isCanceled = false;
         }
         if(isCanceled) {
+            System.out.println("Pusher extend canceled because the target stomach is not full");
             return;
         }
-
+        System.out.println("Pusher extend starting");
         pusher.push();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        pusher.push();
+        if(!isCanceled) {
+            pusher.push();
+        }
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return pusher.isExtended() || isCanceled;
+        return isCanceled || pusher.isExtended();
     }
 
     // Called once after isFinished returns true
     protected void end() {
+        System.out.println("Pusher extend finished");
     }
 
     // Called when another command which requires one or more of the same

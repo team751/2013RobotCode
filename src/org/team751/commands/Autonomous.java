@@ -9,7 +9,7 @@ import org.team751.commands.cow3.ZeroCow;
  */
 public class Autonomous extends CommandGroup {
     public Autonomous() {
-        addParallel(new ZeroCow());
-        addParallel(new FireAll());
+        addSequential(new ZeroCow());
+        addSequential(new FireAll());
     }
 }

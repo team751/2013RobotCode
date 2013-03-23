@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import org.team751.commands.Autonomous;
 import org.team751.commands.CommandBase;
-import org.team751.commands.drivetrain.DriveRotate;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -39,10 +38,13 @@ public class Robot2013 extends IterativeRobot {
     }
 
     public void autonomousInit() {
+        System.out.print("About to start autonomous mode... ");
         //Set the cow to brake mode, for normal operation
         CommandBase.cow.setBrakeMode();
         
+        autonomous = new Autonomous();
         autonomous.start();
+        System.out.println("Command started");
     }
 
     public void disabledInit() {

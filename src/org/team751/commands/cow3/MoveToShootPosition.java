@@ -75,6 +75,7 @@ public class MoveToShootPosition extends CommandBase {
 
     // Called once after isFinished returns true
     protected void end() {
+        System.out.println("Cow move finished");
     }
 
     // Called when another command which requires one or more of the same
