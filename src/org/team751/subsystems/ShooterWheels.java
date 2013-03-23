@@ -55,6 +55,14 @@ public class ShooterWheels extends StatusReportingSubsystem {
      * Target speed, ratio from 0 to 1
      */
     private double targetSpeedRatio = 0;
+    /**
+     * The target RPM of the first wheel
+     */
+    private double firstTargetRpm = 0;
+    /**
+     * The target RPM of the second wheel
+     */
+    private double secondTargetRpm = 0;
 
     public ShooterWheels() {
         super("Shooter wheels");
@@ -111,11 +119,11 @@ public class ShooterWheels extends StatusReportingSubsystem {
             ratio = 1;
         }
 
-        double secondTarget = MAXIMUM_SPEED * ratio;
-        double firstTarget = secondTarget * FIRST_WHEEL_SPEED_RATIO;
+        secondTargetRpm = MAXIMUM_SPEED * ratio;
+        firstTargetRpm = secondTargetRpm * FIRST_WHEEL_SPEED_RATIO;
 
-        firstController.setTargetRpm(firstTarget);
-        secondController.setTargetRpm(secondTarget);
+        firstController.setTargetRpm(firstTargetRpm);
+        secondController.setTargetRpm(secondTargetRpm);
         
         targetSpeedRatio = ratio;
     }
@@ -222,5 +230,19 @@ public class ShooterWheels extends StatusReportingSubsystem {
      */
     public double getTargetSpeedRatio() {
         return targetSpeedRatio;
+    }
+    /**
+     * Get the target speed of the first wheel in RPM
+     * @return 
+     */
+    public double getFirstTargetRpm() {
+        return firstTargetRpm;
+    }
+    /**
+     * Get the target speed of the second wheel in RPM
+     * @return 
+     */
+    public double getSecondTargetRpm() {
+        return secondTargetRpm;
     }
 }
