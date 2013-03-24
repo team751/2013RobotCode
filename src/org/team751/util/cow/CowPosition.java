@@ -23,7 +23,7 @@ public class CowPosition {
     /**
      * Position for loading into stomach 0. (stomach 0 is at the bottom).
      */
-    public static final CowPosition kLoad0 = new CowPosition(30) {
+    public static final CowPosition kLoad0 = new CowPosition(55) {
         public String toString() {
             return "Load 0";
         }
@@ -31,15 +31,15 @@ public class CowPosition {
     /**
      * Position for loading into stomach 1.
      */
-    public static final CowPosition kLoad1 = new CowPosition(50) {
+    public static final CowPosition kLoad1 = new CowPosition(75) {
         public String toString() {
             return "Load 1";
         }
     };
     /**
-     * Position for loading into stomach 2.
+     * Position for loading into stomach 2
      */
-    public static final CowPosition kLoad2 = new CowPosition(70) {
+    public static final CowPosition kLoad2 = new CowPosition(95) {
         public String toString() {
             return "Load 2";
         }
@@ -47,7 +47,7 @@ public class CowPosition {
     /**
      * Position for loading into stomach 3. (stomach 3 is at the top)
      */
-    public static final CowPosition kLoad3 = new CowPosition(90) {
+    public static final CowPosition kLoad3 = new CowPosition(115) {
         public String toString() {
             return "Load 3";
         }

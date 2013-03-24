@@ -17,9 +17,11 @@ public class CowDiskTrigger extends Trigger {
      */
     private long lastDebounceTime;
     /**
-     * Time, in milliseconds, to prevent bounces over
+     * Time, in milliseconds, to prevent bounces over.
+     * This will also be the delay between when a disk enters and when
+     * the move command runs.
      */
-    private static final long kDebounceDelay = 1000;
+    private static final long kDebounceDelay = 100;
     /**
      * The reading that was observed during the previous call to get()
      */

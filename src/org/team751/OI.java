@@ -3,6 +3,8 @@ package org.team751;
 import org.team751.commands.Fire;
 import org.team751.commands.cow.CowBack;
 import org.team751.commands.cow.CowForward;
+import org.team751.commands.cow.MoveToFirstLoadPosition;
+import org.team751.commands.cow.PrepareShootSequence;
 import org.team751.commands.cow.ZeroCow;
 import org.team751.commands.shooter.ShooterOff;
 import org.team751.commands.shooter.ShooterOn;
@@ -58,5 +60,8 @@ public class OI {
         
         operatorStick.topLeft.whenPressed(new ShooterSpeedDecrease());
         operatorStick.topRight.whenPressed(new ShooterSpeedIncrease());
+        
+        operatorStick.baseRightForward.whenPressed(new PrepareShootSequence());
+        operatorStick.baseRightBack.whenPressed(new MoveToFirstLoadPosition());
     }
 }

@@ -45,4 +45,13 @@ public class Attack3 extends Joystick {
      * Rearward button on the left side of the base, button 7
      */
     public final Button baseLeftBack = new JoystickButton(this, 7);
+    
+    /**
+     * Forward button on the right side of the base, button 11
+     */
+    public final Button baseRightForward = new JoystickButton(this, 11);
+    /**
+     * Rearward button on the right side of the base, button 10
+     */
+    public final Button baseRightBack = new JoystickButton(this, 10);
 }
