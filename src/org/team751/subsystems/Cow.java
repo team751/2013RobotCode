@@ -13,6 +13,7 @@ import org.team751.util.cow.CowGainScheduler.PID;
 import org.team751.util.cow.CowPosition;
 import org.team751.util.cow.CowStomachs;
 import org.team751.util.cow.CowTriggers;
+import org.team751.util.cow.ZeroSwitchMoveDetector;
 
 /**
  * Implements the third software revision for the cow
@@ -42,6 +43,16 @@ public class Cow extends StatusReportingSubsystem {
     private final CowStomachs stomachs = new CowStomachs();
     
     private CowTriggers triggers;
+    
+    /**
+     * The mechanism used to detect if the zero switch has gone through the
+     * light -> dark -> light transition. This is used for precise positioning
+     * for shoot positions.
+     * 
+     * If the cow is not currently moving, or if the current move is not a move
+     * forward from one shoot position to another, this will be null.
+     */
+    private ZeroSwitchMoveDetector shootMoveDetector = null;
 
     public Cow() {
         super("cow");
@@ -71,7 +82,6 @@ public class Cow extends StatusReportingSubsystem {
             //Configure the PID constants for this move
             PID newPids = CowGainScheduler.getGainForMove(targetPosition, newPosition);
 
-            targetPosition = newPosition;
             
             //Tell the trigger mechanism if the new position is feeding or not
             if(newPosition.isLoadPosition()) {
@@ -79,7 +89,16 @@ public class Cow extends StatusReportingSubsystem {
             } else {
                 triggers.setLoadMode(false);
             }
+            
+            //Check if this is a move down from one shooting position to another
+            //If so, set up the move detector that uses the zero switch.
+            if(targetPosition.isShootPosition() && newPosition.isShootPosition()) {
+                if(targetPosition.moveTypeTo(newPosition) == CowPosition.MoveType.kDown) {
+                    shootMoveDetector = new ZeroSwitchMoveDetector(this);
+                }
+            }
 
+            targetPosition = newPosition;
             try {
                 rotationJaguar.setPID(newPids.p, newPids.i, newPids.d);
                 rotationJaguar.setX(zeroPosition + newPosition.getEncoderValue());
@@ -132,6 +151,16 @@ public class Cow extends StatusReportingSubsystem {
      */
     public boolean isInPosition() {
         if (isSubsystemWorking()) {
+            
+            //If the zero switch move detector has been set up for this move,
+            //return true if it has gone through its sequence.
+//            if(shootMoveDetector != null) {
+//                if(shootMoveDetector.isComplete()) {
+//                    System.out.println("Shoot move detector found this move to be complete");
+//                    return true;
+//                }
+//            }
+            
             try {
                 double target = getTargetCount();
                 double actual = rotationJaguar.getPosition();
