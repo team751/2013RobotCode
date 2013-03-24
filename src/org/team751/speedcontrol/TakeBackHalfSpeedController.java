@@ -1,7 +1,6 @@
 package org.team751.speedcontrol;
 
 import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.team751.util.SpeedSource;
 
 /**
@@ -67,8 +66,6 @@ public class TakeBackHalfSpeedController extends ThreadedSpeedController {
     protected synchronized void runSpeedControl() {
 
         double error = targetRpm - getActualRpm();
-        
-        SmartDashboard.putNumber("RPM", getActualRpm());
 
         motorPower += gain * error;
 
