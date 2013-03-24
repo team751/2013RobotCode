@@ -41,6 +41,13 @@ public class ExtendPusher extends CommandBase {
             System.out.println("Pusher extend canceled because the target stomach is not full");
             return;
         }
+        
+        //Prevent this command from running if the cow is still moving (not in position)
+        if(!cow.isInPosition()) {
+            isCanceled = true;
+            return;
+        }
+        
         System.out.println("Pusher extend starting");
         pusher.push();
     }

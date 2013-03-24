@@ -39,23 +39,23 @@ public class MoveToShootPosition extends CommandBase {
         
         
         //Choose which position to move to
-        if(cow.getStomachs().stomach3Full()) {
-            cow.setTargetPosition(CowPosition.kShoot3);
-            return;
-        }
-        if(cow.getStomachs().stomach2Full()) {
-            cow.setTargetPosition(CowPosition.kShoot2);
-            return;
-        }
-        if(cow.getStomachs().stomach1Full()) {
-            cow.setTargetPosition(CowPosition.kShoot1);
-            return;
-        }
-        if(cow.getStomachs().stomach0Full()) {
-            cow.setTargetPosition(CowPosition.kShoot0);
-            return;
-        }
-        //If no stomach full, just move forward
+//        if(cow.getStomachs().stomach3Full()) {
+//            cow.setTargetPosition(CowPosition.kShoot3);
+//            return;
+//        }
+//        if(cow.getStomachs().stomach2Full()) {
+//            cow.setTargetPosition(CowPosition.kShoot2);
+//            return;
+//        }
+//        if(cow.getStomachs().stomach1Full()) {
+//            cow.setTargetPosition(CowPosition.kShoot1);
+//            return;
+//        }
+//        if(cow.getStomachs().stomach0Full()) {
+//            cow.setTargetPosition(CowPosition.kShoot0);
+//            return;
+//        }
+        //Just move forward
         CowPosition nextForward = cow.getTargetPosition().nextForward();
         if(nextForward != null) {
             cow.setTargetPosition(nextForward);

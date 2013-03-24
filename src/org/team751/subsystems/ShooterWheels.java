@@ -46,7 +46,7 @@ public class ShooterWheels extends StatusReportingSubsystem {
     /**
      * The maximum speed, in RPM, of the second (faster) wheel
      */
-    private static final double MAXIMUM_SPEED = 2800;
+    private static final double MAXIMUM_SPEED = 3300;
     //Speed controllers
     private ThreadedSpeedController firstController;
     private ThreadedSpeedController secondController;
@@ -112,9 +112,9 @@ public class ShooterWheels extends StatusReportingSubsystem {
      * @param ratio The desired speed, from 0 to 1
      */
     public void setSpeed(double ratio) {
-        if(ratio > 1) {
-            ratio = 1;
-        }
+//        if(ratio > 1) {
+//            ratio = 1;
+//        }
         if(ratio < 0) {
             ratio = 1;
         }

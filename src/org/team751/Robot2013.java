@@ -6,8 +6,12 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.team751.commands.Autonomous;
 import org.team751.commands.CommandBase;
+import org.team751.commands.ThreeDiskAutonomous;
+import org.team751.commands.TwoDiskAutonomous;
 import org.team751.util.DashboardInterface;
 
 /**
@@ -22,7 +26,9 @@ public class Robot2013 extends IterativeRobot {
     /**
      * The autonomous command
      */
-    private Command autonomous = new Autonomous();
+    private Command autonomous;
+    
+    private SendableChooser autonomousChooser = new SendableChooser();
 
     /**
      * This function is run when the robot is first started up and should be
@@ -38,6 +44,10 @@ public class Robot2013 extends IterativeRobot {
         CommandBase.cow.setCoastMode();
         
         System.out.println("Ready");
+        
+        autonomousChooser.addDefault("3-disk", new ThreeDiskAutonomous());
+        autonomousChooser.addObject("2-disk", new TwoDiskAutonomous());
+        SmartDashboard.putData("Autonomous", autonomousChooser);
     }
 
     public void autonomousInit() {
@@ -45,7 +55,7 @@ public class Robot2013 extends IterativeRobot {
         //Set the cow to brake mode, for normal operation
         CommandBase.cow.setBrakeMode();
         
-        autonomous = new Autonomous();
+        autonomous = (Command) autonomousChooser.getSelected();
         autonomous.start();
         System.out.println("Command started");
     }
@@ -68,7 +78,9 @@ public class Robot2013 extends IterativeRobot {
 
     public void teleopInit() {
         CommandBase.cow.setBrakeMode();
-        autonomous.cancel();
+        if(autonomous != null) {
+            autonomous.cancel();
+        }
     }
 
     /**

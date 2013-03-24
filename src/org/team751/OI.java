@@ -1,13 +1,13 @@
 package org.team751;
 
-import edu.wpi.first.wpilibj.buttons.Button;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import org.team751.commands.Fire;
 import org.team751.commands.cow3.CowBack;
 import org.team751.commands.cow3.CowForward;
 import org.team751.commands.cow3.ZeroCow;
 import org.team751.commands.shooter.ShooterOff;
 import org.team751.commands.shooter.ShooterOn;
+import org.team751.commands.shooter.ShooterSpeedDecrease;
+import org.team751.commands.shooter.ShooterSpeedIncrease;
 import org.team751.util.Attack3;
 
 /**
@@ -55,5 +55,8 @@ public class OI {
         
         operatorStick.topBack.whenPressed(new ShooterOn());
         operatorStick.topBack.whenReleased(new ShooterOff());
+        
+        operatorStick.topLeft.whenPressed(new ShooterSpeedDecrease());
+        operatorStick.topRight.whenPressed(new ShooterSpeedIncrease());
     }
 }
