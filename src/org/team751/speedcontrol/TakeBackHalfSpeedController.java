@@ -4,11 +4,43 @@ import edu.wpi.first.wpilibj.SpeedController;
 import org.team751.util.SpeedSource;
 
 /**
- * Implements a take-back-half speed control system.
+ * Implements a take-back-half speed control system. Creates a separate thread
+ * that frequently schedules speed control.
  *
+ * <p>
  * For information, see:
- * http://www.chiefdelphi.com/forums/showthread.php?threadid=105965
- * http://www.chiefdelphi.com/media/papers/2674?
+ * <a href="http://www.chiefdelphi.com/forums/showthread.php?threadid=105965">http://www.chiefdelphi.com/forums/showthread.php?threadid=105965</a>
+ * <a href="http://www.chiefdelphi.com/media/papers/2674?">http://www.chiefdelphi.com/media/papers/2674?</a>
+ * </p>
+ * 
+ * 
+ * <h4>Usage</h4>
+ * <p>
+ * Have a SpeedSource, which is linked to a sensor that measures the actual
+ * speed of whatever is being controlled. One class that implements SpeedSource
+ * is org.team751.util.CounterSpeedSource, for use with the Counter class.
+ * </p>
+ * <p>
+ * Have a SpeedController that controls the speed of whatever is being controlled
+ * </p>
+ * 
+ * <pre>
+ * //construct
+ * ThreadedSpeedController controller = new TakeBackHalfSpeedController(source, controller);
+ * //Set the target speed, in RPM
+ * controller.setTargetRpm(2000);
+ * 
+ * //Start the seperate thread that does speed control
+ * controller.start();
+ * //Set the controller to enabled, so that it will start controlling the motor
+ * controller.enable();
+ * 
+ * //...
+ * 
+ * //Disable the controller
+ * controller.disable();
+ * 
+ * </pre>
  *
  * @author Sam Crow
  */
@@ -83,16 +115,25 @@ public class TakeBackHalfSpeedController extends ThreadedSpeedController {
 
     }
 
+    /**
+     * @see ThreadedSpeedController#getActualRpm() 
+     */
     public double getActualRpm() {
         return source.getRpm();
     }
 
+    /**
+     * @see ThreadedSpeedController#isOnTarget()
+     */
     public boolean isOnTarget() {
         double difference = getActualRpm() - targetRpm;
 
         return Math.abs(difference) < 100;
     }
 
+    /**
+     * @see ThreadedSpeedController#setTargetRpm(double)
+     */
     public synchronized void setTargetRpm(double newRpm) {
         
         //Set up values for optimized spinup to the target
