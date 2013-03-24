@@ -1,7 +1,6 @@
 package org.team751.speedcontrol;
 
 import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.Utility;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.team751.util.SpeedSource;
 
@@ -72,7 +71,7 @@ public class TakeBackHalfSpeedController extends ThreadedSpeedController {
         SmartDashboard.putNumber("RPM", getActualRpm());
 
         motorPower += gain * error;
-//        System.out.println("Increasing power by "+(gain * error));
+
         motorPower = clamp(motorPower);
 
         //If the error has changed in sign since the last processing
@@ -101,11 +100,9 @@ public class TakeBackHalfSpeedController extends ThreadedSpeedController {
         
         //Set up values for optimized spinup to the target
         if(targetRpm < newRpm) {
-//            motorPower = 1;
             lastError = 1;
         }
         else if(targetRpm > newRpm) {
-//            motorPower = 0.7;
             lastError = -1;
         }
         tbh = (2 * (newRpm / kMaxRpm)) - 1;
