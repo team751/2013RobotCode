@@ -1,7 +1,7 @@
 package org.team751.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import org.team751.commands.cow3.MoveToShootPosition;
+import org.team751.commands.cow.MoveToShootPosition;
 import org.team751.commands.pusher.PusherExtendRetract;
 
 /**

@@ -1,40 +1,46 @@
-package org.team751.commands.cow3;
+package org.team751.commands.cow;
 
 import org.team751.commands.CommandBase;
+import org.team751.util.cow.CowPosition;
 
 /**
- * Moves the cow back for 1 second, in preparation for zero step 3
+ * Sets the cow to move one position forward, then exits immediately
+ *
  * @author Sam Crow
  */
-public class ZeroCow2 extends CommandBase {
-    
-    public ZeroCow2() {
+public class CowForward extends CommandBase {
+
+    public CowForward() {
         requires(cow);
-        setTimeout(0.5);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        cow.moveSlowBack();
+        CowPosition newPosition = cow.getTargetPosition().nextForward();
+        if (newPosition != null) {
+            cow.setTargetPosition(newPosition);
+            System.out.println("Setting cow to position " + newPosition.toString());
+        } else {
+            System.out.println("No forward position to move cow to");
+        }
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+//        cow.updateMotion();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return isTimedOut();
+        return cow.isInPosition();
     }
 
     // Called once after isFinished returns true
     protected void end() {
-        cow.manualStop();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-        cow.manualStop();
     }
 }

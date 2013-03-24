@@ -1,7 +1,7 @@
 package org.team751.util.cow;
 
 import edu.wpi.first.wpilibj.buttons.Trigger;
-import org.team751.commands.cow3.NextLoadingPosition;
+import org.team751.commands.cow.NextLoadingPosition;
 
 /**
  * Manages the triggers used to move the cow based on disk presence

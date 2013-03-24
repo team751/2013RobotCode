@@ -1,27 +1,27 @@
-package org.team751.commands.cow3;
+package org.team751.commands.cow;
 
 import org.team751.commands.CommandBase;
 import org.team751.util.cow.CowPosition;
 
 /**
- * Sets the cow to move one position forward, then exits immediately
+ * Sets the cow to move one position back, then exits immediately
  *
  * @author Sam Crow
  */
-public class CowForward extends CommandBase {
+public class CowBack extends CommandBase {
 
-    public CowForward() {
+    public CowBack() {
         requires(cow);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        CowPosition newPosition = cow.getTargetPosition().nextForward();
+        CowPosition newPosition = cow.getTargetPosition().nextBack();
         if (newPosition != null) {
             cow.setTargetPosition(newPosition);
             System.out.println("Setting cow to position " + newPosition.toString());
         } else {
-            System.out.println("No forward position to move cow to");
+            System.out.println("No back position to move cow to");
         }
     }
 

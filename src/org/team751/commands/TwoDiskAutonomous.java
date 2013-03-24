@@ -1,8 +1,8 @@
 package org.team751.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import org.team751.commands.cow3.CowForward;
-import org.team751.commands.cow3.ZeroCow;
+import org.team751.commands.cow.CowForward;
+import org.team751.commands.cow.ZeroCow;
 import org.team751.commands.pusher.PusherExtendRetract;
 import org.team751.commands.shooter.ShooterOff;
 import org.team751.commands.shooter.ShooterOn;

@@ -1,4 +1,4 @@
-package org.team751.commands.cow3;
+package org.team751.commands.cow;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 

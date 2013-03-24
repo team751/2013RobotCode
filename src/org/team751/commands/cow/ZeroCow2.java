@@ -1,21 +1,21 @@
-package org.team751.commands.cow3;
+package org.team751.commands.cow;
 
 import org.team751.commands.CommandBase;
 
 /**
- * Moves the cow to zero, then sets that position as zero and exits
- *
+ * Moves the cow back for 1 second, in preparation for zero step 3
  * @author Sam Crow
  */
-public class ZeroCow1 extends CommandBase {
-
-    public ZeroCow1() {
+public class ZeroCow2 extends CommandBase {
+    
+    public ZeroCow2() {
         requires(cow);
+        setTimeout(0.5);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        cow.moveSlowForward();
+        cow.moveSlowBack();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -24,7 +24,7 @@ public class ZeroCow1 extends CommandBase {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return cow.isAtZero();
+        return isTimedOut();
     }
 
     // Called once after isFinished returns true

@@ -1,4 +1,4 @@
-package org.team751.commands.cow3;
+package org.team751.commands.cow;
 
 import org.team751.commands.CommandBase;
 import org.team751.util.cow.CowPosition;

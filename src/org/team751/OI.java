@@ -1,9 +1,9 @@
 package org.team751;
 
 import org.team751.commands.Fire;
-import org.team751.commands.cow3.CowBack;
-import org.team751.commands.cow3.CowForward;
-import org.team751.commands.cow3.ZeroCow;
+import org.team751.commands.cow.CowBack;
+import org.team751.commands.cow.CowForward;
+import org.team751.commands.cow.ZeroCow;
 import org.team751.commands.shooter.ShooterOff;
 import org.team751.commands.shooter.ShooterOn;
 import org.team751.commands.shooter.ShooterSpeedDecrease;
