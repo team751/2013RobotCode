@@ -46,14 +46,11 @@ public abstract class CommandBase extends Command {
 
     public static void init() {
 
-        System.out.println("CommandBase.init() called");
-
         // This MUST be here. If the OI creates Commands (which it very likely
         // will), constructing it during the construction of CommandBase (from
         // which commands extend), subsystems are not guaranteed to be
         // yet. Thus, their requires() statements may grab null pointers. Bad
         // news. Don't move it.
-        System.out.println("About to init OI");
         oi = new OI();
 
         //Start the periodic tasks

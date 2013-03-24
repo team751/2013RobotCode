@@ -36,6 +36,8 @@ public class Robot2013 extends IterativeRobot {
         
         //Put the cow in coast mode, for easy disk loading
         CommandBase.cow.setCoastMode();
+        
+        System.out.println("Ready");
     }
 
     public void autonomousInit() {
