@@ -24,6 +24,7 @@ public abstract class CommandBase extends Command {
     public static final Cow cow = new Cow();
     public static final Pusher pusher = new Pusher();
     public static final ShooterWheels shooterWheels = new ShooterWheels();
+    public static final Gates gates = new Gates();
     //Periodic tasks here (these are not subsystems)
     public static Navigator navigator;
     //On-board diagnostics are currently disabled - see issue #5
@@ -63,6 +64,8 @@ public abstract class CommandBase extends Command {
         SmartDashboard.putData(pusher);
         SmartDashboard.putData(shooterWheels);
         
+        //Get the cow to do the initialization elements that require
+        //the cow to be not null
         cow.init();
     }
     
