@@ -5,7 +5,34 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /**
- * Represents a Logitech Attach 3 joystick and provides access to its buttons
+ * Represents a Logitech Attack 3 joystick and provides access to its buttons.
+ * <p>
+ * When using the command-based robot system, the OI class would normally
+ * contain something like this:
+ * <p>
+ * <pre>
+ * public class OI {
+ *      
+ *      public final Joystick driveStick = new Joystick(1);
+ * 
+ *      private Button driveTrigger = new JoystickButton(driveStick, 1);
+ *      ...
+ * 
+ *      public OI() {
+ *          driveTrigger.whenPressed(...);
+ *      }
+ * }
+ * </pre>
+ * <p>
+ * This technique could be considered to make the OI class needlessly verbose
+ * because it specifies the mapping between button numbers and descriptions
+ * for each joystick individually.
+ * </p>
+ * <p>
+ * With this class, it is possible to construct an Attack3 and access its buttons
+ * directly.
+ * </p>
+ * 
  * @author Sam Crow
  */
 public class Attack3 extends Joystick {
