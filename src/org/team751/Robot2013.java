@@ -8,10 +8,8 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.team751.commands.Autonomous;
 import org.team751.commands.CommandBase;
-import org.team751.commands.ThreeDiskAutonomous;
-import org.team751.commands.TwoDiskAutonomous;
+import org.team751.commands.autonomous.*;
 import org.team751.util.DashboardInterface;
 
 /**
@@ -45,8 +43,11 @@ public class Robot2013 extends IterativeRobot {
         
         System.out.println("Ready");
         
-        autonomousChooser.addDefault("3-disk", new ThreeDiskAutonomous());
-        autonomousChooser.addObject("2-disk", new TwoDiskAutonomous());
+        autonomousChooser.addObject("3-disk", new ThreeDiskAutonomous());
+        autonomousChooser.addDefault("2-disk", new TwoDiskAutonomous());
+		autonomousChooser.addObject("Drive+3 from left", new DriveFromLeftShoot3Autonomous());
+		autonomousChooser.addObject("Drive+3 from right", new DriveFromRightShoot3Autonomous());
+		autonomousChooser.addObject("Do nothing", new DoNothingAutonomous());
         SmartDashboard.putData("Autonomous", autonomousChooser);
     }
 

@@ -1,4 +1,4 @@
-package org.team751.commands;
+package org.team751.commands.autonomous;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import org.team751.commands.cow.CowForward;
