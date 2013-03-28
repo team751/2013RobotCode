@@ -11,35 +11,43 @@ import org.team751.resources.PWMChannels;
  */
 public class Gates extends Subsystem {
 	
-	private Servo frontServo = new Servo(PWMChannels.GATE_FRONT);
+	private Servo frontA = new Servo(PWMChannels.GATE_FRONT_A);
 	
-	private Servo backServo = new Servo(PWMChannels.GATE_BACK);
+	private Servo frontB = new Servo(PWMChannels.GATE_FRONT_B);
+	
+	private Servo backA = new Servo(PWMChannels.GATE_BACK_A);
+	
+	private Servo backB = new Servo(PWMChannels.GATE_BACK_B);
 
 	/**
 	 * Extend the front gate
 	 */
 	public void extendFront() {
-		frontServo.set(1);
+		frontA.set(1);
+		frontB.set(1);
 	}
 	/**
 	 * Retract the front gate
 	 */
 	public void retractFront() {
-		frontServo.set(0);
+		frontA.set(0);
+		frontB.set(0);
 	}
 	
 	/**
 	 * Extend the back gate
 	 */
 	public void extendBack() {
-		backServo.set(1);
+		backA.set(1);
+		backB.set(1);
 	}
 	
 	/**
 	 * Retract the back gate
 	 */
 	public void retractBack() {
-		backServo.set(0);
+		backA.set(0);
+		backB.set(0);
 	}
 	
 	/**
