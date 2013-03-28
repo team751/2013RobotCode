@@ -59,15 +59,15 @@ public class Drivetrain extends StatusReportingSubsystem {
             return;
         }
         drive = new PolyMotorRobotDrive(
-                new SpeedController[]{leftA, leftB},
+                new SpeedController[]{leftA, leftB, leftC},
                 new SpeedController[]{
-                    rightA, rightB});
+                    rightA, rightB, rightC});
 
         leftSensor = new DrivetrainTemperatureSensor(AnalogChannels.TEMP_DRIVETRAIN_LEFT, "Motors left");
         rightSensor = new DrivetrainTemperatureSensor(AnalogChannels.TEMP_DRIVETRAIN_RIGHT, "Motors right");
 
         monitor = new DrivetrainMonitor(
-                new SpeedController[]{leftA, leftB, rightA, rightB},
+                new SpeedController[]{leftA, leftB, leftC, rightA, rightB, rightC},
                 new TemperatureSensor[]{leftSensor, rightSensor});
 
         monitor.start();
@@ -178,25 +178,12 @@ public class Drivetrain extends StatusReportingSubsystem {
      */
     private void setupJaguars() throws CANTimeoutException {
         
-        
-//          leftA = new NamedCANJaguar(CANJaguarIDs.DRIVE_LEFT_A,
-//                    "Left A");
-//          leftB = new NamedCANJaguar(CANJaguarIDs.DRIVE_LEFT_B,
-//                    "Left B");
-//          leftC = new NamedCANJaguar(CANJaguarIDs.DRIVE_LEFT_C,
-//                    "Left C");
-//
-//          rightA = new NamedCANJaguar(CANJaguarIDs.DRIVE_RIGHT_A,
-//                    "Right A");
-//          rightB = new NamedCANJaguar(CANJaguarIDs.DRIVE_RIGHT_B,
-//                    "Right B");
-//          rightC = new NamedCANJaguar(CANJaguarIDs.DRIVE_RIGHT_C,
-//                    "Right C");
-
-        if(leftA == null) leftA = new NamedCANJaguar(CANJaguarIDs.SR_DRIVE_LEFT_A, "Left A");
-        if(leftB == null) leftB = new NamedCANJaguar(CANJaguarIDs.SR_DRIVE_LEFT_B, "Left B");
-        if(rightA == null) rightA = new NamedCANJaguar(CANJaguarIDs.SR_DRIVE_RIGHT_A, "Right A");
-        if(rightB == null) rightB = new NamedCANJaguar(CANJaguarIDs.SR_DRIVE_RIGHT_B, "Right B");
+        if(leftA == null) leftA = new NamedCANJaguar(CANJaguarIDs.DRIVE_LEFT_A, "Left A");
+        if(leftB == null) leftB = new NamedCANJaguar(CANJaguarIDs.DRIVE_LEFT_B, "Left B");
+        if(leftC == null) leftC = new NamedCANJaguar(CANJaguarIDs.DRIVE_LEFT_C, "Left C");
+        if(rightA == null) rightA = new NamedCANJaguar(CANJaguarIDs.DRIVE_RIGHT_A, "Right A");
+        if(rightB == null) rightB = new NamedCANJaguar(CANJaguarIDs.DRIVE_RIGHT_B, "Right B");
+        if(rightC == null) rightC = new NamedCANJaguar(CANJaguarIDs.DRIVE_RIGHT_C, "Right C");
 
         //Timing note: The software sometimes does other things for a pretty
         //long time (100-500 milliseconds) between running the drive command.
@@ -209,10 +196,10 @@ public class Drivetrain extends StatusReportingSubsystem {
         try {
             ((MotorSafety) leftA).setExpiration(1);
             ((MotorSafety) leftB).setExpiration(1);
-//            ((MotorSafety) leftC).setExpiration(1);
+            ((MotorSafety) leftC).setExpiration(1);
             ((MotorSafety) rightA).setExpiration(1);
             ((MotorSafety) rightB).setExpiration(1);
-//            ((MotorSafety) rightC).setExpiration(1);
+            ((MotorSafety) rightC).setExpiration(1);
         } catch (ClassCastException e) {
             System.out.println("Casting a SpeedController into a MotorSafety failed!");
         }
