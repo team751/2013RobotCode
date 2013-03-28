@@ -86,9 +86,6 @@ public class Navigator extends PeriodicTask implements Sendable,
 		gyro = new Gyro(AnalogChannels.GYRO);
 		System.out.println("Gyro init done");
 
-		System.out.println("Starting accelerometer init");
-//		accel = new ADXL345_I2C(1, ADXL345_I2C.DataFormat_Range.k4G);
-
 		System.out.println("Starting encoder init");
 		leftEncoder = new Encoder(DigitalChannels.DRIVE_LEFT_ENCODER_A,
 								  DigitalChannels.DRIVE_LEFT_ENCODER_B);
@@ -120,8 +117,6 @@ public class Navigator extends PeriodicTask implements Sendable,
 	}
 
 	public void run() {
-
-		System.out.println("Navigator synchronizing self");
 		synchronized (this) {
 
 			long newTime = System.currentTimeMillis();
@@ -165,8 +160,6 @@ public class Navigator extends PeriodicTask implements Sendable,
 			}
 
 			SmartDashboard.putNumber("Heading", dashboardHeading);
-
-			System.out.println("Navigator releasing self");
 		}
 
 	}
@@ -267,6 +260,10 @@ public class Navigator extends PeriodicTask implements Sendable,
 		}
 	};
 
+        /**
+         * A PID source that returns the distance that the robot has moved,
+         * as returned by {@link #getEncoderDistance() }.
+         */
 	public final PIDSource movementPidSource = new PIDSource() {
 
 		public double pidGet() {

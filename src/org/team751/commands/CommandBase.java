@@ -26,7 +26,7 @@ public abstract class CommandBase extends Command {
     public static final ShooterWheels shooterWheels = new ShooterWheels();
     public static final Gates gates = new Gates();
     //Periodic tasks here (these are not subsystems)
-    public static Navigator navigator;
+    public static Navigator navigator = new Navigator();
     //On-board diagnostics are currently disabled - see issue #5
 //    public static OnBoardDiagnostics obd = new OnBoardDiagnostics();
     
@@ -54,10 +54,6 @@ public abstract class CommandBase extends Command {
         // news. Don't move it.
         oi = new OI();
 
-        //Start the periodic tasks
-        //navigator.start();
-//        obd.start();
-
         //Send command data to SmartDashboard
         SmartDashboard.putData(driveTrain);
         SmartDashboard.putData(cow);
@@ -67,6 +63,7 @@ public abstract class CommandBase extends Command {
         //Get the cow to do the initialization elements that require
         //the cow to be not null
         cow.init();
+        navigator.start();
     }
     
     /**
