@@ -11,43 +11,59 @@ import org.team751.resources.PWMChannels;
  */
 public class Gates extends Subsystem {
 	
-	private Servo frontA = new Servo(PWMChannels.GATE_FRONT_A);
+	private static final double kFrontRightRetracted = 1;
 	
-	private Servo frontB = new Servo(PWMChannels.GATE_FRONT_B);
+	private static final double kFrontRightExtended = 0.5;
 	
-	private Servo backA = new Servo(PWMChannels.GATE_BACK_A);
+	private static final double kFrontLeftRetracted = 0;
 	
-	private Servo backB = new Servo(PWMChannels.GATE_BACK_B);
+	private static final double kFrontLeftExtended = 0.5;
+	
+	private static final double kBackRightRetracted = 0;
+	
+	private static final double kBackRightExtended = 0.5;
+	
+	private static final double kBackLeftRetracted = 1;
+	
+	private static final double kBackLeftExtended = 0.5;
+	
+	private Servo frontRight = new Servo(PWMChannels.GATE_FRONT_RIGHT);
+	
+	private Servo frontLeft = new Servo(PWMChannels.GATE_FRONT_LEFT);
+	
+	private Servo backRight = new Servo(PWMChannels.GATE_BACK_RIGHT);
+	
+	private Servo backLeft = new Servo(PWMChannels.GATE_BACK_LEFT);
 
 	/**
 	 * Extend the front gate
 	 */
 	public void extendFront() {
-		frontA.set(1);
-		frontB.set(1);
+		frontRight.set(kFrontRightExtended);
+		frontLeft.set(kFrontLeftExtended);
 	}
 	/**
 	 * Retract the front gate
 	 */
 	public void retractFront() {
-		frontA.set(0);
-		frontB.set(0);
+		frontRight.set(kFrontRightRetracted);
+		frontLeft.set(kFrontLeftRetracted);
 	}
 	
 	/**
 	 * Extend the back gate
 	 */
 	public void extendBack() {
-		backA.set(1);
-		backB.set(1);
+		backRight.set(kBackRightExtended);
+		backLeft.set(kBackLeftExtended);
 	}
 	
 	/**
 	 * Retract the back gate
 	 */
 	public void retractBack() {
-		backA.set(0);
-		backB.set(0);
+		backRight.set(kBackRightRetracted);
+		backLeft.set(kBackLeftRetracted);
 	}
 	
 	/**

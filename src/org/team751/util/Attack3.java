@@ -58,7 +58,7 @@ public class Attack3 extends Joystick {
     /**
      * Rearward button on the top of the joystick, button 2
      */
-    public final Button topBack = new JoystickButton(this, 3);
+    public final Button topBack = new JoystickButton(this, 2);
     
     /**
      * Forward button on the top of the joystick, button 2
@@ -81,4 +81,12 @@ public class Attack3 extends Joystick {
      * Rearward button on the right side of the base, button 10
      */
     public final Button baseRightBack = new JoystickButton(this, 10);
+	/**
+	 * Pair of buttons on the back of the joystick, left one of the pair
+	 */
+	public final Button baseRearLeft = new JoystickButton(this, 11);
+	/**
+	 * Pair of buttons on the back of the joystick, right one of the pair
+	 */
+	public final Button baseRearRight = new JoystickButton(this, 12);
 }

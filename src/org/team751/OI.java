@@ -22,8 +22,8 @@ public class OI {
     // You create one by telling it which joystick it's on and which button
     // number it is.
 
-    public Attack3 driveStick = new Attack3(1);
-    public Attack3 operatorStick = new Attack3(2);
+    public Attack3 driveStick = new Attack3 (1);
+    public Attack3 operatorStick = new Attack3 (2);
     
     // Button button = new JoystickButton(stick, buttonNumber);
     // Another type of button you can create is a DigitalIOButton, which is
@@ -52,16 +52,17 @@ public class OI {
         
         operatorStick.trigger.whenPressed(new ZeroCow());
         
-        operatorStick.baseLeftForward.whenPressed(new CowForward());
-        operatorStick.baseLeftBack.whenPressed(new CowBack());
-        
         operatorStick.topBack.whenPressed(new ShooterOn());
         operatorStick.topBack.whenReleased(new ShooterOff());
         
         operatorStick.topLeft.whenPressed(new ShooterSpeedDecrease());
         operatorStick.topRight.whenPressed(new ShooterSpeedIncrease());
         
-        operatorStick.baseRightForward.whenPressed(new PrepareShootSequence());
-        operatorStick.baseRightBack.whenPressed(new MoveToFirstLoadPosition());
+		//Left base buttons: prepare shoot sequence and move to first loading position
+        operatorStick.baseLeftForward.whenPressed(new PrepareShootSequence());
+        operatorStick.baseLeftBack.whenPressed(new MoveToFirstLoadPosition());
+        //Right base buttons: Just move the cow forwards and back
+        operatorStick.baseRightForward.whenPressed(new CowForward());
+        operatorStick.baseRightBack.whenPressed(new CowBack());
     }
 }
