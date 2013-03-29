@@ -6,7 +6,7 @@ package org.team751.util.cow;
  */
 public class CowGainScheduler {
     
-    private static final PID upGains = new PID(4, 0.01, 0.2);
+    private static final PID upGains = new PID(5, 0.01, 0.2);
     
     private static final PID downGains = new PID(3, 0, 0.6);
     
@@ -69,4 +69,6 @@ public class CowGainScheduler {
         return upGains;
     }
     
+	
+	private CowGainScheduler() {}
 }

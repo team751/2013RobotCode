@@ -16,6 +16,7 @@ public class ShooterOn extends CommandBase {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		shooterWheels.enable();
+		System.out.print("Turning shooter on... ");
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -29,6 +30,7 @@ public class ShooterOn extends CommandBase {
 
 	// Called once after isFinished returns true
 	protected void end() {
+		System.out.println("done.");
 	}
 
 	// Called when another command which requires one or more of the same

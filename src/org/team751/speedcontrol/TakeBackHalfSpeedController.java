@@ -98,7 +98,7 @@ public class TakeBackHalfSpeedController extends ThreadedSpeedController {
     protected synchronized void runSpeedControl() {
 
         double error = targetRpm - getActualRpm();
-
+		
         motorPower += gain * error;
 
         motorPower = clamp(motorPower);

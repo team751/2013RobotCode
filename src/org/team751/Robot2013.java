@@ -41,24 +41,37 @@ public class Robot2013 extends IterativeRobot {
         //Put the cow in coast mode, for easy disk loading
         CommandBase.cow.setCoastMode();
         
-        System.out.println("Ready");
-        
         autonomousChooser.addObject("3-disk", new ThreeDiskAutonomous());
         autonomousChooser.addDefault("2-disk", new TwoDiskAutonomous());
 		autonomousChooser.addObject("Drive+3 from left", new DriveFromLeftShoot3Autonomous());
 		autonomousChooser.addObject("Drive+3 from right", new DriveFromRightShoot3Autonomous());
 		autonomousChooser.addObject("Do nothing", new DoNothingAutonomous());
         SmartDashboard.putData("Autonomous", autonomousChooser);
+        
+		//Set up a checkbox for gyro init
+		SmartDashboard.putBoolean("Do gyro init", false);
+		
+        System.out.println("Ready");
     }
 
     public void autonomousInit() {
         System.out.print("About to start autonomous mode... ");
+		autonomousPeriodic();
         //Set the cow to brake mode, for normal operation
         CommandBase.cow.setBrakeMode();
         
         autonomous = (Command) autonomousChooser.getSelected();
+		
+		//Backup: If the chooser isn't there, choose one
+		if(autonomous == null) {
+			System.out.println("Using standby autonomous mode");
+			autonomous = new TwoDiskAutonomous();
+		}
+		
         autonomous.start();
+		autonomousPeriodic();
         System.out.println("Command started");
+		System.out.println("Autonomous command is "+autonomous.getClass().getName());
     }
 
     public void disabledInit() {
@@ -67,6 +80,11 @@ public class Robot2013 extends IterativeRobot {
 
     public void disabledPeriodic() {
         DashboardInterface.update();
+		
+		if(SmartDashboard.getBoolean("Do gyro init", false)) {
+			CommandBase.navigator.initializeGyro();
+			SmartDashboard.putBoolean("Do gyro init", true);
+		}
     }
 
     /**

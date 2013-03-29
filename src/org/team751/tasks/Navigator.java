@@ -83,7 +83,9 @@ public class Navigator extends PeriodicTask implements Sendable,
 
 
 		System.out.println("Starting gyro init");
+		SmartDashboard.putBoolean("Gyro init", true);
 		gyro = new Gyro(AnalogChannels.GYRO);
+		SmartDashboard.putBoolean("Gyro init", false);
 		System.out.println("Gyro init done");
 
 		System.out.println("Starting encoder init");
@@ -146,10 +148,10 @@ public class Navigator extends PeriodicTask implements Sendable,
 //			if (leftEncoder.getStopped() && rightEncoder.getStopped()) {
 //				velocity = new Vec2(0, 0);
 //			}
-//
-//			//Update the encoder distance
-//			encoderDistance = (leftEncoder.getDistance() + rightEncoder.
-//					getDistance()) / 2.0;
+
+			//Update the encoder distance
+			encoderDistance = (leftEncoder.getDistance() + rightEncoder.
+					getDistance()) / 2.0;
 
 			//Debug
 			SmartDashboard.putNumber("Encoder distance", encoderDistance);
@@ -247,6 +249,17 @@ public class Navigator extends PeriodicTask implements Sendable,
 
 	public void stopLiveWindowMode() {
 	}
+	
+	/**
+	 * Reset the gyroscope sensor. This should be done while the robot
+	 * is not moving and will block for about 1 second.
+	 */
+	public synchronized void initializeGyro() {
+		SmartDashboard.putBoolean("Gyro init", true);
+		gyro = new Gyro(AnalogChannels.GYRO);
+		SmartDashboard.putBoolean("Gyro init", false);
+	}
+	
 	//PID sources
 	/**
 	 * A PID source that returns the heading, in degrees

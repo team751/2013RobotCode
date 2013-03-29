@@ -116,6 +116,8 @@ public class CheesyDrive {
         // Quickturn!
         if (isQuickTurn) {
             
+			//Scale down the rotation
+			wheel *= 0.7;
             
             if (Math.abs(linear_power) < 0.2) {
                 double alpha = CheesyDriveConstants.kQuickStopTimeConstant;
