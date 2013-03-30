@@ -77,7 +77,6 @@ public class Robot2013 extends IterativeRobot {
      */
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
-        DashboardInterface.update();
     }
 
     public void teleopInit() {

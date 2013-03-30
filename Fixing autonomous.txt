@@ -1,0 +1,20 @@
+Things to change to fix autonomous:
+
+Remove dashboard code for autonomous
+Replace bridge-cRIO ethernet cable with a COTS one
+Decrease resolution & increase compression for camera
+Disable Windows Defender on driver station computer
+Temporarily remove subsystem status check code for cow zeroing functions
+
+Debug with driver station LCD
+
+Diagnostics to check:
+Driver station computer CPU usage
+Actual bandwidth
+Dropped packets & trip time
+
+As of Friday:
+Camera params:
+resolution 480x360
+compression 60
+frame rate limited to 20 fps
