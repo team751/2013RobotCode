@@ -67,6 +67,9 @@ public class CheesyDrive {
         //Positive is a change toward the right
         double neg_inertia = wheel - oldWheel;
         oldWheel = wheel;
+		
+		//Scale down front/back by 0.7
+		throttle *= 0.7;
 
         // Apply a sin function that's scaled to make it feel better
         //Each one of these calls can be visualized with the graph of the function,

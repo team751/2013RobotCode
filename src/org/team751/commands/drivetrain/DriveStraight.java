@@ -73,9 +73,8 @@ public class DriveStraight extends CommandBase {
     // Called repeatedly when this Command is scheduled to run
     protected synchronized void execute() {
         driveTrain.arcadeDrive(moveValue, rotateValue);
-
-        SmartDashboard.putData("Move controller", moveController);
-        SmartDashboard.putData("Rotate controller", rotateController);
+		
+		System.out.println("Position "+navigator.getEncoderDistance()+" target "+moveController.getSetpoint());
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -86,6 +85,7 @@ public class DriveStraight extends CommandBase {
 
     // Called once after isFinished returns true
     protected void end() {
+		System.out.println("DriveStraight done");
         //Disable and free the controllers
         moveController.disable();
         rotateController.disable();

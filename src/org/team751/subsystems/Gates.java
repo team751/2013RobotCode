@@ -11,21 +11,21 @@ import org.team751.resources.PWMChannels;
  */
 public class Gates extends Subsystem {
 	
-	private static final double kFrontRightRetracted = 1;
+	private static final double kFrontRightRetracted = 0.946;
 	
-	private static final double kFrontRightExtended = 0.5;
+	private static final double kFrontRightExtended = 0.18;
 	
-	private static final double kFrontLeftRetracted = 0;
+	private static final double kFrontLeftRetracted = 0.285;
 	
-	private static final double kFrontLeftExtended = 0.5;
+	private static final double kFrontLeftExtended = 0.88;
 	
-	private static final double kBackRightRetracted = 0;
+	private static final double kBackRightRetracted = 0.28;
 	
-	private static final double kBackRightExtended = 0.5;
+	private static final double kBackRightExtended = 1.1;
 	
-	private static final double kBackLeftRetracted = 1;
+	private static final double kBackLeftRetracted = 0.4675;
 	
-	private static final double kBackLeftExtended = 0.5;
+	private static final double kBackLeftExtended = -0.1;
 	
 	private Servo frontRight = new Servo(PWMChannels.GATE_FRONT_RIGHT);
 	

@@ -3,14 +3,15 @@ package org.team751;
 import com.sun.squawk.Field;
 import com.sun.squawk.Klass;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.team751.commands.CommandBase;
 import org.team751.commands.autonomous.*;
 import org.team751.util.DashboardInterface;
+import org.team751.util.cow.CowPosition;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -47,16 +48,19 @@ public class Robot2013 extends IterativeRobot {
 
     public void autonomousInit() {
         System.out.print("About to start autonomous mode... ");
-		autonomousPeriodic();
-        //Set the cow to brake mode, for normal operation
-        CommandBase.cow.setBrakeMode();
-        
-		autonomous = new TwoDiskAutonomous();
+//		autonomousPeriodic();
+//        //Set the cow to brake mode, for normal operation
+//        CommandBase.cow.setBrakeMode();
+//        
+//		autonomous = new TwoDiskAutonomous();
+//		
+//        autonomous.start();
+//		autonomousPeriodic();
+//        System.out.println("Command started");
+//		System.out.println("Autonomous command is "+autonomous.getClass().getName());
 		
-        autonomous.start();
-		autonomousPeriodic();
-        System.out.println("Command started");
-		System.out.println("Autonomous command is "+autonomous.getClass().getName());
+		runSuperSimpleAutonomous();
+		
     }
 
     public void disabledInit() {
@@ -68,7 +72,7 @@ public class Robot2013 extends IterativeRobot {
 		
 		if(SmartDashboard.getBoolean("Do gyro init", false)) {
 			CommandBase.navigator.initializeGyro();
-			SmartDashboard.putBoolean("Do gyro init", true);
+			SmartDashboard.putBoolean("Do gyro init", false);
 		}
     }
 
@@ -76,7 +80,7 @@ public class Robot2013 extends IterativeRobot {
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
-        Scheduler.getInstance().run();
+//        Scheduler.getInstance().run();
     }
 
     public void teleopInit() {
@@ -133,4 +137,94 @@ public class Robot2013 extends IterativeRobot {
             System.err.println("Revision information not found.");
         }
     }
+	
+	/**
+	 * Runs a super-simple 2-disk autonomous
+	 */
+	private void runSuperSimpleAutonomous() {
+		//Turn on shooter wheels
+		CommandBase.shooterWheels.enable();
+		//Move cow forward until zeroed
+		while(!CommandBase.cow.isAtZero()) {
+			CommandBase.cow.moveExtraSlowForward();
+			debugShooterSpeed();
+		}
+		CommandBase.cow.manualStop();
+		//Move cow back for 1/2 second
+		Timer timer = new Timer();
+		timer.start();
+		while(timer.get() < 0.5) {
+			CommandBase.cow.moveSlowBack();
+			debugShooterSpeed();
+		}
+		CommandBase.cow.manualStop();
+		//Move cow forward until zeroed
+		while(!CommandBase.cow.isAtZero()) {
+			CommandBase.cow.moveExtraSlowForward();
+			debugShooterSpeed();
+		}
+		
+		CommandBase.cow.manualStop();
+		CommandBase.cow.setThisAsZero();
+		CommandBase.cow.setTargetPosition(CowPosition.kShoot3);
+		debugShooterSpeed();
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException ex) {
+			ex.printStackTrace();
+		}
+		debugShooterSpeed();
+		
+		while(!CommandBase.pusher.isExtended()) {
+			CommandBase.pusher.push();
+		}
+		while(!CommandBase.pusher.isRetracted()) {
+			CommandBase.pusher.retract();
+		}
+		
+		debugShooterSpeed();
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException ex) {
+			ex.printStackTrace();
+		}
+		debugShooterSpeed();
+		
+		CommandBase.cow.setTargetPosition(CowPosition.kShoot2);
+		while(!CommandBase.cow.isInPosition()) {
+		debugShooterSpeed();
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException ex) {
+				ex.printStackTrace();
+			}
+		}
+		
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException ex) {
+			ex.printStackTrace();
+		}
+		debugShooterSpeed();
+		
+		while(!CommandBase.pusher.isExtended()) {
+			CommandBase.pusher.push();
+		}
+		while(!CommandBase.pusher.isRetracted()) {
+			CommandBase.pusher.retract();
+		}
+		debugShooterSpeed();
+		Timer.delay(1);
+		
+		
+		CommandBase.shooterWheels.disable();
+		CommandBase.pusher.retract();
+	}
+	
+	private void debugShooterSpeed() {
+		SmartDashboard.putNumber("Shooter 1 actual RPM",
+								 CommandBase.shooterWheels.getFirstRpm());
+		SmartDashboard.putNumber("Shooter 2 actual RPM",
+								 CommandBase.shooterWheels.getSecondRpm());
+	}
 }

@@ -1,11 +1,13 @@
 package org.team751;
 
 import org.team751.commands.Fire;
-import org.team751.commands.cow.CowBack;
-import org.team751.commands.cow.CowForward;
-import org.team751.commands.cow.MoveToFirstLoadPosition;
-import org.team751.commands.cow.PrepareShootSequence;
-import org.team751.commands.cow.ZeroCow;
+import org.team751.commands.cow.*;
+import org.team751.commands.drivetrain.DriveRotate;
+import org.team751.commands.drivetrain.DriveStraight;
+import org.team751.commands.gates.BackGateExtend;
+import org.team751.commands.gates.BackGateRetract;
+import org.team751.commands.gates.FrontGateExtend;
+import org.team751.commands.gates.FrontGateRetract;
 import org.team751.commands.shooter.ShooterOff;
 import org.team751.commands.shooter.ShooterOn;
 import org.team751.commands.shooter.ShooterSpeedDecrease;
@@ -64,5 +66,15 @@ public class OI {
         //Right base buttons: Just move the cow forwards and back
         operatorStick.baseRightForward.whenPressed(new CowForward());
         operatorStick.baseRightBack.whenPressed(new CowBack());
+		
+		driveStick.baseLeftForward.whenPressed(new FrontGateExtend());
+		driveStick.baseLeftForward.whenReleased(new FrontGateRetract());
+		
+		driveStick.baseLeftBack.whenPressed(new BackGateExtend());
+		driveStick.baseLeftBack.whenReleased(new BackGateRetract());
+		
+		//For testing only
+		driveStick.topLeft.whenPressed(new DriveStraight(3));
+		driveStick.topRight.whenPressed(new DriveRotate(30));
     }
 }

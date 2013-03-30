@@ -11,7 +11,7 @@ public class CheesyDriveConstants {
      * Controls the non-linear response of the steering.
      * A smaller value makes the response "slower".
      */
-    public static final double kWheelNonLinearity = 0.3;
+    public static final double kWheelNonLinearity = 0.1;
     
     public static final double kNegInertiaLowMore = 2.5;
     

@@ -32,7 +32,7 @@ public class PIDConstants {
      * Input is meters, output is motor power ratio.
      * Proportional constant
      */
-     public static final double DRIVE_MOVE_P = 0.01;
+     public static final double DRIVE_MOVE_P = 0.08;
     /**
      * PID constant for moving the robot forwards and back.
      * Input is meters, output is motor power ratio.

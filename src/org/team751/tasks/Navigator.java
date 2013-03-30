@@ -154,14 +154,19 @@ public class Navigator extends PeriodicTask implements Sendable,
 					getDistance()) / 2.0;
 
 			//Debug
-			SmartDashboard.putNumber("Encoder distance", encoderDistance);
+			
+			if(DriverStation.getInstance().isOperatorControl()) {
+				SmartDashboard.putNumber("Encoder distance", encoderDistance);
+			}
 			//Limit heading heading to [0, 360] degrees
 			double dashboardHeading = heading % 360;
 			if (dashboardHeading < 0) {
 				dashboardHeading += 360;
 			}
-
-			SmartDashboard.putNumber("Heading", dashboardHeading);
+			
+			if(DriverStation.getInstance().isOperatorControl()) {
+				SmartDashboard.putNumber("Heading", dashboardHeading);
+			}
 		}
 
 	}
@@ -256,8 +261,16 @@ public class Navigator extends PeriodicTask implements Sendable,
 	 */
 	public synchronized void initializeGyro() {
 		SmartDashboard.putBoolean("Gyro init", true);
+		DriverStationLCD.getInstance().println(DriverStationLCD.Line.kUser6,
+											   1, "Initializing gyro");
+		DriverStationLCD.getInstance().updateLCD();
+		gyro.free();
+		gyro = null;
 		gyro = new Gyro(AnalogChannels.GYRO);
 		SmartDashboard.putBoolean("Gyro init", false);
+		DriverStationLCD.getInstance().println(DriverStationLCD.Line.kUser6,
+											   1, "Gyro done");
+		DriverStationLCD.getInstance().updateLCD();
 	}
 	
 	//PID sources

@@ -1,6 +1,7 @@
 package org.team751.commands.cow;
 
 import edu.wpi.first.wpilibj.DriverStationLCD;
+import edu.wpi.first.wpilibj.Timer;
 import org.team751.commands.CommandBase;
 
 /**
@@ -8,14 +9,17 @@ import org.team751.commands.CommandBase;
  * @author Sam Crow
  */
 public class ZeroCow2 extends CommandBase {
+	
+	private Timer timer = new Timer();
     
     public ZeroCow2() {
         requires(cow);
-        setTimeout(0.5);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+		timer.reset();
+		timer.start();
         DriverStationLCD.getInstance().println(DriverStationLCD.Line.kUser1, 1, "ZeroCow2 starting");
         DriverStationLCD.getInstance().updateLCD();
         cow.moveSlowBack();
@@ -27,7 +31,7 @@ public class ZeroCow2 extends CommandBase {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return isTimedOut();
+        return timer.get() > 0.5;
     }
 
     // Called once after isFinished returns true

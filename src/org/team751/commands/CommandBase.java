@@ -14,7 +14,7 @@ import org.team751.util.SubsystemStatusException;
  * subsystem elsewhere in your code in your code use
  * CommandBase.exampleSubsystem
  *
- * @author Author
+ * @author Team 751
  */
 public abstract class CommandBase extends Command {
 
