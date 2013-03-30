@@ -2,7 +2,7 @@ package org.team751.commands.autonomous;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import org.team751.commands.cow.CowForward;
-import org.team751.commands.cow.ZeroCow;
+import org.team751.commands.cow.ZeroCowAutonomous;
 import org.team751.commands.pusher.PusherExtendRetract;
 import org.team751.commands.shooter.ShooterOff;
 import org.team751.commands.shooter.ShooterOn;
@@ -15,7 +15,7 @@ public class ThreeDiskAutonomous extends CommandGroup {
     
     public ThreeDiskAutonomous() {
         addSequential(new ShooterOn());
-        addSequential(new ZeroCow());
+        addSequential(new ZeroCowAutonomous());
         addSequential(new PusherExtendRetract());
         addSequential(new CowForward());
         addSequential(new PusherExtendRetract());

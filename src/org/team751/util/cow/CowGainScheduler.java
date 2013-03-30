@@ -8,7 +8,7 @@ public class CowGainScheduler {
     
     private static final PID upGains = new PID(5, 0.01, 0.2);
     
-    private static final PID downGains = new PID(3, 0, 0.6);
+    private static final PID downGains = new PID(3, 0, 0.8);
     
     private static final PID upOverGains = new PID(3, 0, 0.2);
     

@@ -59,7 +59,7 @@ public class Robot2013 extends IterativeRobot {
 		autonomousPeriodic();
         //Set the cow to brake mode, for normal operation
         CommandBase.cow.setBrakeMode();
-        
+        //Get the autonomous command selected in the dashboard
         autonomous = (Command) autonomousChooser.getSelected();
 		
 		//Backup: If the chooser isn't there, choose one

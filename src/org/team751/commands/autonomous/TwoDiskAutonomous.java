@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 import org.team751.commands.cow.CowForward;
 import org.team751.commands.cow.MoveToFirstShootPosition;
-import org.team751.commands.cow.ZeroCow;
+import org.team751.commands.cow.ZeroCowAutonomous;
 import org.team751.commands.pusher.PusherExtendRetract;
 import org.team751.commands.shooter.ShooterOff;
 import org.team751.commands.shooter.ShooterOn;
@@ -17,7 +17,7 @@ public class TwoDiskAutonomous extends CommandGroup {
     
     public TwoDiskAutonomous() {
         addSequential(new ShooterOn());
-        addSequential(new ZeroCow());
+        addSequential(new ZeroCowAutonomous());
         addSequential(new MoveToFirstShootPosition());
 		addSequential(new WaitCommand(3));
         addSequential(new PusherExtendRetract());

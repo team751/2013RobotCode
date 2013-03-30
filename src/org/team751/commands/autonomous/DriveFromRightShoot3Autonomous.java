@@ -2,7 +2,7 @@ package org.team751.commands.autonomous;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import org.team751.commands.cow.CowForward;
-import org.team751.commands.cow.ZeroCow;
+import org.team751.commands.cow.ZeroCowAutonomous;
 import org.team751.commands.drivetrain.DriveRotate;
 import org.team751.commands.drivetrain.DriveStraight;
 import org.team751.commands.pusher.PusherExtendRetract;
@@ -24,7 +24,7 @@ public class DriveFromRightShoot3Autonomous extends CommandGroup {
 		
 		//Fire
 		addSequential(new ShooterOn());
-        addSequential(new ZeroCow());
+        addSequential(new ZeroCowAutonomous());
         addSequential(new PusherExtendRetract());
         addSequential(new CowForward());
         addSequential(new PusherExtendRetract());
