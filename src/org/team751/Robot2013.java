@@ -25,8 +25,6 @@ public class Robot2013 extends IterativeRobot {
      * The autonomous command
      */
     private Command autonomous;
-    
-    private SendableChooser autonomousChooser = new SendableChooser();
 
     /**
      * This function is run when the robot is first started up and should be
@@ -41,13 +39,6 @@ public class Robot2013 extends IterativeRobot {
         //Put the cow in coast mode, for easy disk loading
         CommandBase.cow.setCoastMode();
         
-        autonomousChooser.addObject("3-disk", new ThreeDiskAutonomous());
-        autonomousChooser.addDefault("2-disk", new TwoDiskAutonomous());
-		autonomousChooser.addObject("Drive+3 from left", new DriveFromLeftShoot3Autonomous());
-		autonomousChooser.addObject("Drive+3 from right", new DriveFromRightShoot3Autonomous());
-		autonomousChooser.addObject("Do nothing", new DoNothingAutonomous());
-        SmartDashboard.putData("Autonomous", autonomousChooser);
-        
 		//Set up a checkbox for gyro init
 		SmartDashboard.putBoolean("Do gyro init", false);
 		
@@ -59,14 +50,8 @@ public class Robot2013 extends IterativeRobot {
 		autonomousPeriodic();
         //Set the cow to brake mode, for normal operation
         CommandBase.cow.setBrakeMode();
-        //Get the autonomous command selected in the dashboard
-        autonomous = (Command) autonomousChooser.getSelected();
-		
-		//Backup: If the chooser isn't there, choose one
-		if(autonomous == null) {
-			System.out.println("Using standby autonomous mode");
-			autonomous = new TwoDiskAutonomous();
-		}
+        
+		autonomous = new TwoDiskAutonomous();
 		
         autonomous.start();
 		autonomousPeriodic();
