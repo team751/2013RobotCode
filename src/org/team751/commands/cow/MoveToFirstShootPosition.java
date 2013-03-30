@@ -1,5 +1,6 @@
 package org.team751.commands.cow;
 
+import edu.wpi.first.wpilibj.DriverStationLCD;
 import org.team751.commands.CommandBase;
 import org.team751.util.cow.CowPosition;
 
@@ -15,6 +16,8 @@ public class MoveToFirstShootPosition extends CommandBase {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+        DriverStationLCD.getInstance().println(DriverStationLCD.Line.kUser1, 1, "MoveToFirstShootPosition starting");
+        DriverStationLCD.getInstance().updateLCD();
         cow.setTargetPosition(CowPosition.kShoot3);
     }
 
@@ -29,6 +32,8 @@ public class MoveToFirstShootPosition extends CommandBase {
 
     // Called once after isFinished returns true
     protected void end() {
+        DriverStationLCD.getInstance().println(DriverStationLCD.Line.kUser1, 1, "MoveToFirstShootPosition finished");
+        DriverStationLCD.getInstance().updateLCD();
     }
 
     // Called when another command which requires one or more of the same

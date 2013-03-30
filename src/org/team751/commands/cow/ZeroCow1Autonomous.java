@@ -1,5 +1,6 @@
 package org.team751.commands.cow;
 
+import edu.wpi.first.wpilibj.DriverStationLCD;
 import org.team751.commands.CommandBase;
 
 /**
@@ -16,6 +17,8 @@ public class ZeroCow1Autonomous extends CommandBase {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+        DriverStationLCD.getInstance().println(DriverStationLCD.Line.kUser1, 1, "ZeroCow1Autonomous starting");
+        DriverStationLCD.getInstance().updateLCD();
         cow.moveExtraSlowForward();
     }
 
@@ -31,6 +34,8 @@ public class ZeroCow1Autonomous extends CommandBase {
     // Called once after isFinished returns true
     protected void end() {
         cow.manualStop();
+        DriverStationLCD.getInstance().println(DriverStationLCD.Line.kUser1, 1, "ZeroCow1Autonomous finished");
+        DriverStationLCD.getInstance().updateLCD();
     }
 
     // Called when another command which requires one or more of the same

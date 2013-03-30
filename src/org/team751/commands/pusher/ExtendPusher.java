@@ -1,5 +1,6 @@
 package org.team751.commands.pusher;
 
+import edu.wpi.first.wpilibj.DriverStationLCD;
 import org.team751.commands.CommandBase;
 import org.team751.util.cow.CowPosition;
 
@@ -21,6 +22,10 @@ public class ExtendPusher extends CommandBase {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+        
+        
+        DriverStationLCD.getInstance().println(DriverStationLCD.Line.kUser1, 1, "ExtendPusher starting");
+        DriverStationLCD.getInstance().updateLCD();
 
         //Verify that the cow is in a shoot position with a disk in the set stomach
         isCanceled = true;
@@ -66,6 +71,8 @@ public class ExtendPusher extends CommandBase {
 
     // Called once after isFinished returns true
     protected void end() {
+        DriverStationLCD.getInstance().println(DriverStationLCD.Line.kUser1, 1, "ExtendPusher finished");
+        DriverStationLCD.getInstance().updateLCD();
         System.out.println("Pusher extend finished");
     }
 

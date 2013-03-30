@@ -1,5 +1,6 @@
 package org.team751.commands.cow;
 
+import edu.wpi.first.wpilibj.DriverStationLCD;
 import org.team751.commands.CommandBase;
 import org.team751.util.cow.CowPosition;
 
@@ -16,6 +17,10 @@ public class CowForward extends CommandBase {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+        
+        DriverStationLCD.getInstance().println(DriverStationLCD.Line.kUser1, 1, "CowForward starting");
+        DriverStationLCD.getInstance().updateLCD();
+        
         CowPosition newPosition = cow.getTargetPosition().nextForward();
         if (newPosition != null) {
             cow.setTargetPosition(newPosition);
@@ -37,6 +42,8 @@ public class CowForward extends CommandBase {
 
     // Called once after isFinished returns true
     protected void end() {
+        DriverStationLCD.getInstance().println(DriverStationLCD.Line.kUser1, 1, "CowForward finished");
+        DriverStationLCD.getInstance().updateLCD();
     }
 
     // Called when another command which requires one or more of the same
