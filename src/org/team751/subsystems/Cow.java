@@ -251,7 +251,7 @@ public class Cow extends StatusReportingSubsystem {
     }
     
     public void moveSlowBack() {
-        if (isSubsystemWorking()) {
+//        if (isSubsystemWorking()) {
             if (currentMode != CANJaguar.ControlMode.kPercentVbus) {
                 tryConfigJaguarVbus();
             }
@@ -260,7 +260,7 @@ public class Cow extends StatusReportingSubsystem {
             } catch (CANTimeoutException ex) {
                 reportNotWorking(ex);
             }
-        }
+//        }
     }
 
     /**
@@ -347,13 +347,13 @@ public class Cow extends StatusReportingSubsystem {
     }
 
     public void moveExtraSlowForward() {
-        if(isSubsystemWorking()) {
+//        if(isSubsystemWorking()) {
             try {
                 rotationJaguar.setX(-0.1);
             } catch (CANTimeoutException ex) {
-                reportNotWorking(ex);
+//                reportNotWorking(ex);
             }
-        }
+//        }
     }
     
     
