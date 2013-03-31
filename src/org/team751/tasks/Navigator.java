@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.tables.ITable;
 import org.team751.resources.AnalogChannels;
 import org.team751.resources.DigitalChannels;
+import org.team751.util.Differentiator;
 import org.team751.util.Vec2;
 
 /**
@@ -245,7 +246,8 @@ public class Navigator extends PeriodicTask implements Sendable,
     }
     //PID sources
     /**
-     * A PID source that returns the heading, in degrees
+     * A PID source that returns the heading, in degrees, returned by 
+	 * {@link #getEncoderDistance() }.
      */
     public final PIDSource headingPidSource = new PIDSource() {
         public double pidGet() {
@@ -254,6 +256,11 @@ public class Navigator extends PeriodicTask implements Sendable,
             }
         }
     };
+	
+	/**
+	 * A PID source that returns the position, in meters, returned by
+	 * {@link #getEncoderDistance() }.
+	 */
     public final PIDSource movementPidSource = new PIDSource() {
         public double pidGet() {
             synchronized (Navigator.this) {
@@ -279,4 +286,17 @@ public class Navigator extends PeriodicTask implements Sendable,
     public double getRightEncoderDistance() {
         return rightEncoder.getDistance();
     }
+	
+	//Velocity/Acceleration calculations
+	/**
+	 * Differentiates position into velocity
+	 */
+	private Differentiator linearVelocityDiff = new Differentiator();
+	
+	private Differentiator rotationVelocityDiff = new Differentiator();
+	
+	private Differentiator linearAccelerationDiff = new Differentiator();
+	
+	private Differentiator rotationAccelerationDiff = new Differentiator();
+	
 }

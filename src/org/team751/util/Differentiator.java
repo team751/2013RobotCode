@@ -25,7 +25,7 @@ public class Differentiator {
 		long now = Utility.getFPGATime();
 		double dv = currentValue - lastValue;
 		
-		double dt = (now / 1000000) - (lastRunTime / 1000000);
+		double dt = (now / 1000000.0) - (lastRunTime / 1000000.0);
 		
 		lastValue = currentValue;
 		lastRunTime = now;
