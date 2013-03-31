@@ -36,8 +36,16 @@ At this point, the code was at revision de88e3183ffc2a0db489d98c61e69083c2bbc7e2
 We observed the following unexpected behavior:
  * The robot was switched on and connected
  * The driver station software was set to autonomous mode and was enabled
- * The autonomousInit() method was called, and the robot started the autonomous CommandGroup. ([The autonomousInit code is available here](https://github.com/team751/2013RobotCode/blob/de88e3183ffc2a0db489d98c61e69083c2bbc7e2/src/org/team751/Robot2013.java#L54))
+ * The autonomousInit() method was called, and the robot started the autonomous CommandGroup. ([The autonomousInit() code is available here](https://github.com/team751/2013RobotCode/blob/de88e3183ffc2a0db489d98c61e69083c2bbc7e2/src/org/team751/Robot2013.java#L54))
  * The autonomousPeriodic() method was called periodically, as expected
+ * No command in the autonomous CommandGroup actually ran. The robot did not move.
+ * The robot was disabled
+ * The robot was enabled in autonomous mode again
+ * This time, the command group and all its commands ran as expected, and the robot performed as planned
+
+We repeated this sequence about three times. Then, we changed the autonomousInit() method: We added a call to autonomousPeriodic() at the beginning of autonomousInit() and immediately after the autonomous command's start() method was called. This is revision 59785bd393ba9ea5366d12a37b52814493e62aeb. [The new autonomousInit() method code is here](https://github.com/team751/2013RobotCode/blob/59785bd393ba9ea5366d12a37b52814493e62aeb/src/org/team751/Robot2013.java#L57).
+
+This change fixed the immediate issue, and the robot began running the autonomous command every time it was enabled in autonomous mode.
 
 
 #### First on-field problems ####
