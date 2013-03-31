@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.tables.ITable;
 import org.team751.resources.AnalogChannels;
 import org.team751.resources.DigitalChannels;
+import org.team751.util.Differentiator;
 import org.team751.util.Vec2;
 
 /**
@@ -20,24 +21,21 @@ import org.team751.util.Vec2;
  * @author Sam Crow
  */
 public class Navigator extends PeriodicTask implements Sendable,
-													   LiveWindowSendable {
+        LiveWindowSendable {
 
-	//Constants for measuring movement
-	/**
-	 * The number of encoder counts for every wheel revolution
-	 */
-	private static final int COUNTS_PER_REVOLUTION = 250;
-
-	/**
-	 * The diameter of the wheel, in meters
-	 */
-	private static final double WHEEL_DIAMETER = 0.1524;
-
-	/**
-	 * The distance, in meters, that the robot moves for each encoder count
-	 */
-	private static final double ROBOT_DISTANCE_PER_COUNT = (1 / (double) COUNTS_PER_REVOLUTION) * WHEEL_DIAMETER * Math.PI;
-
+    //Constants for measuring movement
+    /**
+     * The number of encoder counts for every wheel revolution
+     */
+    private static final int COUNTS_PER_REVOLUTION = 250;
+    /**
+     * The diameter of the wheel, in meters
+     */
+    private static final double WHEEL_DIAMETER = 0.1524;
+    /**
+     * The distance, in meters, that the robot moves for each encoder count
+     */
+    private static final double ROBOT_DISTANCE_PER_COUNT = (1 / (double) COUNTS_PER_REVOLUTION) * WHEEL_DIAMETER * Math.PI;
 //	private ADXL345_I2C accel;
 
 	private Gyro gyro;
@@ -131,8 +129,8 @@ public class Navigator extends PeriodicTask implements Sendable,
 			//it from Gs to m/s^2
 //			double accelY = accel.getAcceleration(ADXL345_I2C.Axes.kY) / 9.8;
 
-			//update the heading
-			heading = gyro.getAngle();
+            //update the heading
+            heading = gyro.getAngle();
 //
 //			//Append the velocity with the change in velocity over the last time step
 //			//90 degrees is added to the heading because Navigator uses forward for 0
@@ -173,130 +171,45 @@ public class Navigator extends PeriodicTask implements Sendable,
 
 	//Methods to access location information
 	/**
-	 * Get the robot heading
-	 *
-	 * @return the heading, in degrees
+	 * A PID source that returns the position, in meters, returned by
+	 * {@link #getEncoderDistance() }.
 	 */
-	public synchronized double getHeading() {
-		return heading;
-	}
+    public final PIDSource movementPidSource = new PIDSource() {
+        public double pidGet() {
+            synchronized (Navigator.this) {
+                return getEncoderDistance();
+            }
+        }
+    };
 
-	/**
-	 * Get the X location of the robot
-	 *
-	 * @return the location, in meters
-	 */
-	public synchronized double getX() {
-		return location.getX();
-	}
+    /**
+     * Get the distance indicated by the left encoder, in meters
+     *
+     * @return
+     */
+    public double getLeftEncoderDistance() {
+        return leftEncoder.getDistance();
+    }
 
-	/**
-	 * Get the Y location of the robot
-	 *
-	 * @return the location, in meters
-	 */
-	public synchronized double getY() {
-		return location.getY();
-	}
-
-	/**
-	 * Get the distance, in meters, that the robot has moved forwards or
-	 * backwards since the last call to {@link #resetEncoderDistance()}.
-	 *
-	 * @return The distance in meters
-	 */
-	public synchronized double getEncoderDistance() {
-		return encoderDistance;
-	}
-
-	/**
-	 * Reset the encoder distance, returned by {@link #getEncoderDistance()}, to
-	 * zero.
-	 */
-	public synchronized void resetEncoderDistance() {
-		leftEncoder.reset();
-		rightEncoder.reset();
-	}
-	//SmartDashboard/Live Window support section
-	/**
-	 * The table used to send data
-	 */
-	private ITable table;
-
-	public String getName() {
-		return "navigator";
-	}
-
-	public void initTable(ITable itable) {
-		table = itable;
-		updateTable();
-	}
-
-	public ITable getTable() {
-		return table;
-	}
-
-	public String getSmartDashboardType() {
-		return "navigator";
-	}
-
-	public void updateTable() {
-		if (table != null) {
-			table.putNumber("speed", velocity.getMagnitude());
-			table.putNumber("heading", heading);
-			table.putNumber("X location", location.getX());
-			table.putNumber("Y location", location.getY());
-		}
-	}
-
-	public void startLiveWindowMode() {
-	}
-
-	public void stopLiveWindowMode() {
-	}
+    /**
+     * Get the distance indicated by the left encoder, in meters
+     *
+     * @return
+     */
+    public double getRightEncoderDistance() {
+        return rightEncoder.getDistance();
+    }
 	
+	//Velocity/Acceleration calculations
 	/**
-	 * Reset the gyroscope sensor. This should be done while the robot
-	 * is not moving and will block for about 1 second.
+	 * Differentiates position into velocity
 	 */
-	public synchronized void initializeGyro() {
-		SmartDashboard.putBoolean("Gyro init", true);
-		DriverStationLCD.getInstance().println(DriverStationLCD.Line.kUser6,
-											   1, "Initializing gyro");
-		DriverStationLCD.getInstance().updateLCD();
-		gyro.free();
-		gyro = null;
-		gyro = new Gyro(AnalogChannels.GYRO);
-		SmartDashboard.putBoolean("Gyro init", false);
-		DriverStationLCD.getInstance().println(DriverStationLCD.Line.kUser6,
-											   1, "Gyro done");
-		DriverStationLCD.getInstance().updateLCD();
-	}
+	private Differentiator linearVelocityDiff = new Differentiator();
 	
-	//PID sources
-	/**
-	 * A PID source that returns the heading, in degrees
-	 */
-	public final PIDSource headingPidSource = new PIDSource() {
-
-		public double pidGet() {
-			synchronized (Navigator.this) {
-				return getHeading();
-			}
-		}
-	};
-
-        /**
-         * A PID source that returns the distance that the robot has moved,
-         * as returned by {@link #getEncoderDistance() }.
-         */
-	public final PIDSource movementPidSource = new PIDSource() {
-
-		public double pidGet() {
-			synchronized (Navigator.this) {
-				return getEncoderDistance();
-			}
-		}
-	};
-
+	private Differentiator rotationVelocityDiff = new Differentiator();
+	
+	private Differentiator linearAccelerationDiff = new Differentiator();
+	
+	private Differentiator rotationAccelerationDiff = new Differentiator();
+	
 }
