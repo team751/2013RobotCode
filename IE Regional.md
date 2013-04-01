@@ -52,5 +52,7 @@ This change fixed the immediate issue, and the robot began running the autonomou
 
 When the issue was first discovered, before any changes were made, the software was at revision a427c8727f2ed58a3cdd34d922b6b1a26592a6ec. The code at this point can be viewed at https://github.com/team751/2013RobotCode/tree/a427c8727f2ed58a3cdd34d922b6b1a26592a6ec .
 
+When the match started, one mechanism on the robot actuated for a small fraction of a second. This actuation was consistent with the robot's expected autonomous behavior. After that small fraction of a section ended, the robot stopped moving.
 
+During the teleoperated period, the robot functioned normally. No commands unexpectedly stopped.
 
