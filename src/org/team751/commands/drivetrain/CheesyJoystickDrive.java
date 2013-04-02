@@ -18,7 +18,7 @@ public class CheesyJoystickDrive extends CommandBase {
 
     protected void execute() {
         double x = oi.driveStick.getX();
-        double y = oi.driveStick.getY();
+        double y = oi.operatorStick.getY();
         
         boolean quickTurn = oi.driveStick.getRawButton(3);
         
