@@ -1,5 +1,7 @@
 # Team 751 Inland Empire Regional 2013 field-related autonomous difficulties #
 
+During the 2013 Inland Empire Regional, Team 751 (Barn 2 Robotics) encountered a problem in which its autonomous code would run in practice but not during matches on the field.
+
 ## About the robot ##
 
 ### Electrical ###
