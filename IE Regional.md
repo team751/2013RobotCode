@@ -25,7 +25,9 @@ In addition to the robot main thread (in which robotInit(), disabledInit(), disa
 * Two threads that control the speed of the wheels in the disk shooting mechanism. Each of these threads runs the same code, but operates on a different encoder (for sensing speed) and a different Jaguar (for setting motor power). Each runs [this code](https://github.com/team751/2013RobotCode/blob/master/src/org/team751/speedcontrol/TakeBackHalfSpeedController.java), in which runSpeedControl() is called frequently. It is called from [the run() method of the superclass](https://github.com/team751/2013RobotCode/blob/master/src/org/team751/speedcontrol/ThreadedSpeedController.java#L73).
 
 SmartDashboard data is sent from two places:
+
  * [The DashboardInterface](https://github.com/team751/2013RobotCode/blob/ca82817f40e3b0b0271eeb8c48971b952fab2121/src/org/team751/util/DashboardInterface.java) gets information from the other subsystems (excluding the drivetrain) and sends it to the dashboard. The update() method is called from autonomousPeriodic(), disabledPeriodic(), and teleopPeriodic().
+
 * The drivetrain monitor thread, described above, sends data from the drivetrain 2 times per second.
 
 (Question: Are the CANJaguar APIs, or any other APIs in WPIlib, thread-safe?)
