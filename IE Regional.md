@@ -20,12 +20,12 @@ The robot is programmed in Java using the CommandBasedRobot system.
 
 In addition to the robot main thread (in which robotInit(), disabledInit(), disabledPeriodic(), etc. are called), the software runs three additional threads:
 * One thread, using a java.util.Timer, that runs 2 times per second. When it runs, it asks each of the six drivetrain Jaguars to provide its internal temperature. It then sends these temperatures, along with other temperatures from other temperature sensors connected to analog inputs, to the dashboard.
-* Two threads that control the speed of the wheels in the disk shooting mechanism. Each of these threads runs the same code, but operates on a different encoder (for sensing speed) and a different Jaguar (for setting motor power).
+* Two threads that control the speed of the wheels in the disk shooting mechanism. Each of these threads runs the same code, but operates on a different encoder (for sensing speed) and a different Jaguar (for setting motor power). Each runs [this code](https://github.com/team751/2013RobotCode/blob/master/src/org/team751/speedcontrol/TakeBackHalfSpeedController.java), in which runSpeedControl() is called frequently. It is called from [the run() method of the superclass](https://github.com/team751/2013RobotCode/blob/master/src/org/team751/speedcontrol/ThreadedSpeedController.java#L73).
 
 (Question: Are the CANJaguar APIs, or any other APIs in WPIlib, thread-safe?)
 
 
-### Timeline ###
+## Timeline ##
 
 #### Resolved off-field problems ####
 
@@ -55,4 +55,30 @@ When the issue was first discovered, before any changes were made, the software 
 When the match started, one mechanism on the robot actuated for a small fraction of a second. This actuation was consistent with the robot's expected autonomous behavior. After that small fraction of a section ended, the robot stopped moving.
 
 During the teleoperated period, the robot functioned normally. No commands unexpectedly stopped.
+
+This happened during every match on Friday. (We had not been to any practice matches on Thursday.)
+
+On Friday afternoon, with help from the CSA at the event, we did some diagnostics and noticed that our packet losses and trip times were higher than normal. We made a list of changes that we could make that might fix the autonomous problem:
+ * Remove all SmartDashboard method calls during autonomous mode
+ * Replace the ethernet cable between the DAP-1522 and the cRIO (that we had assembled) with a potentially more reliable COTS one
+    (Later we realized that this was unlikely to change anything, because all network traffic passes through it, both on and off the field.)
+ * Check the settings of the Axis camera and potentially decrease its resolution
+ * Disable our code that tracks the status of the robot mechanisms and that, if buggy, might prevent the robot from operating
+
+Before our second qualification match on Saturday, we implemented all the changes, excluding the Axis camera resolution change. The following are some details:
+ * We added debug statements that use the DriverStationLCD class to send text to the display in the driver station software
+
+During our first match, the robot behaved as before (it did not work as expected). The new debugging statements showed that the first command in the sequence had finished and that the second one had started. This might have been consistent with the motion of the robot.
+
+Before our second match, we had time to reduce the resolution of the Axis camera. It had been set to 480x360. We reduced it to the recommended resolution of 320x240.
+
+In our second match, the robot did the same thing. We did not look at what the debug statements said.
+
+After the match, we looked at the driver station logs and saw that our trip times and packet losses had decreased significantly.
+
+Before our third match, we replaced our autonomous command sequence with [a new, super-simple procedural autonmous](https://github.com/team751/2013RobotCode/blob/ca82817f40e3b0b0271eeb8c48971b952fab2121/src/org/team751/Robot2013.java#L144). This code executes the same logic as the command sequence, but it does it procedurally and entirely within autonomousInit(), using Thread.sleep() to wait for conditions.
+
+In our third match, using the simple autonomous, the robot performed as expected.
+
+
 
