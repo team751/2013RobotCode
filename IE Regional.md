@@ -22,6 +22,10 @@ In addition to the robot main thread (in which robotInit(), disabledInit(), disa
 * One thread, using a java.util.Timer, that runs 2 times per second. When it runs, it asks each of the six drivetrain Jaguars to provide its internal temperature. It then sends these temperatures, along with other temperatures from other temperature sensors connected to analog inputs, to the dashboard.
 * Two threads that control the speed of the wheels in the disk shooting mechanism. Each of these threads runs the same code, but operates on a different encoder (for sensing speed) and a different Jaguar (for setting motor power). Each runs [this code](https://github.com/team751/2013RobotCode/blob/master/src/org/team751/speedcontrol/TakeBackHalfSpeedController.java), in which runSpeedControl() is called frequently. It is called from [the run() method of the superclass](https://github.com/team751/2013RobotCode/blob/master/src/org/team751/speedcontrol/ThreadedSpeedController.java#L73).
 
+SmartDashboard data is sent from two places:
+ * [The DashboardInterface](https://github.com/team751/2013RobotCode/blob/ca82817f40e3b0b0271eeb8c48971b952fab2121/src/org/team751/util/DashboardInterface.java) gets information from the other subsystems (excluding the drivetrain) and sends it to the dashboard. The update() method is called from autonomousPeriodic(), disabledPeriodic(), and teleopPeriodic().
+* The drivetrain monitor thread, described above, sends data from the drivetrain 2 times per second.
+
 (Question: Are the CANJaguar APIs, or any other APIs in WPIlib, thread-safe?)
 
 
@@ -76,9 +80,9 @@ In our second match, the robot did the same thing. We did not look at what the d
 
 After the match, we looked at the driver station logs and saw that our trip times and packet losses had decreased significantly.
 
+The autonomous command sequence had consistently worked in practice but not on the field.
+
 Before our third match, we replaced our autonomous command sequence with [a new, super-simple procedural autonmous](https://github.com/team751/2013RobotCode/blob/ca82817f40e3b0b0271eeb8c48971b952fab2121/src/org/team751/Robot2013.java#L144). This code executes the same logic as the command sequence, but it does it procedurally and entirely within autonomousInit(), using Thread.sleep() to wait for conditions.
 
 In our third match, using the simple autonomous, the robot performed as expected.
-
-
 
