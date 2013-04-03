@@ -24,7 +24,8 @@ public abstract class CommandBase extends Command {
     public static final Cow cow = new Cow();
     public static final Pusher pusher = new Pusher();
     public static final ShooterWheels shooterWheels = new ShooterWheels();
-    public static final Gates gates = new Gates();
+    public static final GatesFront gatesFront = new GatesFront();
+    public static final GatesBack gatesBack = new GatesBack();
     //Periodic tasks here (these are not subsystems)
     public static Navigator navigator = new Navigator();
     //On-board diagnostics are currently disabled - see issue #5

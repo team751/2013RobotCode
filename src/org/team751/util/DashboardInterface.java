@@ -24,6 +24,9 @@ public class DashboardInterface {
      *      Target position name and position
      *      Actual position
      * 
+     * Cerberus/Gates:
+     *      Front and back statuses
+     * 
      * Drivetrain data is handled separately by the Drivetrain class.
      * 
      */
@@ -50,6 +53,9 @@ public class DashboardInterface {
         SmartDashboard.putNumber("Cow target position", CommandBase.cow.getTargetCount());
         SmartDashboard.putNumber("Cow position", CommandBase.cow.getActualCount());
         
+        //Gates/Cerberus section
+        SmartDashboard.putBoolean("Cerberus front", CommandBase.gatesFront.isExtended());
+        SmartDashboard.putBoolean("Cerberus back", CommandBase.gatesBack.isExtended());
     }
     
     private DashboardInterface() {}
