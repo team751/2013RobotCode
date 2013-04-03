@@ -1,7 +1,6 @@
 package org.team751.subsystems;
 
 import edu.wpi.first.wpilibj.Servo;
-import edu.wpi.first.wpilibj.command.Subsystem;
 import org.team751.resources.PWMChannels;
 
 /**
@@ -10,7 +9,7 @@ import org.team751.resources.PWMChannels;
  *
  * @author Sam Crow
  */
-public class GatesBack extends AbstractGates {
+public class CerberusBack extends AbstractCerberus {
 
     private static final double kBackRightRetracted = 0.28;
     private static final double kBackRightExtended = 1.1;

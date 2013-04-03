@@ -54,8 +54,8 @@ public class DashboardInterface {
         SmartDashboard.putNumber("Cow position", CommandBase.cow.getActualCount());
         
         //Gates/Cerberus section
-        SmartDashboard.putBoolean("Cerberus front", CommandBase.gatesFront.isExtended());
-        SmartDashboard.putBoolean("Cerberus back", CommandBase.gatesBack.isExtended());
+        SmartDashboard.putBoolean("Cerberus front", CommandBase.cerberusFront.isExtended());
+        SmartDashboard.putBoolean("Cerberus back", CommandBase.cerberusBack.isExtended());
     }
     
     private DashboardInterface() {}

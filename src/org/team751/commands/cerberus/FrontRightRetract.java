@@ -1,21 +1,21 @@
-package org.team751.commands.gates;
+package org.team751.commands.cerberus;
 
 import org.team751.commands.CommandBase;
 
 /**
- * Retracts the front left gate. Finishes immediately.
+ * Retracts the front right gate. Finishes immediately.
  * @author Sam Crow
  */
-public class FrontLeftRetract extends CommandBase {
+public class FrontRightRetract extends CommandBase {
     
-    public FrontLeftRetract() {
-        requires(gatesFront);
+    public FrontRightRetract() {
+        requires(cerberusFront);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        gatesFront.retractLeft();
-        gatesFront.setExtended(false);
+        cerberusFront.retractRight();
+        cerberusFront.setExtended(false);
     }
 
     // Called repeatedly when this Command is scheduled to run

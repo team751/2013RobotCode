@@ -9,7 +9,7 @@ import org.team751.resources.PWMChannels;
  *
  * @author Sam Crow
  */
-public class GatesFront extends AbstractGates {
+public class CerberusFront extends AbstractCerberus {
 
     private static final double kFrontRightRetracted = 0.946;
     private static final double kFrontRightExtended = 0.18;

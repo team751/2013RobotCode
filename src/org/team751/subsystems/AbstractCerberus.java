@@ -7,10 +7,10 @@ package org.team751.subsystems;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
- * Defines a gates system.
+ * Defines a Cerberus system.
  * @author Sam Crow
  */
-public abstract class AbstractGates extends Subsystem {
+public abstract class AbstractCerberus extends Subsystem {
     /**
      * If the gates are extended
      */

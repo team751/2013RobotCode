@@ -1,4 +1,4 @@
-package org.team751.commands.gates;
+package org.team751.commands.cerberus;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;

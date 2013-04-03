@@ -20,12 +20,34 @@ public abstract class CommandBase extends Command {
 
     public static OI oi;
     // Create a single static instance of all of your subsystems
+    
+    /**
+     * The drivetrain
+     */
     public static final Drivetrain driveTrain = new Drivetrain();
+    /**
+     * The cow, which stores and indexes disks
+     */
     public static final Cow cow = new Cow();
+    /**
+     * The pusher, which pushes disks from the cow into the shooter
+     */
     public static final Pusher pusher = new Pusher();
+    /**
+     * The shooter wheels, including speed control
+     */
     public static final ShooterWheels shooterWheels = new ShooterWheels();
-    public static final GatesFront gatesFront = new GatesFront();
-    public static final GatesBack gatesBack = new GatesBack();
+    /**
+     * The Cerberus (disk gates) for the front of the robot
+     */
+    public static final CerberusFront cerberusFront = new CerberusFront();
+    /**
+     * The Cerberus (disk gates) for the back of the robot
+     */
+    public static final CerberusBack cerberusBack = new CerberusBack();
+    
+    
+    
     //Periodic tasks here (these are not subsystems)
     public static Navigator navigator = new Navigator();
     //On-board diagnostics are currently disabled - see issue #5

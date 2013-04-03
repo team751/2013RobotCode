@@ -1,22 +1,21 @@
-package org.team751.commands.gates;
+package org.team751.commands.cerberus;
 
 import org.team751.commands.CommandBase;
 
 /**
- * Extends both front gates.
+ * Retracts the front left gate. Finishes immediately.
  * @author Sam Crow
  */
-public class FrontExtend extends CommandBase {
+public class FrontLeftRetract extends CommandBase {
     
-    public FrontExtend() {
-        requires(gatesFront);
+    public FrontLeftRetract() {
+        requires(cerberusFront);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        gatesFront.extendLeft();
-        gatesFront.extendRight();
-        gatesFront.setExtended(true);
+        cerberusFront.retractLeft();
+        cerberusFront.setExtended(false);
     }
 
     // Called repeatedly when this Command is scheduled to run
