@@ -139,11 +139,16 @@ public class Robot2013 extends IterativeRobot {
     }
 	
 	/**
-	 * Runs a super-simple 2-disk autonomous
+	 * Runs a super-simple 3-disk autonomous
 	 */
 	private void runSuperSimpleAutonomous() {
+		
+		//Set shooter wheels to 70% power
+		CommandBase.shooterWheels.setSpeed(0.7);
+		
 		//Turn on shooter wheels
 		CommandBase.shooterWheels.enable();
+		//Begin zeroing
 		//Move cow forward until zeroed
 		while(!CommandBase.cow.isAtZero()) {
 			CommandBase.cow.moveExtraSlowForward();
@@ -166,6 +171,8 @@ public class Robot2013 extends IterativeRobot {
 		
 		CommandBase.cow.manualStop();
 		CommandBase.cow.setThisAsZero();
+		//End zeroing
+		//Begin first shot
 		CommandBase.cow.setTargetPosition(CowPosition.kShoot3);
 		debugShooterSpeed();
 		try {
@@ -189,7 +196,8 @@ public class Robot2013 extends IterativeRobot {
 			ex.printStackTrace();
 		}
 		debugShooterSpeed();
-		
+		//End first shot
+		//Begin second shot
 		CommandBase.cow.setTargetPosition(CowPosition.kShoot2);
 		while(!CommandBase.cow.isInPosition()) {
 		debugShooterSpeed();
@@ -214,6 +222,34 @@ public class Robot2013 extends IterativeRobot {
 			CommandBase.pusher.retract();
 		}
 		debugShooterSpeed();
+		//End second shot
+		//Begin third shot
+		CommandBase.cow.setTargetPosition(CowPosition.kShoot1);
+		while(!CommandBase.cow.isInPosition()) {
+		debugShooterSpeed();
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException ex) {
+				ex.printStackTrace();
+			}
+		}
+		
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException ex) {
+			ex.printStackTrace();
+		}
+		debugShooterSpeed();
+		
+		while(!CommandBase.pusher.isExtended()) {
+			CommandBase.pusher.push();
+		}
+		while(!CommandBase.pusher.isRetracted()) {
+			CommandBase.pusher.retract();
+		}
+		debugShooterSpeed();
+		//End third shot
+		
 		Timer.delay(1);
 		
 		
