@@ -42,11 +42,20 @@ public class ShooterWheels extends StatusReportingSubsystem {
      * The target speed of the first (slower) wheel, compared to the speed of
      * the second (faster) wheel
      */
-    private static final double FIRST_WHEEL_SPEED_RATIO = 1;
+    private static final double FIRST_WHEEL_SPEED_RATIO = 3300 / 6050.0;
+	
+	/*
+	 * Speed stuff:
+	 * The first wheel is geared down 2:1 and has a max RPM of 3300.
+	 * This means that the motor RPM is effectively 6600
+	 * The second wheel is geared down 12:11, so its maximum rpm should be 6050.
+	 * The speed ratio is 6050/3300 = 1.833 repeating
+	 */
+	
     /**
      * The maximum speed, in RPM, of the second (faster) wheel
      */
-    private static final double MAXIMUM_SPEED = 3300;
+    private static final double MAXIMUM_SPEED = 6050;
     //Speed controllers
     private ThreadedSpeedController firstController;
     private ThreadedSpeedController secondController;
@@ -111,12 +120,12 @@ public class ShooterWheels extends StatusReportingSubsystem {
      *
      * @param ratio The desired speed, from 0 to 1
      */
-    public void setSpeed(double ratio) {
+    public final void setSpeed(double ratio) {
 //        if(ratio > 1) {
 //            ratio = 1;
 //        }
         if(ratio < 0) {
-            ratio = 1;
+            ratio = 0;
         }
 
         secondTargetRpm = MAXIMUM_SPEED * ratio;
