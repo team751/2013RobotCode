@@ -122,6 +122,7 @@
             <word>Logitech</word>
             <word>pandaboard</word>
             <word>Photoswitch</word>
+            <word>teleop</word>
             <word>unconfigured</word>
         </spellchecker-wordlist>
     </configuration>

@@ -20,7 +20,8 @@ public class CheesyJoystickDrive extends CommandBase {
         double x = oi.driveStick.getX();
         double y = oi.driveStick.getY();
         
-        boolean quickTurn = oi.driveStick.getRawButton(3);
+		//Use simple, non-cheesy drive code if button 3 is pressed
+        boolean simpleDrive = oi.driveStick.getRawButton(3);
         
         boolean brake = oi.driveStick.getRawButton(2);
         
@@ -36,8 +37,15 @@ public class CheesyJoystickDrive extends CommandBase {
         //This changes it back so that forward is positive.
         y = -y;
         
-        driveTrain.cheesyDrive(y, x, quickTurn);//TODO: Add a button for quickTurn
-    }
+		if(simpleDrive) {
+			driveTrain.arcadeDrive(y, x);
+		}
+		else {
+			//quickTurn seems to rotate back once the joystick is released,
+			//so don't use it
+			driveTrain.cheesyDrive(y, x, false);
+		}
+	}
 
     protected boolean isFinished() {
         return false;

@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.team751.commands.CommandBase;
-import org.team751.commands.autonomous.*;
 import org.team751.util.DashboardInterface;
 import org.team751.util.cow.CowPosition;
 
@@ -26,6 +25,8 @@ public class Robot2013 extends IterativeRobot {
      * The autonomous command
      */
     private Command autonomous;
+	
+	private AutonomousStateMachine asm = new AutonomousStateMachine();
 
     /**
      * This function is run when the robot is first started up and should be
@@ -47,19 +48,19 @@ public class Robot2013 extends IterativeRobot {
     }
 
     public void autonomousInit() {
-        System.out.print("About to start autonomous mode... ");
+//        System.out.print("About to start autonomous mode... ");
 //		autonomousPeriodic();
 //        //Set the cow to brake mode, for normal operation
 //        CommandBase.cow.setBrakeMode();
 //        
-//		autonomous = new TwoDiskAutonomous();
+//		autonomous = new ThreeDiskAutonomous();
 //		
 //        autonomous.start();
 //		autonomousPeriodic();
 //        System.out.println("Command started");
 //		System.out.println("Autonomous command is "+autonomous.getClass().getName());
 		
-		runSuperSimpleAutonomous();
+		asm = new AutonomousStateMachine();
 		
     }
 
@@ -81,10 +82,13 @@ public class Robot2013 extends IterativeRobot {
      */
     public void autonomousPeriodic() {
 //        Scheduler.getInstance().run();
+		//Run the autonomous state machine
+		asm.run();
     }
 
     public void teleopInit() {
         CommandBase.cow.setBrakeMode();
+		CommandBase.shooterWheels.disable();
         if(autonomous != null) {
             autonomous.cancel();
         }
@@ -140,11 +144,13 @@ public class Robot2013 extends IterativeRobot {
 	
 	/**
 	 * Runs a super-simple 3-disk autonomous
+	 * CAUTION: This may get stuck in a while loop and prevent the robot from running
+	 * in teleop!
 	 */
 	private void runSuperSimpleAutonomous() {
 		
-		//Set shooter wheels to 70% power
-		CommandBase.shooterWheels.setSpeed(0.7);
+		//Set shooter wheels to 80% power
+		CommandBase.shooterWheels.setSpeed(0.75);
 		
 		//Turn on shooter wheels
 		CommandBase.shooterWheels.enable();
@@ -175,78 +181,71 @@ public class Robot2013 extends IterativeRobot {
 		//Begin first shot
 		CommandBase.cow.setTargetPosition(CowPosition.kShoot3);
 		debugShooterSpeed();
-		try {
-			Thread.sleep(100);
-		} catch (InterruptedException ex) {
-			ex.printStackTrace();
-		}
+		Timer.delay(0.1);
 		debugShooterSpeed();
 		
+		System.out.print("Pushing...");
 		while(!CommandBase.pusher.isExtended()) {
 			CommandBase.pusher.push();
+			Timer.delay(0.001);
 		}
+		System.out.print(" extended...");
 		while(!CommandBase.pusher.isRetracted()) {
 			CommandBase.pusher.retract();
+			Timer.delay(0.001);
 		}
+		System.out.println(" done.");
 		
 		debugShooterSpeed();
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException ex) {
-			ex.printStackTrace();
-		}
+		Timer.delay(1);
 		debugShooterSpeed();
 		//End first shot
 		//Begin second shot
 		CommandBase.cow.setTargetPosition(CowPosition.kShoot2);
 		while(!CommandBase.cow.isInPosition()) {
-		debugShooterSpeed();
-			try {
-				Thread.sleep(10);
-			} catch (InterruptedException ex) {
-				ex.printStackTrace();
-			}
+			debugShooterSpeed();
+			Timer.delay(0.01);
 		}
 		
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException ex) {
-			ex.printStackTrace();
-		}
+		Timer.delay(1);
 		debugShooterSpeed();
 		
+		System.out.print("Pushing...");
 		while(!CommandBase.pusher.isExtended()) {
 			CommandBase.pusher.push();
+			Timer.delay(0.001);
 		}
+		System.out.print(" extended...");
 		while(!CommandBase.pusher.isRetracted()) {
 			CommandBase.pusher.retract();
+			Timer.delay(0.001);
 		}
+		System.out.println(" done.");
+		
 		debugShooterSpeed();
 		//End second shot
 		//Begin third shot
 		CommandBase.cow.setTargetPosition(CowPosition.kShoot1);
 		while(!CommandBase.cow.isInPosition()) {
-		debugShooterSpeed();
-			try {
-				Thread.sleep(10);
-			} catch (InterruptedException ex) {
-				ex.printStackTrace();
-			}
+			debugShooterSpeed();
+			Timer.delay(0.01);
 		}
 		
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException ex) {
-			ex.printStackTrace();
-		}
+		Timer.delay(1);
 		debugShooterSpeed();
 		
+		System.out.print("Pushing...");
 		while(!CommandBase.pusher.isExtended()) {
 			CommandBase.pusher.push();
+			Timer.delay(0.001);
 		}
+		System.out.print(" extended...");
 		while(!CommandBase.pusher.isRetracted()) {
 			CommandBase.pusher.retract();
+			Timer.delay(0.001);
 		}
+		System.out.println(" done.");
+		
 		debugShooterSpeed();
 		//End third shot
 		

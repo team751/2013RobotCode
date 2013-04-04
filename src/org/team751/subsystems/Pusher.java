@@ -21,7 +21,7 @@ public class Pusher extends StatusReportingSubsystem {
     /**
      * The power applied to push
      */
-    private static final double PUSH_POWER = -1.0;
+    private static final double PUSH_POWER = -0.5;
     /**
      * The power applied to retract
      */

@@ -14,7 +14,7 @@ public class ShooterSpeedIncrease extends CommandBase {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        shooterWheels.setSpeed(shooterWheels.getTargetSpeedRatio() + 0.1);
+        shooterWheels.setSpeed(shooterWheels.getTargetSpeedRatio() + 0.05);
     }
 
     // Called repeatedly when this Command is scheduled to run

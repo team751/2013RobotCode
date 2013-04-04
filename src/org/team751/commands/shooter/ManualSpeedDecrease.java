@@ -14,7 +14,7 @@ public class ManualSpeedDecrease extends CommandBase {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		shooterWheels.setSpeedOpenLoop(shooterWheels.getSpeedOpenLoop() - 0.1);
+		shooterWheels.setSpeedOpenLoop(shooterWheels.getSpeedOpenLoop() - 0.05);
 	}
 
 	// Called repeatedly when this Command is scheduled to run

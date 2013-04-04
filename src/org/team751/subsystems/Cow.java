@@ -212,6 +212,8 @@ public class Cow extends StatusReportingSubsystem {
         rotationJaguar.configEncoderCodesPerRev(1);
         rotationJaguar.changeControlMode(CANJaguar.ControlMode.kPosition);
 
+		//Note: These PID values are not used for movement. CowGainScheduler
+		//defines gains for different move types.
         rotationJaguar.setPID(3, 0, 0);
 
         rotationJaguar.setX(rotationJaguar.getX());
