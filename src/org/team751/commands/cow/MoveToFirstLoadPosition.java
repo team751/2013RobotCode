@@ -11,6 +11,7 @@ public class MoveToFirstLoadPosition extends CommandBase {
     
     public MoveToFirstLoadPosition() {
         requires(cow);
+		setInterruptible(true);
     }
 
     // Called just before this Command runs the first time

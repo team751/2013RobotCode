@@ -12,6 +12,7 @@ public class CowBack extends CommandBase {
 
     public CowBack() {
         requires(cow);
+		setInterruptible(true);
     }
 
     // Called just before this Command runs the first time

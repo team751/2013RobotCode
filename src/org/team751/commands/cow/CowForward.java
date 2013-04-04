@@ -13,6 +13,7 @@ public class CowForward extends CommandBase {
 
     public CowForward() {
         requires(cow);
+		setInterruptible(true);
     }
 
     // Called just before this Command runs the first time

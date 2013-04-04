@@ -12,6 +12,7 @@ public class MoveToFirstShootPosition extends CommandBase {
     
     public MoveToFirstShootPosition() {
         requires(cow);
+		setInterruptible(true);
     }
 
     // Called just before this Command runs the first time

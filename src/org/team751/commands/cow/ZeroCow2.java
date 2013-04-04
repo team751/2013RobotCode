@@ -14,6 +14,7 @@ public class ZeroCow2 extends CommandBase {
     
     public ZeroCow2() {
         requires(cow);
+		setInterruptible(true);
     }
 
     // Called just before this Command runs the first time

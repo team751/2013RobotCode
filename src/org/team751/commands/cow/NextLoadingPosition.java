@@ -13,6 +13,7 @@ public class NextLoadingPosition extends CommandBase {
     
     public NextLoadingPosition() {
         requires(cow);
+		setInterruptible(true);
     }
 
     // Called just before this Command runs the first time

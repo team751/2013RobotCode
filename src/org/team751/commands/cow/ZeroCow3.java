@@ -13,6 +13,7 @@ public class ZeroCow3 extends CommandBase {
 
     public ZeroCow3() {
         requires(cow);
+		setInterruptible(true);
     }
 
     // Called just before this Command runs the first time
