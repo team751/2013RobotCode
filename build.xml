@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><project basedir="." default="help" name="2013RobotCode">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project basedir="." default="help" name="2013RobotCode">
 
 <!-- You may freely edit this file. See commented blocks below for -->
 <!-- some examples of how to customize the build. -->
@@ -23,9 +24,9 @@
 
     -->
 
-    <property name="user.properties.file" value="build.properties"/>
-    <property file="${user.home}/.sunspotfrc.properties"/>
-    <import file="${sunspot.home}/build.xml"/>
+	<property name="user.properties.file" value="build.properties"/>
+	<property file="${user.home}/.sunspotfrc.properties"/>
+	<import file="${sunspot.home}/build.xml"/>
 
     <!--
 
@@ -91,39 +92,26 @@
 
     -->
 
-<target name="git.save_revision" description="Saves the hash of the git revision to org.team751.Revision.java">
+	<target name="git.save_revision" description="Saves the hash of the git revision to org.team751.Revision.java">
     <!-- Get data: git.revision, git.branch -->
-	<exec executable="git" outputproperty="git.revision" osfamily="unix">
-		<arg value="rev-parse" />
-		<arg value="HEAD" />
-	</exec>
-	<exec executable="git" outputproperty="git.branch" osfamily="unix">
-		<arg value="rev-parse" />
-		<arg value="--abbrev-ref" />
-		<arg value="HEAD" />
-	</exec>
-        <basename property="project_name" file="${basedir}" />
+		<exec executable="git" outputproperty="git.revision" osfamily="unix">
+			<arg value="rev-parse" />
+			<arg value="HEAD" />
+		</exec>
+		<exec executable="git" outputproperty="git.branch" osfamily="unix">
+			<arg value="rev-parse" />
+			<arg value="--abbrev-ref" />
+			<arg value="HEAD" />
+		</exec>
+		<!-- Get the name of the folder that contains the project -->
+		<basename property="project_name" file="${basedir}" />
         
         <!-- Copy the revion file template into its place -->
-        <copy file="./Revision.template.java" tofile="./src/org/team751/Revision.java" overwrite="true" />
+		<copy file="./Revision.template.java" tofile="./src/org/team751/Revision.java" overwrite="true" />
         <!-- Replace placeholders with data -->
-        <replace file="./src/org/team751/Revision.java" token="@revision@" value="${git.revision}" />
-        <replace file="./src/org/team751/Revision.java" token="@branch@" value="${git.branch}" />
-        <replace file="./src/org/team751/Revision.java" token="@project@" value="${project_name}" />
-        
-	<!--<echo file="./src/org/team751/Revision.java" message="
-package org.team751;${line.separator}	
-/**${line.separator}
- * This class is generated automatically by the build system. It stores information${line.separator}
- * on the branch and revision that the project was built from.${line.separator}
- */${line.separator}
-public class Revision {${line.separator}
-	public static final String revisionString = &quot;${git.revision}&quot;;${line.separator}
-	public static final String branchName = &quot;${git.branch}&quot;;${line.separator}
-	${line.separator}
-	private Revision() {}
-}${line.separator}
-" />-->
-</target>
+		<replace file="./src/org/team751/Revision.java" token="@revision@" value="${git.revision}" />
+		<replace file="./src/org/team751/Revision.java" token="@branch@" value="${git.branch}" />
+		<replace file="./src/org/team751/Revision.java" token="@project@" value="${project_name}" />
+	</target>
 	
 </project>
