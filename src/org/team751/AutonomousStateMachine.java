@@ -52,7 +52,8 @@ public class AutonomousStateMachine {
 		
 		switch(phase) {
 			case 0:
-				CommandBase.shooterWheels.setSpeed(0.75);
+				//66% for first shot only
+				CommandBase.shooterWheels.setSpeed(0.70);
 				CommandBase.shooterWheels.enable();
 				CommandBase.cow.moveExtraSlowForward();
 				
@@ -123,6 +124,9 @@ public class AutonomousStateMachine {
 			case 6:
 				CommandBase.cow.setTargetPosition(CowPosition.kShoot2);
 				
+				//Increase speed to 75% for shots 2-3
+				CommandBase.shooterWheels.setSpeed(0.72);
+				
 				if(CommandBase.cow.isInPosition()) {
 					phase++;
 					//Start the timer that phase 7 needs
@@ -133,8 +137,8 @@ public class AutonomousStateMachine {
 				break;
 				
 			case 7:
-				
-				if(timer.get() > 1) {
+				//Was 1 second
+				if(timer.get() > 2) {
 					phase++;
 					timer.stop();
 				}
@@ -176,8 +180,8 @@ public class AutonomousStateMachine {
 				break;
 				
 			case 11:
-				
-				if(timer.get() > 1) {
+				//Was 1 second
+				if(timer.get() > 2) {
 					phase++;
 					timer.stop();
 				}
