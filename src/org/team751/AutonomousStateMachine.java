@@ -115,6 +115,10 @@ public class AutonomousStateMachine {
 				if(timer.get() > 1) {
 					phase = 4;
 					timer.stop();
+					
+					//Start timer for push phase
+					timer.reset();
+					timer.start();
 				}
 				
 				break;
@@ -123,8 +127,9 @@ public class AutonomousStateMachine {
 				
 				CommandBase.pusher.push();
 				
-				if(CommandBase.pusher.isExtended()) {
+				if(CommandBase.pusher.isExtended() && timer.get() > 0.2) {
 					phase++;
+					timer.stop();
 				}
 				
 				break;
@@ -159,6 +164,10 @@ public class AutonomousStateMachine {
 				if(timer.get() > 2) {
 					phase++;
 					timer.stop();
+					
+					//Start timer for pusher
+					timer.reset();
+					timer.start();
 				}
 				
 				break;
@@ -169,8 +178,9 @@ public class AutonomousStateMachine {
 				
 				CommandBase.pusher.push();
 				
-				if(CommandBase.pusher.isExtended()) {
+				if(CommandBase.pusher.isExtended() && timer.get() > 0.2) {
 					phase++;
+					timer.stop();
 				}
 				
 				break;
@@ -204,6 +214,10 @@ public class AutonomousStateMachine {
 				if(timer.get() > 2) {
 					phase++;
 					timer.stop();
+					
+					//begin timer for pushing
+					timer.reset();
+					timer.start();
 				}
 				
 				break;
@@ -214,8 +228,9 @@ public class AutonomousStateMachine {
 				
 				CommandBase.pusher.push();
 				
-				if(CommandBase.pusher.isExtended()) {
+				if(CommandBase.pusher.isExtended() && timer.get() > 0.2) {
 					phase++;
+					timer.stop();
 				}
 				
 				break;
