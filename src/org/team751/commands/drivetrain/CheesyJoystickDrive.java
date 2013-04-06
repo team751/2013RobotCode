@@ -23,15 +23,20 @@ public class CheesyJoystickDrive extends CommandBase {
 		//Use simple, non-cheesy drive code if button 3 is pressed
         boolean simpleDrive = oi.driveStick.getRawButton(3);
         
-        boolean brake = oi.driveStick.getRawButton(2);
+		//If the robot should only be allowed to drive straight
+        boolean straight = oi.driveStick.getRawButton(2);
+		if(straight) {
+			//disable turning
+			x = 0;
+		}
         
-        //Set the drivetrain to brake or coast mode, as requested
-        if(brake) {
-            driveTrain.setBrakeMode();
-        }
-        else {
-            driveTrain.setCoastMode();
-        }
+//        //Set the drivetrain to brake or coast mode, as requested
+//        if(brake) {
+//            driveTrain.setBrakeMode();
+//        }
+//        else {
+//            driveTrain.setCoastMode();
+//        }
 
         //For the joystick Y axis, forward is negative.
         //This changes it back so that forward is positive.

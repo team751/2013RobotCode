@@ -18,6 +18,7 @@ public class AutonomousStateMachine {
 	 * 1 = first cow zero has been hit, moving back for 0.5 seconds
 	 * 2 = Moving cow forward again until zero is hit
 	 * 3 = setting cow to zero and setting its target position to this
+	 * 99 = waiting 1 second
 	 * 4 = first shot, extending pusher
 	 * 5 = first shot, retracting pusher
 	 * 6 = moving cow from shoot3 to shoot2
@@ -32,6 +33,12 @@ public class AutonomousStateMachine {
 	 * 
 	 */
 	private int phase = 0;
+	
+	private static final double kFirstShootPower = 0.74;
+	
+	private static final double kSecondShootPower = 0.71;
+	
+	private static final double kThirdShootPower = 0.75;
 	
 	private Timer timer = new Timer();
 	
@@ -52,8 +59,8 @@ public class AutonomousStateMachine {
 		
 		switch(phase) {
 			case 0:
-				//66% for first shot only
-				CommandBase.shooterWheels.setSpeed(0.70);
+				//power for first shot only
+				CommandBase.shooterWheels.setSpeed(kFirstShootPower);
 				CommandBase.shooterWheels.enable();
 				CommandBase.cow.moveExtraSlowForward();
 				
@@ -98,8 +105,19 @@ public class AutonomousStateMachine {
 				CommandBase.cow.setTargetPosition(CowPosition.kShoot3);
 				
 				phase++;
+				timer.reset();
+				timer.start();
+				phase = 99;
 				break;
 				
+			case 99:
+				
+				if(timer.get() > 1) {
+					phase = 4;
+					timer.stop();
+				}
+				
+				break;
 				//Begin shoot
 			case 4:
 				
@@ -124,8 +142,8 @@ public class AutonomousStateMachine {
 			case 6:
 				CommandBase.cow.setTargetPosition(CowPosition.kShoot2);
 				
-				//Increase speed to 75% for shots 2-3
-				CommandBase.shooterWheels.setSpeed(0.72);
+				//Power for shot 2
+				CommandBase.shooterWheels.setSpeed(kSecondShootPower);
 				
 				if(CommandBase.cow.isInPosition()) {
 					phase++;
@@ -169,6 +187,8 @@ public class AutonomousStateMachine {
 				
 			case 10:
 				CommandBase.cow.setTargetPosition(CowPosition.kShoot1);
+				
+				CommandBase.shooterWheels.setSpeed(kThirdShootPower);
 				
 				if(CommandBase.cow.isInPosition()) {
 					phase++;

@@ -29,7 +29,7 @@ public abstract class StatusReportingSubsystem extends Subsystem {
 
         System.out.println("Subsystem " + getName() + " has initialized successfully.");
 
-        SmartDashboard.putBoolean(getName(), true);
+        SmartDashboard.putBoolean(getName()+" status", true);
     }
 
     /**
@@ -38,7 +38,7 @@ public abstract class StatusReportingSubsystem extends Subsystem {
     public void reportInitFailed() {
         System.out.println("Subsystem " + getName() + " failed to initialize!");
 
-        SmartDashboard.putBoolean(getName(), false);
+        SmartDashboard.putBoolean(getName()+" status", false);
 
         isWorking = false;
     }
@@ -53,7 +53,7 @@ public abstract class StatusReportingSubsystem extends Subsystem {
 
         System.out.println("Subsystem " + getName() + " failed to initialize. It encountered a " + exceptionType + '!');
 
-        SmartDashboard.putBoolean(getName(), false);
+        SmartDashboard.putBoolean(getName()+" status", false);
 
         isWorking = false;
     }
@@ -65,7 +65,7 @@ public abstract class StatusReportingSubsystem extends Subsystem {
     public void reportWorking() {
         if (isWorking == false) {
             System.out.println("Subsystem " + getName() + " is now working.");
-            SmartDashboard.putBoolean(getName(), true);
+            SmartDashboard.putBoolean(getName()+" status", true);
             isWorking = true;
         }
     }
@@ -84,7 +84,7 @@ public abstract class StatusReportingSubsystem extends Subsystem {
                 System.out.println("Subsystem " + getName() + " has stopped working!");
             }
 
-            SmartDashboard.putBoolean(getName(), false);
+            SmartDashboard.putBoolean(getName()+" status", false);
 
             isWorking = false;
         }
