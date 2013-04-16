@@ -94,11 +94,11 @@
 
 	<target name="git.save_revision" description="Saves the hash of the git revision to org.team751.Revision.java">
     <!-- Get data: git.revision, git.branch -->
-		<exec executable="git" outputproperty="git.revision" osfamily="unix">
+		<exec executable="/opt/local/bin/git" outputproperty="git.revision" osfamily="unix">
 			<arg value="rev-parse" />
 			<arg value="HEAD" />
 		</exec>
-		<exec executable="git" outputproperty="git.branch" osfamily="unix">
+		<exec executable="/opt/local/bin/git" outputproperty="git.branch" osfamily="unix">
 			<arg value="rev-parse" />
 			<arg value="--abbrev-ref" />
 			<arg value="HEAD" />
