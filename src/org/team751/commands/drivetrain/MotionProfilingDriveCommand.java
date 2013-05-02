@@ -2,12 +2,12 @@ package org.team751.commands.drivetrain;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
-import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.team751.PIDConstants;
 import org.team751.cheesy.util.AccelFilterBase;
 import org.team751.cheesy.util.ContinuousAccelFilter;
 import org.team751.commands.CommandBase;
+import org.team751.tasks.Navigator;
 
 /**
  * A command that calculates motion profiling and drives the robot to follow the
@@ -19,6 +19,7 @@ import org.team751.commands.CommandBase;
  */
 public class MotionProfilingDriveCommand extends CommandBase {
 
+	//<editor-fold defaultstate="collapsed" desc="Maximum velocity and acceleration values">
     /**
      * The maximum forward velocity of the robot, in meters/second
      */
@@ -35,6 +36,7 @@ public class MotionProfilingDriveCommand extends CommandBase {
      * The maximum angular acceleration of the robot, in degrees/second^2
      */
     private static final double kRotateMaxAcceleration = 400;
+	//</editor-fold>
     /**
      * Calculates profiles for movement
      */
@@ -44,11 +46,13 @@ public class MotionProfilingDriveCommand extends CommandBase {
      */
     private AccelFilterBase rotateProfile;
     /**
-     * Controls movement
+     * Controls movement. Operates on the raw encoder distance value
+	 * returned by {@link Navigator#getEncoderDistance()}.
      */
     private PIDController moveController;
     /**
-     * Controls rotation
+     * Controls rotation. Operates on the raw heading value
+	 * returned by {@link Navigator#getHeading()}.
      */
     private PIDController rotateController;
     /**
@@ -61,6 +65,13 @@ public class MotionProfilingDriveCommand extends CommandBase {
      * arcade drive method
      */
     private double rotateValue;
+	
+	private PositionSet movePositions;
+	
+	private PositionSet rotatePositions;
+	
+	private double moveMeters;
+	private double turnDegrees;
 
     /**
      * Constructor
@@ -69,7 +80,9 @@ public class MotionProfilingDriveCommand extends CommandBase {
      * @param turnDegrees The angle, in degrees, to turn. Positive is right.
      */
     public MotionProfilingDriveCommand(double moveMeters, double turnDegrees) {
-
+		this.moveMeters = moveMeters;
+		this.turnDegrees = turnDegrees;
+		
         moveProfile = new ContinuousAccelFilter();
         rotateProfile = new ContinuousAccelFilter();
 
@@ -82,13 +95,11 @@ public class MotionProfilingDriveCommand extends CommandBase {
         //of the goal
         moveController.setAbsoluteTolerance(0.1);
 
-        moveController.setSetpoint(navigator.getEncoderDistance() + moveMeters);
-
         rotateController = new PIDController(PIDConstants.DRIVE_ROTATE_P,
                 PIDConstants.DRIVE_ROTATE_I,
                 PIDConstants.DRIVE_ROTATE_D,
                 navigator.headingPidSource, rotateOutput);
-
+		
         //Set the rotate controller to consider itself on-target if within ±10 degrees
         //of the goal
         rotateController.setAbsoluteTolerance(10);
@@ -101,6 +112,14 @@ public class MotionProfilingDriveCommand extends CommandBase {
         SmartDashboard.putData("Move controller", moveController);
         SmartDashboard.putData("Rotate controller", rotateController);
 
+		
+		
+		movePositions = new PositionSet(CommandBase.navigator.getEncoderDistance(), CommandBase.navigator.getEncoderDistance() + moveMeters);
+		rotatePositions = new PositionSet(CommandBase.navigator.getHeading(), CommandBase.navigator.getHeading() + turnDegrees);
+		
+		moveController.setSetpoint(movePositions.getInitialPosition());
+		rotateController.setSetpoint(rotatePositions.getInitialPosition());
+		
         moveController.enable();
         rotateController.enable();
     }
